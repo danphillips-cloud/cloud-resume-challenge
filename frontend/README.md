@@ -24,12 +24,15 @@ Please use the least amount of css tags
 
 ![](./docs/harvard-resume-format.jpg)
 
-This is the [generatated output](./docs/nov-23-2025-resume-minimal.html) that I will refactior with Claude. 
+This is the [generatated output](./docs/nov-23-2025-resume-minimal.html) that I will refactor with Claude. 
 
 This is what the generated HTML from Claude Sonet 4.5
 
 ![](./docs/resume-minimal-rendered.png)
 
+To save time I decided to uploaded my current resume to Claude and had it fill in my info using the Harvard template. 
+
+![](./docs/claude-resume-minimal-rendered.png)
 
 ## HTML Adjustments
 
@@ -37,3 +40,5 @@ This is what the generated HTML from Claude Sonet 4.5
 - To ensure the is the site is viewable on mobile devides, we'll include the viewport meta tag width=device-width
 - I will extract our styles into it's own style sheet after I am happy with the HTML markup. 
 - I will simplify the HTML markup css selector to be as minnmal as possible. 
+
+
