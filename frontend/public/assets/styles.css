@@ -15,10 +15,24 @@
     padding: 0;
     z-index: 1000;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left {
+    display: flex;
+}
+
+.nav-right {
+    display: flex;
+    gap: 10px;
+    padding-right: 20px;
 }
 
 .nav-bar a {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     color: white;
     text-decoration: none;
     padding: 20px 30px;
@@ -33,6 +47,14 @@
 
 .nav-bar a.active {
     background: #2c2c2c;
+}
+
+.nav-right a {
+    padding: 20px 15px;
+}
+
+.nav-right svg {
+    display: block;
 }
 
 /* Background - subtle professional gray */
@@ -148,9 +170,22 @@ li::marker {
 
 /* Simple responsive design for mobile */
 @media (max-width: 768px) {
+    .nav-bar {
+        flex-wrap: wrap;
+    }
+
     .nav-bar a {
-        padding: 15px 20px;
+        padding: 15px 15px;
         font-size: 14px;
+    }
+
+    .nav-right {
+        padding-right: 10px;
+        gap: 5px;
+    }
+
+    .nav-right a {
+        padding: 15px 10px;
     }
 
     body {
