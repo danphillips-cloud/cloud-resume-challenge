@@ -59,3 +59,5 @@ I find that reminding AI, or repeating your prompts, improves your results. Just
 ![](./docs/w3c-code-validation.png)
 
 No errors. Score one for GenAI.
+
+The code is also very easy to read and I feel that I could edit by hand without breaking a table or CSS.
