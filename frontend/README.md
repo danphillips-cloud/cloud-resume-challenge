@@ -65,3 +65,4 @@ The code is also very easy to read and I feel that I could edit by hand without 
 ## Server Static Website Locally
 
 I need to server my static website locally so I can start using stylesheets externally from my HTML page in a DEV environment. I'm going to use the [Live Server Extension for VScode](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) to work on this locally. You can install an http server in CodeSpaces, but in case there are issues I don't want to waste time troubleshooting when local Just Works.
+
