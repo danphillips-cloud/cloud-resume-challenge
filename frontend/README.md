@@ -4,7 +4,7 @@
 
 ## Resume Format Considerations
 
-I live in Canada, where resumes in Word or PDF format should exclude information that could be used to discriminate against potential candidates. However, for a personal website or LiknedIN profile, this is acceptable.
+I live in Canada, where resumes in Word or PDF format should exclude information that could be used to discriminate against potential candidates. However, for a personal website or LinkedIN profile, this is acceptable.
 
 In Canada we use a format similar to the most common in the US.
 
@@ -51,7 +51,7 @@ I find that reminding AI, or repeating your prompts, improves your results. Just
 ## HTML Adjustments
 
 
-- UTF8 will support most lanauages. I plan to use only English but will keep the meta tag in.
+- UTF8 will support most languages. I plan to use only English but will keep the meta tag in.
 - To ensure the is the site is viewable on mobile devices, we'll include the viewport meta tag width=device-width
 - I will simplify the HTML markup css selector to be as minimal as possible.
 - I will use the [W3c Validation Service](https://validator.w3.org/)to lint the code.
