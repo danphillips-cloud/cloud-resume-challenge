@@ -66,3 +66,7 @@ The code is also very easy to read and I feel that I could edit by hand without 
 
 I need to server my static website locally so I can start using stylesheets externally from my HTML page in a DEV environment. I'm going to use the [Live Server Extension for VScode](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) to work on this locally. You can install an http server in CodeSpaces, but in case there are issues I don't want to waste time troubleshooting when local Just Works.
 
+CSS can be a challenge for me as I don't have an eye for design, but I know what looks good. I'll use Claude Code to do the dirty work and I'll adust as needed. Here's an example of a PR that Claude Code creates for you. 
+
+![](./docs/claude-code-pr.png)
+
