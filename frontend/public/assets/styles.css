@@ -5,9 +5,9 @@
     box-sizing: border-box;
 }
 
-/* Background gradient */
+/* Background gradient - AWS inspired */
 html {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #232F3E 0%, #FF9900 100%);
     min-height: 100vh;
 }
 
@@ -29,7 +29,7 @@ body {
 h1 {
     text-align: center;
     font-size: 28px;
-    color: #667eea;
+    color: #FF9900;
     font-weight: 700;
     margin-bottom: 10px;
     letter-spacing: -0.5px;
@@ -38,10 +38,10 @@ h1 {
 h2 {
     font-size: 16px;
     text-align: center;
-    border-bottom: 2px solid #667eea;
+    border-bottom: 2px solid #FF9900;
     margin: 30px 0 15px;
     padding-bottom: 8px;
-    color: #667eea;
+    color: #232F3E;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -60,9 +60,9 @@ h2 {
 .section {
     margin-bottom: 25px;
     padding: 15px;
-    background: #fafbfc;
+    background: #f8f9fa;
     border-radius: 6px;
-    border-left: 4px solid #667eea;
+    border-left: 4px solid #FF9900;
 }
 
 .header {
@@ -70,7 +70,7 @@ h2 {
     justify-content: space-between;
     font-weight: 700;
     margin-bottom: 8px;
-    color: #2d3748;
+    color: #232F3E;
     font-size: 15px;
 }
 
@@ -79,7 +79,7 @@ h2 {
     justify-content: space-between;
     font-size: 14px;
     margin-bottom: 12px;
-    color: #667eea;
+    color: #FF9900;
     font-style: italic;
 }
 
@@ -97,7 +97,7 @@ li {
 }
 
 li::marker {
-    color: #667eea;
+    color: #FF9900;
 }
 
 /* Skills */
@@ -107,12 +107,12 @@ li::marker {
     padding: 10px 15px;
     background: white;
     border-radius: 4px;
-    border-left: 3px solid #764ba2;
+    border-left: 3px solid #232F3E;
     line-height: 1.8;
 }
 
 .skills strong {
-    color: #667eea;
+    color: #FF9900;
 }
 
 /* Simple responsive design for mobile */
