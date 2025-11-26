@@ -1,72 +1,16 @@
-# Frontend Technical Specification
+# React + Vite
 
-- Create a static website that serves an HTML resume.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Resume Format Considerations
+Currently, two official plugins are available:
 
-I live in Canada, where resumes in Word or PDF format should exclude information that could be used to discriminate against potential candidates (e.g. sex, age). Some companies even redact the candidates named to prevent any bias. However, for a personal website or LinkedIN profile, this is acceptable.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-In Canada we use a format similar to the most common in the US.
+## React Compiler
 
-I'm going to use the [Harvard Resume Template format](https://careerservices.fas.harvard.edu/channels/create-a-resume-cv-or-cover-letter/#uc_resource_titles-4) as the basis of my resume.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Harvard Resume Format Generation
+## Expanding the ESLint configuration
 
-I learned HTML by coding in Notepad back when GeoCities existed, but stopped once WYSIWYG editors became a thing. I'll use GenAI tools to generate the HTML and CSS. Once that is in place, I can adjust the code as needed for the project. Since I have a Pro account, I'll be using Claude Sonnet 4.5 to construct the HTML and add in content from my existing resume.
-
-Prompt to Claude
-
-```text
-Convert this resume format into html.
-Please don't use a css framework.
-Please use the least amount of css tags
-```
-
-![](./docs/harvard-resume-format.jpg)
-
-This is the [generated output](./docs/nov-23-2025-resume-minimal.html) that I will refactor with Claude.
-
-This is the generated HTML from Claude Sonnet 4.5
-
-![](./docs/resume-minimal-rendered.png)
-
-That actually looks good and pretty close to what I want.
-
-To save time I decided to uploaded my current resume to Claude and had it fill in my info using the Harvard template.
-
-Prompt to Claude
-
-```text
-I am now uploading the most recent copy of my resume. 
-Using the Harvard template you already have, let's create a new resume.
-Remember to Convert this resume format into html. 
-Please don't use a css framework. 
-Please use the least amount of css tags
-```
-
-I find that reminding AI, or repeating your prompts, improves your results. Just as if you were talking to a person and giving them clear instruction for a task.
-
-![](./docs/claude-resume-minimal-rendered.png)
-
-## HTML Adjustments
-
-
-- UTF8 will support most languages. I plan to use only English but will keep the meta tag in.
-- To ensure the is the site is viewable on mobile devices, we'll include the viewport meta tag width=device-width
-- I will simplify the HTML markup css selector to be as minimal as possible
-- I will use the [W3c Validation Service](https://validator.w3.org/) to lint the code.
-
-![](./docs/w3c-code-validation.png)
-
-No errors. Score one for GenAI.
-
-The code is also very easy to read and I feel that I could edit by hand without breaking a table or CSS.
-
-## Server Static Website Locally
-
-I need to server my static website locally so I can start using stylesheets externally from my HTML page in a DEV environment. I'm going to use the [Live Server Extension for VScode](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) to work on this locally. You can install an http server in CodeSpaces, but in case there are issues I don't want to waste time troubleshooting when local Just Works.
-
-CSS can be a challenge for me as I don't have an eye for design, but I know what looks good. I'll use Claude Code to do the dirty work and I'll adust as needed. Here's an example of a PR that Claude Code creates for you. 
-
-![](./docs/claude-code-pr.png)
-
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
