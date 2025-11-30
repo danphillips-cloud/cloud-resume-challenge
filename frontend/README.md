@@ -70,3 +70,7 @@ CSS can be a challenge for me as I don't have an eye for design, but I know what
 
 ![](./docs/claude-code-pr.png)
 
+## FrontEnd Considerations
+
+I attempted to use React and Vite to my Frontend, but found I was spending more time troubleshooting the setup than actually developing. Since I intended to update the site regularly, it makes senses to use something simple and I can update myself with little effort.
+
