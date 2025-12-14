@@ -74,3 +74,13 @@ CSS can be a challenge for me as I don't have an eye for design, but I know what
 
 I attempted to use React and Vite to my Frontend, but found I was spending more time troubleshooting the setup than actually developing. Since I intended to update the site regularly, it makes senses to use something simple and I can update myself with little effort.
 
+## Working with Claude Code
+
+I find my Project Management experience serves me well when it comes to to having GenAI create the basic HTML and CSS. It's great to have a tool that I can give a detailed task to and have it completed with little need for adjustments. It can work on a request and create the PR so I can review it and make adjustments.
+
+As you see here, I'm using new chat sessions for each PR. I'm a big fan of "1 issue, 1 PR" as it makes issue tracking simpler. Claude even puts an issue description in each PR. 
+
+![](./docs/claude-code-assist.png)
+
+
+That being said, AI goes not "see" well as humans do. Simple describing how I wanted some padding to appear proved challenging. Even if I provided Claude with screenshots, it was just not understanding what I was asking. Giving a detailed description worked but I'm not sure this would work with more complex designs.
