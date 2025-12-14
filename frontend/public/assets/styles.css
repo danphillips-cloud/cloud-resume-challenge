@@ -83,8 +83,8 @@ body {
     display: flex;
     align-items: center;
     gap: 30px;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
     border-bottom: 2px solid #ddd;
 }
 
@@ -120,7 +120,7 @@ h2 {
     font-size: 16px;
     text-align: center;
     border-bottom: 2px solid #ddd;
-    margin: 30px 0 15px;
+    margin: 5px 0 15px;
     padding-bottom: 8px;
     color: #2c3e50;
     font-weight: 600;
@@ -218,7 +218,7 @@ li::marker {
     font-size: 14px;
     margin-bottom: 12px;
     padding: 10px 15px;
-    background: white;
+    background: #f8f9fa;
     border-radius: 4px;
     border-left: 3px solid #2c3e50;
     line-height: 1.8;
@@ -295,8 +295,8 @@ li::marker {
     /* Profile header adjustments */
     .profile-header {
         gap: 20px;
-        margin-bottom: 25px;
-        padding-bottom: 15px;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
     }
 
     .profile-image {
@@ -344,7 +344,7 @@ li::marker {
 
     h2 {
         font-size: 15px;
-        margin: 25px 0 12px;
+        margin: 5px 0 12px;
     }
 
     /* Contact info wrapping */
@@ -418,8 +418,8 @@ li::marker {
         flex-direction: column;
         align-items: center;
         gap: 15px;
-        margin-bottom: 20px;
-        padding-bottom: 15px;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
         text-align: center;
     }
 
@@ -489,7 +489,7 @@ li::marker {
 
     h2 {
         font-size: 14px;
-        margin: 20px 0 10px;
+        margin: 5px 0 10px;
         letter-spacing: 0.5px;
     }
 
@@ -613,7 +613,7 @@ li::marker {
 
     h2 {
         font-size: 13px;
-        margin: 15px 0 10px;
+        margin: 5px 0 10px;
     }
 
     .section {
