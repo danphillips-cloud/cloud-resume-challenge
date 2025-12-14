@@ -120,9 +120,9 @@ h2 {
     font-size: 16px;
     text-align: center;
     border-bottom: 2px solid #ddd;
-    margin: 20px 0 15px;
+    margin: 5px 0 15px;
     padding-bottom: 8px;
-    color: #2c3e50;
+    color: red;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -344,7 +344,8 @@ li::marker {
 
     h2 {
         font-size: 15px;
-        margin: 20px 0 12px;
+        margin: 5px 0 12px;
+        color: red;
     }
 
     /* Contact info wrapping */
@@ -489,8 +490,9 @@ li::marker {
 
     h2 {
         font-size: 14px;
-        margin: 15px 0 10px;
+        margin: 5px 0 10px;
         letter-spacing: 0.5px;
+        color: red;
     }
 
     /* Contact info - stack vertically on very small screens */
@@ -613,7 +615,8 @@ li::marker {
 
     h2 {
         font-size: 13px;
-        margin: 12px 0 10px;
+        margin: 5px 0 10px;
+        color: red;
     }
 
     .section {
