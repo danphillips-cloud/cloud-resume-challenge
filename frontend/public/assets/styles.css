@@ -84,7 +84,7 @@ body {
     align-items: center;
     gap: 30px;
     margin-bottom: 30px;
-    padding-bottom: 20px;
+    padding-bottom: 5px;
     border-bottom: 2px solid #ddd;
 }
 
@@ -296,7 +296,7 @@ li::marker {
     .profile-header {
         gap: 20px;
         margin-bottom: 25px;
-        padding-bottom: 15px;
+        padding-bottom: 5px;
     }
 
     .profile-image {
@@ -419,7 +419,7 @@ li::marker {
         align-items: center;
         gap: 15px;
         margin-bottom: 20px;
-        padding-bottom: 15px;
+        padding-bottom: 5px;
         text-align: center;
     }
 
