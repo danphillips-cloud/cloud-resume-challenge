@@ -3,15 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dan Phillips - Resume</title>
+    <title>Dan Phillips - DevOps Engineer & Cloud Architecture Specialist</title>
     <link rel="stylesheet" href="assets/styles.css">
+    <style>
+        /* Home page specific styles */
+        .home-container {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .hero-image {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #2c3e50;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            margin: 0 auto 30px;
+            display: block;
+        }
+
+        .hero-name {
+            font-size: 42px;
+            color: #1a1a1a;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-title {
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: 500;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .hero-intro {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .highlight-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 3px solid #2c3e50;
+            text-align: left;
+        }
+
+        .highlight-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2c3e50;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .highlight-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #2c3e50;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            background: #1a73e8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #2c3e50;
+            border: 2px solid #2c3e50;
+        }
+
+        .btn-secondary:hover {
+            background: #2c3e50;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .social-links {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .social-link {
+            color: #2c3e50;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .social-link:hover {
+            color: #1a73e8;
+            transform: scale(1.05);
+        }
+
+        .social-link svg {
+            transition: transform 0.2s ease;
+        }
+
+        .social-link:hover svg {
+            transform: scale(1.1);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-image {
+                width: 220px;
+                height: 220px;
+                margin-bottom: 25px;
+            }
+
+            .hero-name {
+                font-size: 32px;
+            }
+
+            .hero-title {
+                font-size: 18px;
+                margin-bottom: 25px;
+            }
+
+            .hero-intro {
+                font-size: 15px;
+                margin-bottom: 30px;
+            }
+
+            .highlights-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin-bottom: 30px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-container {
+                padding: 20px 10px;
+            }
+
+            .hero-image {
+                width: 180px;
+                height: 180px;
+                border-width: 4px;
+            }
+
+            .hero-name {
+                font-size: 28px;
+            }
+
+            .hero-title {
+                font-size: 16px;
+            }
+
+            .hero-intro {
+                font-size: 14px;
+            }
+
+            .highlight-item {
+                padding: 15px;
+            }
+
+            .highlight-number {
+                font-size: 28px;
+            }
+
+            .highlight-label {
+                font-size: 13px;
+            }
+
+            .btn {
+                padding: 12px 24px;
+                font-size: 15px;
+            }
+
+            .social-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="nav-bar">
         <div class="nav-left">
-            <a href="/">Home</a>
+            <a href="/" class="active">Home</a>
             <a href="/blog">Blog</a>
-            <a href="/resume" class="active">Resume</a>
+            <a href="resume.html">Resume</a>
             <a href="/projects">Projects & Certifications</a>
         </div>
         <div class="nav-right">
@@ -28,143 +266,61 @@
         </div>
     </nav>
 
-    <div class="profile-header">
-        <div class="profile-image-container">
-            <img src="assets/images/Profile_2024.jpg" alt="Dan Phillips" class="profile-image">
-</div>
-        <div class="profile-info">
-            <h1>Dan Phillips</h1>
-            <div class="contact">
-                <div class="contact-item">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                    <span>Waterloo, ON</span>
-                </div>
-                <div class="contact-item">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                    </svg>
-                    <a href="tel:15192405772">(519) 240-5772</a>
-                </div>
-                <div class="contact-item">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                    <a href="mailto:dan@danphillips.info">dan@danphillips.info</a>
-                </div>
-                <div class="contact-item">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                    </svg>
-                    <a href="https://www.linkedin.com/in/danphillips-cloud" target="_blank" rel="noopener noreferrer">linkedin.com/in/danphillips-cloud</a>
-                </div>
+    <div class="home-container">
+        <img src="assets/images/Profile_2024.jpg" alt="Dan Phillips" class="hero-image">
+
+        <h1 class="hero-name">Dan Phillips</h1>
+        <p class="hero-title">DevOps Engineer & Cloud Architecture Specialist</p>
+
+        <p class="hero-intro">
+            I design and build secure, scalable cloud infrastructure with a focus on automation, disaster recovery, and DevOps best practices. With over 13 years in IT and cloud engineering, I help organizations modernize their infrastructure and streamline their deployment pipelines.
+        </p>
+
+        <div class="highlights-grid">
+            <div class="highlight-item">
+                <div class="highlight-number">13+</div>
+                <div class="highlight-label">Years Experience</div>
+            </div>
+            <div class="highlight-item">
+                <div class="highlight-number">4</div>
+                <div class="highlight-label">Certifications</div>
+            </div>
+            <div class="highlight-item">
+                <div class="highlight-number">AWS</div>
+                <div class="highlight-label">Solutions Architect</div>
+            </div>
+            <div class="highlight-item">
+                <div class="highlight-number">GCP</div>
+                <div class="highlight-label">Cloud Platform</div>
             </div>
         </div>
+
+        <div class="cta-buttons">
+            <a href="resume.html" class="btn btn-primary">View Resume</a>
+            <a href="mailto:dan@danphillips.info" class="btn btn-secondary">Get in Touch</a>
+        </div>
+
+        <div class="social-links">
+            <a href="https://linkedin.com/in/danphillips-cloud" target="_blank" class="social-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+                <span>LinkedIn</span>
+            </a>
+            <a href="https://github.com/danphillips-cloud" target="_blank" class="social-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                <span>GitHub</span>
+            </a>
+            <a href="mailto:dan@danphillips.info" class="social-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <span>Email</span>
+            </a>
+        </div>
     </div>
-
-    <h2>Experience</h2>
-
-    <div class="section">
-        <div class="header">
-            <span>Venuiti Healthcare Inc. (T6 Health Project)</span>
-            <span>Waterloo, ON</span>
-        </div>
-        <div class="subheader">
-            <span>DevOps Engineer</span>
-            <span>Jan 2025 – Present</span>
-        </div>
-        <ul>
-            <li>Manage AWS infrastructure and CI/CD toolchain across multi-environment ECS deployments.</li>
-            <li>Designed, tested, and documented comprehensive disaster recovery policy from the ground up, establishing backup procedures, lifecycle management, and recovery protocols where none previously existed.</li>
-            <li>Modernized legacy application stack through systematic upgrades, implemented centralized logging with CloudWatch, and established SNS-based alerting for critical infrastructure and pipeline failures.</li>
-            <li>Architected and modified CI/CD pipelines to support evolving deployment requirements, troubleshooting environment issues in collaboration with development and QA teams to maintain service stability.</li>
-            <li>Consulted on AWS and GovCloud implementations by creating custom technical architecture diagrams, providing on-site advisory support during installations, and participating in live testing exercises.</li>
-            <li>Mentored junior team members and development staff on DevOps best practices, cloud architecture principles, and infrastructure automation.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <div class="header">
-            <span>Shinydocs</span>
-            <span>Kitchener, ON</span>
-        </div>
-        <div class="subheader">
-            <span>Client Engagement Manager</span>
-            <span>May 2021 – Sep 2024</span>
-        </div>
-        <ul>
-            <li>Directed enterprise data migration and discovery projects across government, insurance, manufacturing, legal, and energy sectors, managing engagements from post-sale through delivery with teams of 4-5 specialists.</li>
-            <li>Led data discovery initiatives for PCI, PII, and PHI compliance, processing environments ranging from 1.5PB enterprise deployments to small office implementations with zero data loss.</li>
-            <li>Partnered with C-suite executives, CIOs, and IT leadership to define project requirements, establish success criteria, and ensure alignment between technical solutions and business objectives.</li>
-            <li>Reduced client data storage costs by 30% through document management optimization while improving retrieval efficiency for sensitive data across multi-cloud environments.</li>
-            <li>Achieved 98% client satisfaction rate by coordinating cross-functional delivery, collaborating with sales on scoping, and working with development teams to align product updates with client timelines.</li>
-            <li>Developed and delivered executive workshops and training programs that enhanced solution adoption and drove long-term client engagement.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <div class="header">
-            <span>OpenText</span>
-            <span>Waterloo, ON</span>
-        </div>
-        <div class="subheader">
-            <span>Senior Cloud Systems Administrator</span>
-            <span>Oct 2019 – May 2021</span>
-        </div>
-        <ul>
-            <li>Led application updates and administration across cloud-hosted platforms (AWS, GCP), ensuring secure, stable deployments.</li>
-            <li>Managed SAP SuccessFactors integrations with a focus on data integrity and compliance.</li>
-            <li>Improved system reliability with monitoring tools and streamlined incident workflows.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <div class="header">
-            <span>OpenText</span>
-            <span>Waterloo, ON</span>
-        </div>
-        <div class="subheader">
-            <span>Senior Technical Analyst</span>
-            <span>Oct 2012 – Oct 2019</span>
-        </div>
-        <ul>
-            <li>Advised enterprise clients on SaaS/ERP implementation best practices, optimizing data lifecycles for regulatory compliance.</li>
-            <li>Developed client-facing documentation on data management and governance to support adoption and knowledge transfer.</li>
-        </ul>
-    </div>
-
-    <h2>Certifications</h2>
-    
-    <div class="section">
-       <ul>
-            <li>AWS Certified Solutions Architect – Associate, 2024</li>
-            <li>HashiCorp Certified: Terraform Associate, 2024</li>
-            <li>Certified Associate in Project Management (CAPM), PMI, 2023</li>
-            <li>Professional Scrum Master I (PSM I), Scrum.org, 2024</li>
-        </ul>
-    </div>
-
-    <h2>Skills & Competencies</h2>
-
-    <div class="skills"><strong>Cloud & DevOps Platforms:</strong> AWS, GCP, Terraform, Jenkins, GitLab CI/CD, GitHub Actions, Docker</div>
-    <div class="skills"><strong>Infrastructure & Automation:</strong> Infrastructure as Code (IaC), CI/CD pipelines, Cloud Monitoring (CloudWatch, New Relic), Incident Response, Disaster Recovery</div>
-    <div class="skills"><strong>Governance & Security:</strong> Secure migrations, Data lifecycle management, Compliance (GDPR, HIPAA, PCI-DSS, PII/PHI), Retention policies</div>
-    <div class="skills"><strong>Project Leadership:</strong> Agile/Scrum, Stakeholder Collaboration, Change Management, Implementation Planning</div>
-    <div class="skills"><strong>Client Engagement & Advisory:</strong> Requirements gathering, Stakeholder management, Executive presentations, Solution design, Post-sale delivery</div>
-    <div class="skills"><strong>Documentation & Enablement:</strong> Onboarding guides, Runbooks, Training content, Technical process documentation</div>
-    <div class="skills"><strong>Clearance:</strong> U.S. DoD CAC holder with low-level security clearance; eligible for Canadian Reliability Status</div>
-    <div class="skills"><strong>Citizenship:</strong> Dual citizen – Canada and United States</div>
-
-    <!-- Visitor Counter -->
-    <div class="visitor-counter-container">
-        <div class="visitor-counter-label">Page Visitors</div>
-        <div id="visitor-count" class="visitor-count">Loading...</div>
-    </div>
-
-    <!-- Visitor Counter Script -->
-    <script src="assets/visitor-counter.js"></script>
 </body>
 </html>
