@@ -231,47 +231,60 @@ li::marker {
 /* Visitor Counter */
 .visitor-counter-container {
     text-align: center;
-    margin: 30px 0 20px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 4px;
-    border-left: 3px solid #2c3e50;
-    font-size: 14px;
-    color: #555;
+    margin: 50px auto 30px;
+    padding: 30px 40px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    max-width: 400px;
+    border: 1px solid rgba(44, 62, 80, 0.1);
+    transition: all 0.3s ease;
+}
+
+.visitor-counter-container:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
 }
 
 .visitor-counter-label {
     font-weight: 600;
     color: #2c3e50;
-    margin-bottom: 5px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
 }
 
 .visitor-count {
-    font-size: 20px;
+    font-size: 42px;
     font-weight: 700;
-    color: #1a1a1a;
-    font-family: 'Courier New', monospace;
-    letter-spacing: 1px;
+    color: #2c3e50;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: 2px;
+    line-height: 1;
 }
 
 /* Counter states */
 .visitor-count.counter-loading {
-    color: #666;
+    color: #999;
     font-style: italic;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .visitor-count.counter-error {
-    color: #999;
-    font-size: 14px;
+    color: #bbb;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .visitor-count.counter-placeholder {
-    color: #ccc;
+    color: #ddd;
+    font-weight: 500;
 }
 
 .visitor-count.counter-loaded {
-    animation: fadeIn 0.5s ease-in;
+    animation: fadeIn 0.6s ease-in, scaleIn 0.4s ease-out;
 }
 
 @keyframes fadeIn {
@@ -280,6 +293,15 @@ li::marker {
     }
     to {
         opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.95);
+    }
+    to {
+        transform: scale(1);
     }
 }
 
@@ -397,12 +419,18 @@ li::marker {
 
     /* Visitor counter */
     .visitor-counter-container {
-        margin: 25px 0 15px;
-        padding: 12px;
+        margin: 40px auto 25px;
+        padding: 25px 30px;
+        max-width: 350px;
+    }
+
+    .visitor-counter-label {
+        font-size: 13px;
+        margin-bottom: 10px;
     }
 
     .visitor-count {
-        font-size: 18px;
+        font-size: 36px;
     }
 }
 
@@ -546,16 +574,20 @@ li::marker {
 
     /* Visitor counter compact */
     .visitor-counter-container {
-        margin: 20px 0 10px;
-        padding: 10px;
+        margin: 30px auto 20px;
+        padding: 20px 25px;
+        max-width: 300px;
+        border-radius: 10px;
     }
 
     .visitor-counter-label {
         font-size: 12px;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
     }
 
     .visitor-count {
-        font-size: 16px;
+        font-size: 32px;
     }
 }
 
