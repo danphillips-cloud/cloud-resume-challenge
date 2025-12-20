@@ -5,13 +5,47 @@
     box-sizing: border-box;
 }
 
+/* Skip Navigation Link for Accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #1a73e8;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-weight: 600;
+    z-index: 2000;
+    border-radius: 0 0 4px 0;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Enhanced Focus Indicators for Keyboard Navigation */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible {
+    outline: 3px solid #1a73e8;
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+.nav-bar a:focus-visible {
+    outline: 3px solid #1a73e8;
+    outline-offset: -3px;
+}
+
 /* Navigation bar */
 .nav-bar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    background: #1a1a1a;
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 0;
     z-index: 1000;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -42,11 +76,12 @@
 }
 
 .nav-bar a:hover {
-    background: #2c2c2c;
+    background: #333333;
 }
 
 .nav-bar a.active {
-    background: #2c2c2c;
+    background: #2c3e50;
+    border-bottom: 3px solid #1a73e8;
 }
 
 .nav-right a {
@@ -234,6 +269,62 @@ li::marker {
     margin: 40px auto 0;
     padding: 0;
     max-width: 400px;
+}
+
+/* Certifications Page Styles */
+.cert-section {
+    text-align: center;
+    padding: 20px 0;
+    margin-bottom: 30px;
+}
+
+.cert-section h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.cert-section p {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.credly-badge-gallery,
+.badge-gallery {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin: 30px 0;
+}
+
+.credly-badge-gallery {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.credly-badge-gallery a,
+.badge-gallery a {
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+.credly-badge-gallery a:hover,
+.badge-gallery a:hover {
+    transform: scale(1.05);
+}
+
+.credly-badge-gallery img,
+.badge-gallery img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}
+
+.gallery-break {
+    flex-basis: 100%;
+    height: 0;
 }
 
 .visitor-counter-label {
