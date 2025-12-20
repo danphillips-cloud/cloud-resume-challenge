@@ -4,6 +4,10 @@ This directory contains the backend scripts and content for server-side renderin
 
 ## Overview
 
+The backend contains:
+1. **Build Scripts**: Server-side Python scripts to render markdown content into HTML
+2. **Mock Counter API**: A simple Flask API for testing the visitor counter functionality
+
 The projects page uses server-side Python to render markdown content into HTML. This allows you to easily update the projects page by editing a simple markdown file instead of manually writing HTML.
 
 ## Directory Structure
@@ -177,3 +181,101 @@ To add additional markdown-rendered pages (beyond projects):
 2. Create a corresponding build script (or extend the existing one)
 3. Add necessary CSS styling in `frontend/public/assets/styles.css`
 4. Run the build script to generate the HTML
+
+---
+
+## Mock Counter API
+
+A simple Flask API for testing the visitor counter functionality during development.
+
+### Features
+
+- **In-Memory Counter**: Maintains a counter that increments with each request
+- **CORS Enabled**: Supports cross-origin requests from the frontend
+- **Simple REST API**: POST to increment, GET to retrieve current count
+- **Health Check**: Endpoint to verify API is running
+
+### Quick Start
+
+1. **Install Dependencies**
+
+```bash
+pip install -r backend/requirements.txt
+```
+
+2. **Run the API**
+
+```bash
+python3 backend/mock_counter_api.py
+```
+
+The API will start on `http://localhost:5000`
+
+### API Endpoints
+
+#### POST /api/visitor-count
+Increment and return the visitor count.
+
+**Response:**
+```json
+{
+  "count": 42,
+  "message": "Counter incremented successfully"
+}
+```
+
+#### GET /api/visitor-count
+Get the current count without incrementing.
+
+**Response:**
+```json
+{
+  "count": 42,
+  "message": "Current count retrieved"
+}
+```
+
+#### GET /api/health
+Health check endpoint.
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "message": "Mock Counter API is running"
+}
+```
+
+### Testing with Frontend
+
+To use the mock API with your frontend:
+
+1. Start the mock API server (see Quick Start above)
+2. Update the frontend configuration in `frontend/public/assets/visitor-counter.js`:
+
+```javascript
+const config = {
+    awsEndpoint: 'http://localhost:5000/api/visitor-count',
+    activeBackend: 'aws'
+};
+```
+
+3. Open your frontend in a browser and the counter should work!
+
+### Configuration
+
+The API can be configured via environment variables:
+
+- `PORT`: Server port (default: 5000)
+- `DEBUG`: Enable debug mode (default: True)
+
+Example:
+```bash
+PORT=8080 DEBUG=False python3 backend/mock_counter_api.py
+```
+
+### Notes
+
+- The counter is stored in memory and resets when the server restarts
+- This is for development/testing only - use a real database for production
+- CORS is enabled for all origins to simplify local development
