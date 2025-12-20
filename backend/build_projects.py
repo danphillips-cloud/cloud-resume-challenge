@@ -1,17 +1,39 @@
 #!/usr/bin/env python3
 """
-Build script to convert projects.md to projects.html
-This script reads the markdown content and generates a complete HTML page
+Build script to convert project markdown files to projects.html
+This script reads individual project markdown files and generates a complete HTML page
 """
 
 import markdown
 import os
+import glob
 
 
 def read_markdown_file(filepath):
     """Read the markdown file content"""
     with open(filepath, 'r', encoding='utf-8') as f:
         return f.read()
+
+
+def read_all_projects(projects_dir):
+    """Read all markdown files from the projects directory and combine them"""
+    # Get all .md files in the projects directory
+    project_files = sorted(glob.glob(os.path.join(projects_dir, '*.md')))
+
+    if not project_files:
+        print(f"Warning: No project files found in {projects_dir}")
+        return ""
+
+    # Start with the header
+    combined_content = "# Featured Projects\n\n"
+
+    # Read and combine all project files
+    for project_file in project_files:
+        print(f"  Reading {os.path.basename(project_file)}...")
+        content = read_markdown_file(project_file)
+        combined_content += content + "\n\n"
+
+    return combined_content
 
 
 def convert_markdown_to_html(md_content):
@@ -88,17 +110,17 @@ def main():
     project_root = os.path.dirname(script_dir)
 
     # Define paths relative to project root
-    md_file = os.path.join(script_dir, 'content', 'projects.md')
+    projects_dir = os.path.join(script_dir, 'content', 'projects')
     html_file = os.path.join(project_root, 'frontend', 'public', 'projects.html')
 
-    # Check if markdown file exists
-    if not os.path.exists(md_file):
-        print(f"Error: {md_file} not found!")
+    # Check if projects directory exists
+    if not os.path.exists(projects_dir):
+        print(f"Error: {projects_dir} not found!")
         return 1
 
-    # Read and convert markdown
-    print(f"Reading {md_file}...")
-    md_content = read_markdown_file(md_file)
+    # Read and combine all project markdown files
+    print(f"Reading project files from {projects_dir}...")
+    md_content = read_all_projects(projects_dir)
 
     print("Converting markdown to HTML...")
     content_html = convert_markdown_to_html(md_content)

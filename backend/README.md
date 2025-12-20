@@ -13,8 +13,12 @@ backend/
 ├── README.md              # This file
 ├── requirements.txt       # Python dependencies
 ├── build_projects.py      # Build script for projects page
-└── content/              # Markdown content files
-    └── projects.md       # Projects page content (EDIT THIS)
+└── content/
+    └── projects/         # Individual project markdown files (EDIT THESE)
+        ├── cloud-resume-challenge.md
+        ├── enterprise-data-migration.md
+        ├── infrastructure-automation.md
+        └── multi-environment-ecs.md
 ```
 
 ## Quick Start
@@ -34,32 +38,36 @@ python3 backend/build_projects.py
 ```
 
 This will:
-1. Read `backend/content/projects.md`
-2. Convert markdown to HTML
-3. Generate `frontend/public/projects.html` with full page template
+1. Read all markdown files from `backend/content/projects/`
+2. Combine them into a single page
+3. Convert markdown to HTML
+4. Generate `frontend/public/projects.html` with full page template
 
 ## Updating Projects
 
-### 1. Edit the Markdown File
+### 1. Edit or Add Project Files
 
-Open `backend/content/projects.md` and update your projects using this format:
+Each project has its own markdown file in `backend/content/projects/`. To add or edit a project:
+
+**To edit an existing project:**
+Open the corresponding `.md` file and update the content.
+
+**To add a new project:**
+Create a new `.md` file in `backend/content/projects/` using this format:
 
 ```markdown
-# Featured Projects
-
 ## Project Name
 **Year** | Project Type | Technologies
 
 - Bullet point describing achievement
 - Another bullet point
 - And more details
-
-## Another Project
-**2024** | Web Application | Python, AWS
-
-- Key accomplishment
-- Another achievement
 ```
+
+Example filename: `my-new-project.md`
+
+**To remove a project:**
+Simply delete the corresponding `.md` file.
 
 ### 2. Build the HTML
 
@@ -71,7 +79,11 @@ python3 backend/build_projects.py
 
 You should see:
 ```
-Reading /path/to/backend/content/projects.md...
+Reading project files from /path/to/backend/content/projects...
+  Reading cloud-resume-challenge.md...
+  Reading enterprise-data-migration.md...
+  Reading infrastructure-automation.md...
+  Reading multi-environment-ecs.md...
 Converting markdown to HTML...
 Generating full HTML page...
 Writing to /path/to/frontend/public/projects.html...
@@ -87,7 +99,7 @@ Open `frontend/public/projects.html` in your browser to preview the changes.
 Commit and push your changes:
 
 ```bash
-git add backend/content/projects.md frontend/public/projects.html
+git add backend/content/projects/ frontend/public/projects.html
 git commit -m "Update projects page"
 git push
 ```
@@ -111,7 +123,11 @@ cloud-resume-challenge/
 │   ├── build_projects.py     # Build script
 │   ├── requirements.txt      # Python dependencies
 │   └── content/
-│       └── projects.md       # Markdown source (EDIT THIS)
+│       └── projects/         # Individual project files (EDIT THESE)
+│           ├── cloud-resume-challenge.md
+│           ├── enterprise-data-migration.md
+│           ├── infrastructure-automation.md
+│           └── multi-environment-ecs.md
 └── frontend/                  # Frontend static files
     └── public/
         ├── projects.html     # Generated HTML (DO NOT EDIT)
@@ -137,11 +153,27 @@ The markdown content is wrapped in a `<div class="markdown-content">` element wi
 - **No Client-Side JS**: All rendering happens server-side (build-time)
 - **Static Deployment**: Output is still a static HTML file
 
+## Managing Projects
+
+### Adding a New Project
+
+1. Create a new `.md` file in `backend/content/projects/`
+2. Follow the markdown format (see example above)
+3. Run the build script: `python3 backend/build_projects.py`
+4. Commit and deploy
+
+### Project Display Order
+
+Projects are displayed in alphabetical order by filename. To control the order, you can prefix filenames with numbers:
+- `01-cloud-resume-challenge.md`
+- `02-multi-environment-ecs.md`
+- etc.
+
 ## Adding New Content Pages
 
-To add additional markdown-rendered pages:
+To add additional markdown-rendered pages (beyond projects):
 
-1. Create a new markdown file in `backend/content/`
+1. Create a new directory in `backend/content/`
 2. Create a corresponding build script (or extend the existing one)
 3. Add necessary CSS styling in `frontend/public/assets/styles.css`
 4. Run the build script to generate the HTML
