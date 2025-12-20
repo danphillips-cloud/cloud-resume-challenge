@@ -6,15 +6,15 @@ The projects page uses server-side Python to render markdown content into HTML. 
 
 ## How It Works
 
-1. **Source File**: Edit `frontend/projects.md` with your project content in markdown format
-2. **Build Script**: Run `python3 build_projects.py` to convert markdown to HTML
+1. **Source File**: Edit `backend/content/projects.md` with your project content in markdown format
+2. **Build Script**: Run `python3 backend/build_projects.py` to convert markdown to HTML
 3. **Output**: The script generates `frontend/public/projects.html` with full page styling
 
 ## Updating Projects
 
 ### 1. Edit the Markdown File
 
-Open `frontend/projects.md` and update your projects using this format:
+Open `backend/content/projects.md` and update your projects using this format:
 
 ```markdown
 # Featured Projects
@@ -38,15 +38,15 @@ Open `frontend/projects.md` and update your projects using this format:
 Run the build script from the project root:
 
 ```bash
-python3 build_projects.py
+python3 backend/build_projects.py
 ```
 
 You should see:
 ```
-Reading frontend/projects.md...
+Reading /path/to/backend/content/projects.md...
 Converting markdown to HTML...
 Generating full HTML page...
-Writing to frontend/public/projects.html...
+Writing to /path/to/frontend/public/projects.html...
 Build complete!
 ```
 
@@ -59,7 +59,7 @@ Open `frontend/public/projects.html` in your browser to preview the changes.
 Commit and push your changes:
 
 ```bash
-git add frontend/projects.md frontend/public/projects.html
+git add backend/content/projects.md frontend/public/projects.html
 git commit -m "Update projects page"
 git push
 ```
@@ -79,10 +79,12 @@ The build script uses Python's `markdown` library with the following features:
 
 ```
 cloud-resume-challenge/
-├── build_projects.py          # Build script
-├── requirements.txt           # Python dependencies
-└── frontend/
-    ├── projects.md           # Markdown source (EDIT THIS)
+├── backend/                   # Backend scripts and content
+│   ├── build_projects.py     # Build script
+│   ├── requirements.txt      # Python dependencies
+│   └── content/
+│       └── projects.md       # Markdown source (EDIT THIS)
+└── frontend/                  # Frontend static files
     └── public/
         ├── projects.html     # Generated HTML (DO NOT EDIT)
         └── assets/
@@ -94,7 +96,7 @@ cloud-resume-challenge/
 The build script requires Python 3 and the `markdown` library:
 
 ```bash
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 ```
 
 ## Styling
