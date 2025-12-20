@@ -5,129 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dan Phillips - Blog</title>
     <link rel="stylesheet" href="assets/styles.css">
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .coming-soon-container {
-            text-align: center;
-            max-width: 700px;
-            margin: auto;
-            padding: 60px 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .coming-soon-icon {
-            font-size: 72px;
-            margin-bottom: 30px;
-            color: #2c3e50;
-        }
-
-        .coming-soon-title {
-            font-size: 42px;
-            color: #1a1a1a;
-            font-weight: 700;
-            margin-bottom: 20px;
-            letter-spacing: -0.5px;
-        }
-
-        .coming-soon-subtitle {
-            font-size: 24px;
-            color: #2c3e50;
-            font-weight: 500;
-            margin-bottom: 30px;
-        }
-
-        .coming-soon-description {
-            font-size: 17px;
-            color: #555;
-            line-height: 1.8;
-            margin-bottom: 40px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .coming-soon-cta {
-            margin-top: 40px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 14px 32px;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #2c3e50;
-            border: 2px solid #2c3e50;
-        }
-
-        .btn-secondary:hover {
-            background: #2c3e50;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 768px) {
-            .coming-soon-container {
-                margin: 40px auto;
-                padding: 40px 20px;
-            }
-
-            .coming-soon-icon {
-                font-size: 56px;
-            }
-
-            .coming-soon-title {
-                font-size: 32px;
-            }
-
-            .coming-soon-subtitle {
-                font-size: 20px;
-            }
-
-            .coming-soon-description {
-                font-size: 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .coming-soon-container {
-                margin: 20px auto;
-                padding: 30px 15px;
-            }
-
-            .coming-soon-icon {
-                font-size: 48px;
-            }
-
-            .coming-soon-title {
-                font-size: 28px;
-            }
-
-            .coming-soon-subtitle {
-                font-size: 18px;
-            }
-
-            .coming-soon-description {
-                font-size: 14px;
-            }
-        }
-    </style>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -153,16 +30,45 @@
         </div>
     </nav>
 
-    <div id="main-content" class="coming-soon-container">
-        <div class="coming-soon-icon">📝</div>
-        <h1 class="coming-soon-title">Blog</h1>
-        <p class="coming-soon-subtitle">Coming Soon</p>
-        <p class="coming-soon-description">
-            I'm currently working on sharing insights about cloud architecture, DevOps practices, and lessons learned from building scalable infrastructure. Check back soon for articles on AWS, automation, and modern development workflows.
-        </p>
-        <div class="coming-soon-cta">
-            <a href="index.html" class="btn btn-secondary">Return Home</a>
+    <div id="main-content" class="profile-header">
+        <div class="profile-image-container">
+            <img src="assets/images/Profile_2024.jpg" alt="Professional headshot of Dan Phillips" class="profile-image">
         </div>
+        <div class="profile-info">
+            <h1>Blog</h1>
+            <p style="color: #666; font-size: 16px; margin-top: 10px;">More posts coming soon - here's a preview of what's to come</p>
+        </div>
+    </div>
+
+    <div class="markdown-content">
+        <h1>Blog Posts</h1>
+<h2>Welcome to My Cloud Journey</h2>
+<p><strong>December 20, 2025</strong> | Cloud Architecture | AWS, Career</p>
+<ul>
+<li>Starting my journey documenting cloud engineering experiences and learnings</li>
+<li>Focus will be on AWS, DevOps practices, and infrastructure automation</li>
+<li>Sharing real-world challenges and solutions from production environments</li>
+<li>Goal: Help others navigate the complex world of cloud computing</li>
+</ul>
+<h2>Infrastructure as Code: Lessons from the Trenches</h2>
+<p><strong>December 15, 2025</strong> | DevOps | Terraform, CloudFormation, Best Practices</p>
+<ul>
+<li>Why IaC is non-negotiable in modern cloud environments</li>
+<li>Choosing between Terraform, CloudFormation, and other tools</li>
+<li>Common pitfalls: state management, secrets handling, and module organization</li>
+<li>Real-world example: Managing multi-environment deployments with DRY principles</li>
+<li>Testing strategies for infrastructure code</li>
+</ul>
+<h2>ECS vs EKS: Making the Right Choice for Your Workload</h2>
+<p><strong>December 10, 2025</strong> | Container Orchestration | ECS, EKS, Kubernetes</p>
+<ul>
+<li>Understanding the fundamental differences between ECS and EKS</li>
+<li>Cost implications: hidden costs beyond compute resources</li>
+<li>Team expertise requirements and learning curves</li>
+<li>When ECS is the better choice (spoiler: more often than you think)</li>
+<li>Migration considerations and hybrid approaches</li>
+<li>Real-world case study: Why we chose ECS for a production application</li>
+</ul>
     </div>
 
 </body>
