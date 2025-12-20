@@ -1,5 +1,5 @@
 ## Cloud Resume Challenge
-**2024** | Serverless Web Application | AWS, Terraform, CI/CD
+**2025** | Serverless Web Application | AWS, Terraform, CI/CD
 
 - Built a fully serverless resume website hosted on AWS using S3, CloudFront, and API Gateway
 - Implemented visitor counter using DynamoDB and Lambda functions with Python runtime
