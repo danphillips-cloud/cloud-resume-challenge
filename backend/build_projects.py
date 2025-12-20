@@ -83,9 +83,13 @@ def create_html_page(content_html):
 
 def main():
     """Main build function"""
-    # Define paths
-    md_file = 'frontend/projects.md'
-    html_file = 'frontend/public/projects.html'
+    # Get the script directory and project root
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+
+    # Define paths relative to project root
+    md_file = os.path.join(script_dir, 'content', 'projects.md')
+    html_file = os.path.join(project_root, 'frontend', 'public', 'projects.html')
 
     # Check if markdown file exists
     if not os.path.exists(md_file):
