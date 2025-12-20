@@ -83,4 +83,4 @@ As you see here, I'm using new chat sessions for each PR. I'm a big fan of "1 is
 ![](./docs/claude-code-assist.png)
 
 
-That being said, AI goes not "see" well as humans do. Simple describing how I wanted some padding to appear proved challenging. Even if I provided Claude with screenshots, it was just not understanding what I was asking. Giving a detailed description worked but I'm not sure this would work with more complex designs.
+That being said, AI goes not "see" well as humans do. Simple describing how I wanted some padding to appear proved challenging. Even if I provided Claude with screenshots, it was just not understanding what I was asking. Giving a detailed description worked but I'm not sure this would work with more complex designs. However the more I worked with it, the better I got at instructing it. 
