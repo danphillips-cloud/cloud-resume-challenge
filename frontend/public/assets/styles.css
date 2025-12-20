@@ -231,43 +231,45 @@ li::marker {
 /* Visitor Counter */
 .visitor-counter-container {
     text-align: center;
-    margin: 30px 0 20px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 4px;
-    border-left: 3px solid #2c3e50;
-    font-size: 14px;
-    color: #555;
+    margin: 40px auto 0;
+    padding: 0;
+    max-width: 400px;
 }
 
 .visitor-counter-label {
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 5px;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 6px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
 }
 
 .visitor-count {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1a1a1a;
-    font-family: 'Courier New', monospace;
+    font-size: 24px;
+    font-weight: 600;
+    color: #2c3e50;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     letter-spacing: 1px;
+    line-height: 1;
 }
 
 /* Counter states */
 .visitor-count.counter-loading {
-    color: #666;
+    color: #999;
     font-style: italic;
     font-size: 14px;
+    font-weight: 500;
 }
 
 .visitor-count.counter-error {
-    color: #999;
+    color: #bbb;
     font-size: 14px;
+    font-weight: 500;
 }
 
 .visitor-count.counter-placeholder {
-    color: #ccc;
+    color: #ddd;
+    font-weight: 500;
 }
 
 .visitor-count.counter-loaded {
@@ -397,12 +399,17 @@ li::marker {
 
     /* Visitor counter */
     .visitor-counter-container {
-        margin: 25px 0 15px;
-        padding: 12px;
+        margin: 35px auto 0;
+        padding: 0;
+    }
+
+    .visitor-counter-label {
+        font-size: 12px;
+        margin-bottom: 5px;
     }
 
     .visitor-count {
-        font-size: 18px;
+        font-size: 22px;
     }
 }
 
@@ -546,16 +553,17 @@ li::marker {
 
     /* Visitor counter compact */
     .visitor-counter-container {
-        margin: 20px 0 10px;
-        padding: 10px;
+        margin: 30px auto 0;
+        padding: 0;
     }
 
     .visitor-counter-label {
-        font-size: 12px;
+        font-size: 11px;
+        margin-bottom: 4px;
     }
 
     .visitor-count {
-        font-size: 16px;
+        font-size: 20px;
     }
 }
 
