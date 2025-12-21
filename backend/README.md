@@ -11,6 +11,34 @@ The backend contains:
 
 The projects page uses server-side Python to render markdown content into HTML. This allows you to easily update the projects page by editing a simple markdown file instead of manually writing HTML.
 
+## Design Decisions
+
+### Why Markdown Over Direct HTML Editing?
+
+Markdown provides a clean, version-control-friendly way to manage content without dealing with HTML tags, CSS classes, or layout concerns. Writing project descriptions becomes as simple as editing a text file—no risk of breaking tags, forgetting closing divs, or introducing inconsistent styling.
+
+### Why Server-Side Rendering?
+
+Build-time rendering (server-side) means:
+
+- **Static Output**: The final HTML is a static file, perfect for S3/CloudFront deployment
+- **No Client-Side Dependencies**: No JavaScript frameworks or markdown parsers needed in the browser
+- **Fast Load Times**: Pre-rendered HTML loads instantly—no runtime compilation
+- **SEO Friendly**: Search engines see the full rendered content immediately
+- **Simple Deployment**: Just upload the generated HTML file
+
+### Why Python?
+
+Python's `markdown` library is mature, well-documented, and handles edge cases gracefully. Since this is a build-time tool (not runtime), there's no performance concern—and Python's simplicity makes the build script easy to understand and modify.
+
+### Benefits of This Approach
+
+- **Separation of Concerns**: Content (markdown) lives separately from presentation (HTML/CSS)
+- **Easy Updates**: Non-technical updates don't require touching HTML
+- **Version Control**: Git diffs on markdown files are human-readable
+- **Consistency**: Automated rendering ensures uniform styling across all projects
+- **Maintainability**: Single build script handles all content transformation
+
 ## Directory Structure
 
 ```text
