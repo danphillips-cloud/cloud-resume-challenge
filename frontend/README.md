@@ -22,13 +22,13 @@ Please don't use a css framework.
 Please use the least amount of css tags
 ```
 
-![](./docs/harvard-resume-format.jpg)
+![Harvard Resume Format Template](./docs/harvard-resume-format.jpg)
 
 This is the [generated output](./docs/nov-23-2025-resume-minimal.html) that I will refactor with Claude.
 
 This is the generated HTML from Claude Sonnet 4.5
 
-![](./docs/resume-minimal-rendered.png)
+![Generated Resume HTML Rendered Output](./docs/resume-minimal-rendered.png)
 
 That actually looks good and pretty close to what I want.
 
@@ -46,17 +46,16 @@ Please use the least amount of css tags
 
 I find that reminding AI, or repeating your prompts, improves your results. Just as if you were talking to a person and giving them clear instruction for a task.
 
-![](./docs/claude-resume-minimal-rendered.png)
+![Claude Generated Resume with Personal Information](./docs/claude-resume-minimal-rendered.png)
 
 ## HTML Adjustments
-
 
 - UTF8 will support most languages. I plan to use only English but will keep the meta tag in.
 - To ensure the is the site is viewable on mobile devices, we'll include the viewport meta tag width=device-width
 - I will simplify the HTML markup css selector to be as minimal as possible
 - I will use the [W3c Validation Service](https://validator.w3.org/) to lint the code.
 
-![](./docs/w3c-code-validation.png)
+![W3C Code Validation Result - No Errors](./docs/w3c-code-validation.png)
 
 No errors. Score one for GenAI.
 
@@ -68,7 +67,7 @@ I need to serve my static website locally so I can work with external stylesheet
 
 CSS isn't my strong suit—I don't have an eye for design, though I know what looks good. That's where Claude Code comes in to handle the heavy lifting while I fine-tune. Here's an example PR that Claude Code generates:
 
-![](./docs/claude-code-pr.png)
+![Claude Code Generated Pull Request](./docs/claude-code-pr.png)
 
 ## FrontEnd Considerations
 
@@ -80,16 +79,16 @@ My Project Management background pays dividends when working with GenAI to gener
 
 As you can see, I'm using separate chat sessions for each PR. I'm a big believer in "1 issue, 1 PR"—it keeps issue tracking clean. Claude even auto-generates issue descriptions in each PR.
 
-![](./docs/claude-code-assist.png)
-
+![Claude Code Assistance and PR Overview](./docs/claude-code-assist.png)
 
 That said, AI doesn't "see" the way humans do. Simple tasks like describing how I wanted padding to appear proved surprisingly difficult. Even with screenshots, Claude struggled to grasp what I wanted. Detailed written descriptions worked better, though I'm skeptical this approach would scale to more complex designs. The upside? The more I worked with it, the better I got at giving clear instructions.
 
 Here I asked Claude: "Please look at the site in main branch and tell me if we need to clean anything up. Let's make sure we have responsive design, mobile friendly, and easy on the eyes. Fonts are clear and easy to read. The page is also accessible for those with visual issues."
 
-![](./docs/claude-code-cleanup.png)
+![Claude Code Review and Cleanup Suggestions](./docs/claude-code-cleanup.png)
 
 After all these branches and changes, I did my own code review and found things were messy. I went back to Claude to address issues like:
+
 - Eliminating inline styles and improving structure
 - Consistent naming and formatting
 - Clear comments and documentation
