@@ -5,6 +5,7 @@ This directory contains the backend scripts and content for server-side renderin
 ## Overview
 
 The backend contains:
+
 1. **Build Scripts**: Server-side Python scripts to render markdown content into HTML
 2. **Mock Counter API**: A simple Flask API for testing the visitor counter functionality
 
@@ -12,7 +13,7 @@ The projects page uses server-side Python to render markdown content into HTML. 
 
 ## Directory Structure
 
-```
+```text
 backend/
 ├── README.md              # This file
 ├── requirements.txt       # Python dependencies
@@ -42,6 +43,7 @@ python3 backend/build_projects.py
 ```
 
 This will:
+
 1. Read all markdown files from `backend/content/projects/`
 2. Combine them into a single page
 3. Convert markdown to HTML
@@ -82,7 +84,8 @@ python3 backend/build_projects.py
 ```
 
 You should see:
-```
+
+```text
 Reading project files from /path/to/backend/content/projects...
   Reading cloud-resume-challenge.md...
   Reading enterprise-data-migration.md...
@@ -121,7 +124,7 @@ The build script uses Python's `markdown` library with the following features:
 
 ## Project Structure
 
-```
+```text
 cloud-resume-challenge/
 ├── backend/                   # Backend scripts and content
 │   ├── build_projects.py     # Build script
@@ -169,6 +172,7 @@ The markdown content is wrapped in a `<div class="markdown-content">` element wi
 ### Project Display Order
 
 Projects are displayed in alphabetical order by filename. To control the order, you can prefix filenames with numbers:
+
 - `01-cloud-resume-challenge.md`
 - `02-multi-environment-ecs.md`
 - etc.
@@ -195,7 +199,7 @@ A simple Flask API for testing the visitor counter functionality during developm
 - **Simple REST API**: POST to increment, GET to retrieve current count
 - **Health Check**: Endpoint to verify API is running
 
-### Quick Start
+### Getting Started
 
 1. **Install Dependencies**
 
@@ -203,7 +207,7 @@ A simple Flask API for testing the visitor counter functionality during developm
 pip install -r backend/requirements.txt
 ```
 
-2. **Run the API**
+1. **Run the API**
 
 ```bash
 python3 backend/mock_counter_api.py
@@ -214,9 +218,11 @@ The API will start on `http://localhost:5000`
 ### API Endpoints
 
 #### POST /api/visitor-count
+
 Increment and return the visitor count.
 
 **Response:**
+
 ```json
 {
   "count": 42,
@@ -225,9 +231,11 @@ Increment and return the visitor count.
 ```
 
 #### GET /api/visitor-count
+
 Get the current count without incrementing.
 
 **Response:**
+
 ```json
 {
   "count": 42,
@@ -236,9 +244,11 @@ Get the current count without incrementing.
 ```
 
 #### GET /api/health
+
 Health check endpoint.
 
 **Response:**
+
 ```json
 {
   "status": "healthy",
@@ -253,12 +263,12 @@ To use the mock API with your frontend:
 1. Start the mock API server (see Quick Start above)
 2. Update the frontend configuration in `frontend/public/assets/visitor-counter.js`:
 
-```javascript
-const config = {
-    awsEndpoint: 'http://localhost:5000/api/visitor-count',
-    activeBackend: 'aws'
-};
-```
+   ```javascript
+   const config = {
+      awsEndpoint: 'http://localhost:5000/api/visitor-count',
+      activeBackend: 'aws'
+   };
+   ```
 
 3. Open your frontend in a browser and the counter should work!
 
@@ -270,6 +280,7 @@ The API can be configured via environment variables:
 - `DEBUG`: Enable debug mode (default: True)
 
 Example:
+
 ```bash
 PORT=8080 DEBUG=False python3 backend/mock_counter_api.py
 ```
