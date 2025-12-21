@@ -1,8 +1,61 @@
-# Frontend Technical Specification
+# Frontend
 
-- Create a static website that serves an HTML resume.
+Static website serving an HTML resume with dynamic visitor counter and project showcase.
 
-## Resume Format Considerations
+## Overview
+
+The frontend is a lightweight, framework-free static website built with vanilla HTML, CSS, and JavaScript. It uses the Harvard Resume Template format with responsive design and server-side rendering for the projects page via Python/Markdown build scripts.
+
+## Features
+
+- **Static HTML Resume**: Clean, accessible resume using Harvard template format
+- **Responsive Design**: Mobile-friendly with viewport optimization
+- **Visitor Counter**: Dynamic counter with AWS Lambda/DynamoDB integration
+- **Projects Page**: Server-side rendered from Markdown files (see `backend/`)
+- **No Framework Dependencies**: Pure HTML/CSS/JS for simplicity and maintainability
+- **W3C Validated**: Standards-compliant markup
+- **Accessibility**: Optimized for screen readers and visual accessibility
+
+## Quick Start
+
+For backend setup (build scripts, mock API, dependencies), see [`backend/README.md`](../backend/README.md).
+
+## Directory Structure
+
+```text
+frontend/
+├── README.md                    # This file
+└── public/
+    ├── index.html              # Main resume page
+    ├── projects.html           # Generated projects page (DO NOT EDIT)
+    └── assets/
+        ├── styles.css          # Main stylesheet
+        ├── visitor-counter.js  # Counter logic
+        └── images/             # Site images
+```
+
+## Configuration
+
+### Visitor Counter
+
+Edit `frontend/public/assets/visitor-counter.js` to configure the backend:
+
+```javascript
+const config = {
+   awsEndpoint: 'https://your-api-gateway-url/api/visitor-count',
+   activeBackend: 'aws'  // or 'mock' for local testing
+};
+```
+
+For local testing with the mock API, see [`backend/README.md`](../backend/README.md#mock-counter-api).
+
+---
+
+## Development Journey
+
+This section documents the development process and design decisions made while building the frontend.
+
+### Resume Format Considerations
 
 I live in Canada, where resumes in Word or PDF format should exclude information that could be used to discriminate against potential candidates (e.g. sex, age). Some companies even redact the candidates named to prevent any bias. However, for a personal website or LinkedIN profile, this is acceptable.
 
@@ -10,7 +63,7 @@ In Canada we use a format similar to the most common in the US.
 
 I'm going to use the [Harvard Resume Template format](https://careerservices.fas.harvard.edu/channels/create-a-resume-cv-or-cover-letter/#uc_resource_titles-4) as the basis of my resume.
 
-## Harvard Resume Format Generation
+### Harvard Resume Format Generation
 
 I learned HTML by coding in Notepad back when GeoCities existed, but stopped once WYSIWYG editors became a thing. I'll use GenAI tools to generate the HTML and CSS. Once that is in place, I can adjust the code as needed for the project. Since I have a Pro account, I'll be using Claude Sonnet 4.5 to construct the HTML and add in content from my existing resume.
 
@@ -37,10 +90,10 @@ To save time I decided to uploaded my current resume to Claude and had it fill i
 Prompt to Claude
 
 ```text
-I am now uploading the most recent copy of my resume. 
+I am now uploading the most recent copy of my resume.
 Using the Harvard template you already have, let's create a new resume.
-Remember to Convert this resume format into html. 
-Please don't use a css framework. 
+Remember to Convert this resume format into html.
+Please don't use a css framework.
 Please use the least amount of css tags
 ```
 
@@ -48,7 +101,7 @@ I find that reminding AI, or repeating your prompts, improves your results. Just
 
 ![Claude Generated Resume with Personal Information](./docs/claude-resume-minimal-rendered.png)
 
-## HTML Adjustments
+### HTML Adjustments
 
 - UTF8 will support most languages. I plan to use only English but will keep the meta tag in.
 - To ensure the is the site is viewable on mobile devices, we'll include the viewport meta tag width=device-width
@@ -61,19 +114,19 @@ No errors. Score one for GenAI.
 
 The code is also very easy to read and I feel that I could edit by hand without breaking a table or CSS.
 
-## Server Static Website Locally
+### Serving Static Website Locally
 
 I need to serve my static website locally so I can work with external stylesheets in a DEV environment. I'm using the [Live Server Extension for VSCode](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) for this. Sure, you can install an http server in CodeSpaces, but I'd rather not waste time troubleshooting when local dev just works.
 
-CSS isn't my strong suit—I don't have an eye for design, though I know what looks good. That's where Claude Code comes in to handle the heavy lifting while I fine-tune. Here's an example PR that Claude Code generates:
+CSS is not my strong suit. I do not have an eye for design, though I know what looks good. That is where Claude Code comes in to handle the heavy lifting while I fine tune. Here is an example PR that Claude Code generates:
 
 ![Claude Code Generated Pull Request](./docs/claude-code-pr.png)
 
-## FrontEnd Considerations
+### Frontend Approach Considerations
 
-I initially tried using React and Vite for the frontend, but found myself spending more time troubleshooting setup than actually building. Since I plan to update the site regularly, keeping things simple made more sense—something I can maintain and update without friction.
+I initially tried using React and Vite for the frontend, but found myself spending more time troubleshooting setup than actually building. Since I plan to update the site regularly, keeping things simple made more sense. Something I can maintain and update without friction.
 
-## Working with Claude Code
+### Working with Claude Code
 
 My Project Management background pays dividends when working with GenAI to generate HTML and CSS. It's powerful having a tool that can take detailed requirements, execute them, and create a PR ready for review and adjustments.
 
@@ -83,7 +136,14 @@ As you can see, I'm using separate chat sessions for each PR. I'm a big believer
 
 That said, AI doesn't "see" the way humans do. Simple tasks like describing how I wanted padding to appear proved surprisingly difficult. Even with screenshots, Claude struggled to grasp what I wanted. Detailed written descriptions worked better, though I'm skeptical this approach would scale to more complex designs. The upside? The more I worked with it, the better I got at giving clear instructions.
 
-Here I asked Claude: "Please look at the site in main branch and tell me if we need to clean anything up. Let's make sure we have responsive design, mobile friendly, and easy on the eyes. Fonts are clear and easy to read. The page is also accessible for those with visual issues."
+Prompt to Claude
+
+```text
+Please look at the site in main branch and tell me if we need to clean anything up.
+Let's make sure we have responsive design, mobile friendly, and easy on the eyes.
+Fonts are clear and easy to read.
+The page is also accessible for those with visual issues.
+```
 
 ![Claude Code Review and Cleanup Suggestions](./docs/claude-code-cleanup.png)
 
@@ -93,5 +153,5 @@ After all these branches and changes, I did my own code review and found things 
 - Consistent naming and formatting
 - Clear comments and documentation
 - CSS variables and DRY principles
-  
+
 There's still some navigation/SVG duplication and other optimizations to tackle, but I'll leverage AWS/GCP tooling for that.
