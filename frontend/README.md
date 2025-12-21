@@ -18,11 +18,7 @@ The frontend is a lightweight, framework-free static website built with vanilla 
 
 ## Quick Start
 
-The projects page is generated from Markdown files. See [`backend/README.md`](../backend/README.md) for build instructions.
-
-```bash
-python3 backend/build_projects.py
-```
+For backend setup (build scripts, mock API, dependencies), see [`backend/README.md`](../backend/README.md).
 
 ## Directory Structure
 
@@ -128,7 +124,7 @@ CSS is not my strong suit. I do not have an eye for design, though I know what l
 
 ### Frontend Approach Considerations
 
-I initially tried using React and Vite for the frontend, but found myself spending more time troubleshooting setup than actually building. Since I plan to update the site regularly, keeping things simple made more sense—something I can maintain and update without friction.
+I initially tried using React and Vite for the frontend, but found myself spending more time troubleshooting setup than actually building. Since I plan to update the site regularly, keeping things simple made more sense. Something I can maintain and update without friction.
 
 ### Working with Claude Code
 
@@ -140,7 +136,11 @@ As you can see, I'm using separate chat sessions for each PR. I'm a big believer
 
 That said, AI doesn't "see" the way humans do. Simple tasks like describing how I wanted padding to appear proved surprisingly difficult. Even with screenshots, Claude struggled to grasp what I wanted. Detailed written descriptions worked better, though I'm skeptical this approach would scale to more complex designs. The upside? The more I worked with it, the better I got at giving clear instructions.
 
-Here I asked Claude: "Please look at the site in main branch and tell me if we need to clean anything up. Let's make sure we have responsive design, mobile friendly, and easy on the eyes. Fonts are clear and easy to read. The page is also accessible for those with visual issues."
+Prompt to Claude
+
+```text
+Please look at the site in main branch and tell me if we need to clean anything up. Let's make sure we have responsive design, mobile friendly, and easy on the eyes. Fonts are clear and easy to read. The page is also accessible for those with visual issues.
+```
 
 ![Claude Code Review and Cleanup Suggestions](./docs/claude-code-cleanup.png)
 
