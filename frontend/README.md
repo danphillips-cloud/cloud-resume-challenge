@@ -139,7 +139,10 @@ That said, AI doesn't "see" the way humans do. Simple tasks like describing how 
 Prompt to Claude
 
 ```text
-Please look at the site in main branch and tell me if we need to clean anything up. Let's make sure we have responsive design, mobile friendly, and easy on the eyes. Fonts are clear and easy to read. The page is also accessible for those with visual issues.
+Please look at the site in main branch and tell me if we need to clean anything up.
+Let's make sure we have responsive design, mobile friendly, and easy on the eyes.
+Fonts are clear and easy to read.
+The page is also accessible for those with visual issues.
 ```
 
 ![Claude Code Review and Cleanup Suggestions](./docs/claude-code-cleanup.png)
