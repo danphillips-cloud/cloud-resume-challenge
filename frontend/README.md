@@ -64,27 +64,35 @@ The code is also very easy to read and I feel that I could edit by hand without 
 
 ## Server Static Website Locally
 
-I need to server my static website locally so I can start using stylesheets externally from my HTML page in a DEV environment. I'm going to use the [Live Server Extension for VScode](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) to work on this locally. You can install an http server in CodeSpaces, but in case there are issues I don't want to waste time troubleshooting when local Just Works.
+I need to serve my static website locally so I can work with external stylesheets in a DEV environment. I'm using the [Live Server Extension for VSCode](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) for this. Sure, you can install an http server in CodeSpaces, but I'd rather not waste time troubleshooting when local dev just works.
 
-CSS can be a challenge for me as I don't have an eye for design, but I know what looks good. I'll use Claude Code to do the dirty work and I'll adust as needed. Here's an example of a PR that Claude Code creates for you. 
+CSS isn't my strong suit—I don't have an eye for design, though I know what looks good. That's where Claude Code comes in to handle the heavy lifting while I fine-tune. Here's an example PR that Claude Code generates:
 
 ![](./docs/claude-code-pr.png)
 
 ## FrontEnd Considerations
 
-I attempted to use React and Vite to my Frontend, but found I was spending more time troubleshooting the setup than actually developing. Since I intended to update the site regularly, it makes senses to use something simple and I can update myself with little effort.
+I initially tried using React and Vite for the frontend, but found myself spending more time troubleshooting setup than actually building. Since I plan to update the site regularly, keeping things simple made more sense—something I can maintain and update without friction.
 
 ## Working with Claude Code
 
-I find my Project Management experience serves me well when it comes to to having GenAI create the basic HTML and CSS. It's great to have a tool that I can give a detailed task to and have it completed with little need for adjustments. It can work on a request and create the PR so I can review it and make adjustments.
+My Project Management background pays dividends when working with GenAI to generate HTML and CSS. It's powerful having a tool that can take detailed requirements, execute them, and create a PR ready for review and adjustments.
 
-As you see here, I'm using new chat sessions for each PR. I'm a big fan of "1 issue, 1 PR" as it makes issue tracking simpler. Claude even puts an issue description in each PR. 
+As you can see, I'm using separate chat sessions for each PR. I'm a big believer in "1 issue, 1 PR"—it keeps issue tracking clean. Claude even auto-generates issue descriptions in each PR.
 
 ![](./docs/claude-code-assist.png)
 
 
-That being said, AI goes not "see" well as humans do. Simple describing how I wanted some padding to appear proved challenging. Even if I provided Claude with screenshots, it was just not understanding what I was asking. Giving a detailed description worked but I'm not sure this would work with more complex designs. However the more I worked with it, the better I got at instructing it. 
+That said, AI doesn't "see" the way humans do. Simple tasks like describing how I wanted padding to appear proved surprisingly difficult. Even with screenshots, Claude struggled to grasp what I wanted. Detailed written descriptions worked better, though I'm skeptical this approach would scale to more complex designs. The upside? The more I worked with it, the better I got at giving clear instructions.
 
-Here I've asked Claude, "Please look at the site in main branch and tell me if we need to clean anything up. Let's make sure we have responsive design, mobile friendly, and easy on the eyes. fonts are clear and easy to read. the page is also accessible for those with visual issues."
+Here I asked Claude: "Please look at the site in main branch and tell me if we need to clean anything up. Let's make sure we have responsive design, mobile friendly, and easy on the eyes. Fonts are clear and easy to read. The page is also accessible for those with visual issues."
 
 ![](./docs/claude-code-cleanup.png)
+
+After all these branches and changes, I did my own code review and found things were messy. I went back to Claude to address issues like:
+- Eliminating inline styles and improving structure
+- Consistent naming and formatting
+- Clear comments and documentation
+- CSS variables and DRY principles
+  
+There's still some navigation/SVG duplication and other optimizations to tackle, but I'll leverage AWS/GCP tooling for that.
