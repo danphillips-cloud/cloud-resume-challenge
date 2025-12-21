@@ -4,7 +4,7 @@ Static website serving an HTML resume with dynamic visitor counter and project s
 
 ## Overview
 
-The frontend is a lightweight, framework-free static website built with vanilla HTML, CSS, and JavaScript. It features a responsive design based on the Harvard Resume Template format, with server-side rendering for the projects page via Python/Markdown build scripts.
+The frontend is a lightweight, framework-free static website built with vanilla HTML, CSS, and JavaScript. It uses the Harvard Resume Template format with responsive design and server-side rendering for the projects page via Python/Markdown build scripts.
 
 ## Features
 
@@ -17,24 +17,6 @@ The frontend is a lightweight, framework-free static website built with vanilla 
 - **Accessibility**: Optimized for screen readers and visual accessibility
 
 ## Quick Start
-
-### Serve Locally
-
-**Option 1: VS Code Live Server**
-
-1. Install [Live Server Extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
-2. Right-click `index.html` and select "Open with Live Server"
-
-**Option 2: Python HTTP Server**
-
-```bash
-cd frontend/public
-python3 -m http.server 8000
-```
-
-Visit `http://localhost:8000`
-
-### Build Projects Page
 
 The projects page is generated from Markdown files. See [`backend/README.md`](../backend/README.md) for build instructions.
 
@@ -70,21 +52,6 @@ const config = {
 ```
 
 For local testing with the mock API, see [`backend/README.md`](../backend/README.md#mock-counter-api).
-
-## Deployment
-
-The site is deployed as a static website to AWS S3/CloudFront. Push changes to the `main` branch to trigger deployment.
-
-```bash
-git add frontend/public/
-git commit -m "Update frontend"
-git push
-```
-
-## Dependencies
-
-- **None for runtime**: Pure vanilla HTML/CSS/JS
-- **Development**: Python 3 for building projects page (see `backend/`)
 
 ---
 
@@ -155,7 +122,7 @@ The code is also very easy to read and I feel that I could edit by hand without 
 
 I need to serve my static website locally so I can work with external stylesheets in a DEV environment. I'm using the [Live Server Extension for VSCode](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) for this. Sure, you can install an http server in CodeSpaces, but I'd rather not waste time troubleshooting when local dev just works.
 
-CSS isn't my strong suit—I don't have an eye for design, though I know what looks good. That's where Claude Code comes in to handle the heavy lifting while I fine-tune. Here's an example PR that Claude Code generates:
+CSS is not my strong suit. I do not have an eye for design, though I know what looks good. That is where Claude Code comes in to handle the heavy lifting while I fine tune. Here is an example PR that Claude Code generates:
 
 ![Claude Code Generated Pull Request](./docs/claude-code-pr.png)
 
