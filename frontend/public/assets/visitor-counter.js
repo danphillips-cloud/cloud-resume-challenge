@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Configuration object - update this with your actual API endpoint
     const config = {
         // AWS API Gateway endpoint (update when ready)
-        awsEndpoint: null, // e.g., 'https://api.example.com/visitor-count'
+        awsEndpoint: 'http://localhost:5000/api/visitor-count', // Using mock API for development
 
         // GCP Cloud Functions endpoint (update when ready)
         gcpEndpoint: null, // e.g., 'https://us-central1-project.cloudfunctions.net/visitor-count'
