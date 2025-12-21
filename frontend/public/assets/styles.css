@@ -462,6 +462,15 @@ li::marker {
 }
 
 /* ============================================
+   PAGE SUBTITLES
+   ============================================ */
+.page-subtitle {
+    color: var(--color-text-lighter);
+    font-size: var(--font-lg);
+    margin-top: 10px;
+}
+
+/* ============================================
    MARKDOWN CONTENT
    ============================================ */
 .markdown-content {
