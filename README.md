@@ -3,4 +3,4 @@
 ## Projects
 - [Frontend](./frontend/README.md)
 
-- [Backend](./frontend/README.md)
+- [Backend](./backend/README.md)
