@@ -81,7 +81,6 @@ button:focus-visible,
 
 .nav-bar a.active {
     background: #2c3e50;
-    border-bottom: 3px solid #1a73e8;
 }
 
 .nav-right a {
