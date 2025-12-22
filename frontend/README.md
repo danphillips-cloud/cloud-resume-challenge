@@ -116,7 +116,7 @@ The code is also very easy to read and I feel that I could edit by hand without 
 
 ### Serving Static Website Locally
 
-I need to serve my static website locally so I can work with external stylesheets in a DEV environment. I'm using the [Live Server Extension for VSCode](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) for this. Sure, you can install an http server in CodeSpaces, but I'd rather not waste time troubleshooting when local dev just works.
+I need to serve my static website locally so I can work with external stylesheets in a DEV environment. I'm using the [Live Server Extension for VSCode](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) for this. You can install this in CodeSpaces, but that has other limitations and local dev "just works".
 
 CSS is not my strong suit. I do not have an eye for design, though I know what looks good. That is where Claude Code comes in to handle the heavy lifting while I fine tune. Here is an example PR that Claude Code generates:
 
