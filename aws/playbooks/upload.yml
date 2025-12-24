@@ -1,0 +1,50 @@
+---
+- name: Upload static site to S3
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  
+  vars_files:
+    - ../../vaults/prod.yml
+    
+  vars:
+    bucket_name: 'dphillipsonline-resume'
+    project_root: "{{ playbook_dir | realpath }}/../.."
+    site_dir: "{{ project_root }}/frontend"
+    # cloudfront_distribution_id: YOUR_DISTRIBUTION_ID  # Uncomment when you add CloudFront
+    
+  tasks:
+    - name: Confirm site directory exists
+      ansible.builtin.stat:
+        path: "{{ site_dir }}"
+      register: site_stat
+      
+    - name: Fail if site directory missing
+      ansible.builtin.fail:
+        msg: "Site dir {{ site_dir }} not found. Check path."
+      when: not site_stat.stat.exists
+      
+    - name: Sync static site files to S3
+      community.aws.s3_sync:
+        region: "{{ AWS_REGION }}"
+        aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+        aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+        bucket: "{{ bucket_name }}"
+        file_root: "{{ site_dir }}"
+        delete: true
+      register: sync_result
+      
+    # - name: Create CloudFront invalidation
+    #   community.aws.cloudfront_invalidation:
+    #     region: "{{ AWS_REGION }}"
+    #     aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+    #     aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+    #     distribution_id: "{{ cloudfront_distribution_id }}"
+    #     target_paths:
+    #       - "/*"
+    #     caller_reference: "{{ lookup('pipe', 'date +%s') }}"
+    #   register: invalidation_result
+    #   
+    # - name: Display invalidation ID
+    #   ansible.builtin.debug:
+    #     msg: "Invalidation created with ID: {{ invalidation_result.invalidation.id }}"
