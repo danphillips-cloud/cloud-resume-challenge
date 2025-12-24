@@ -5,13 +5,12 @@
   gather_facts: false
   
   vars:
-    template_path: "{{ (playbook_dir, 'template.yaml') | path_join | realpath }}"
+    template_path: "{{ (playbook_dir, '..', 'template.yaml') | path_join | realpath }}"
     cfn_parameters:
-      # Add your CloudFormation parameters here
-      # ParameterName: 'value'
+      BucketName: 'dphillipsonline-resume'
     
   vars_files:
-    - vaults/prod.yml
+    - ../../vaults/prod.yml
     
   tasks:
     - name: Deploy or Update CloudFormation stack
