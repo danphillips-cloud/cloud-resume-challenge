@@ -10,7 +10,7 @@
   vars:
     bucket_name: 'dphillipsonline-resume'
     project_root: "{{ playbook_dir | realpath }}/../.."
-    site_dir: "{{ project_root }}/frontend"
+    site_dir: "{{ project_root }}/frontend/public"
     # cloudfront_distribution_id: YOUR_DISTRIBUTION_ID  # Uncomment when you add CloudFront
     
   tasks:
