@@ -20,10 +20,11 @@ Lambda (visitor counter logic, NO VPC)
     ↓  
 DynamoDB (stores the count)
 
-## Install Ansible
+## Install Ansible and Dependancies
 
 ```sh
 pipx install --include-deps ansible
+pipx inject ansible boto3 botocore
 ansible-galaxy collection install amazon.aws
 
 ```
