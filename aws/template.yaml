@@ -1,11 +1,100 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Infrastructure for the Cloud Resume Challenge
+
 Parameters:
   BucketName:
     Type: String
-    Description: The name of the S3 bucket to create
+    Description: The name of the S3 bucket (e.g., dphillipsonline-resume)
+  # ACMCertificateArn:
+  #   Type: String
+  #   Description: ARN of ACM certificate for HTTPS (for danphillipsonline.com)
+
 Resources:
   Bucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Ref BucketName
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref Bucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AllowCloudFrontServicePrincipalReadOnly
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource: !Sub "arn:${AWS::Partition}:s3:::${BucketName}/*"
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub "arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}"
+
+  OriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Name: !Sub "${AWS::StackName}-oac"
+        OriginAccessControlOriginType: s3
+        SigningProtocol: sigv4
+        SigningBehavior: always
+
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Comment: !Sub "CloudFront for ${BucketName}"
+        PriceClass: PriceClass_100  # Free tier eligible: US, Canada, Europe
+        DefaultRootObject: index.html
+        # Aliases:
+        #   - danphillipsonline.com  # Uncomment when you add custom domain and ACM cert
+        Origins:
+          - Id: s3Origin
+            DomainName: !GetAtt Bucket.RegionalDomainName
+            S3OriginConfig: {}
+            OriginAccessControlId: !Ref OriginAccessControl
+        DefaultCacheBehavior:
+          TargetOriginId: s3Origin
+          ViewerProtocolPolicy: redirect-to-https
+          Compress: true
+          AllowedMethods: [GET, HEAD, OPTIONS]
+          CachedMethods: [GET, HEAD, OPTIONS]
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6  # Managed-CachingOptimized
+          OriginRequestPolicyId: 88a5eaf4-2fd4-4709-b370-b4c650ea3fcf  # Managed-CORS-S3Origin
+        CustomErrorResponses:
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+            ErrorCachingMinTTL: 10
+          - ErrorCode: 404
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+            ErrorCachingMinTTL: 10
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true  # Free CloudFront SSL
+        HttpVersion: http2and3
+
+Outputs:
+  BucketName:
+    Description: Name of the S3 bucket
+    Value: !Ref Bucket
+    
+  CloudFrontDistributionId:
+    Description: CloudFront Distribution ID (use this for cache invalidations)
+    Value: !Ref CloudFrontDistribution
+    
+  CloudFrontDomainName:
+    Description: CloudFront Distribution Domain Name
+    Value: !GetAtt CloudFrontDistribution.DomainName
+    
+  CloudFrontURL:
+    Description: Your site URL
+    Value: !Sub "https://${CloudFrontDistribution.DomainName}"
