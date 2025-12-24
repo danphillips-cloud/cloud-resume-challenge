@@ -1,0 +1,81 @@
+# Ansible Vault
+.vault_pass
+*.vault
+vaults/
+
+# Ansible
+*.retry
+.ansible/
+ansible.log
+*.cfg
+group_vars/vault.yml
+host_vars/*/vault.yml
+
+# AWS Credentials
+.aws/
+*.pem
+*.key
+
+# CloudFormation
+# Packaged templates (SAM)
+.aws-sam/
+packaged.yaml
+packaged.yml
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+.terraform.lock.hcl
+terraform.tfvars
+terraform.tfvars.json
+*.tfplan
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Sensitive data
+secrets.yml
+credentials.yml
+*.secret
+*.pem
+*.key
+*.crt

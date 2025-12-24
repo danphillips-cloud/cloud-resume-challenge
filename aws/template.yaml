@@ -12,8 +12,12 @@ Parameters:
 Resources:
   Bucket:
     Type: AWS::S3::Bucket
+    #https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-s3-bucket.html
     Properties:
       BucketName: !Ref BucketName
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        #ErrorDocument: error.html
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
