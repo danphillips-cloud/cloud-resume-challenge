@@ -8,7 +8,7 @@
     template_path: "{{ (playbook_dir, '..', 'template.yaml') | path_join | realpath }}"
     cfn_parameters:
       BucketName: 'dphillipsonline-resume'
-      # ACMCertificateArn: 'arn:aws:acm:us-east-1:085843960294:certificate/8c6d186b-89e6-474d-92a2-5924cde3f43a'
+      ACMCertificateArn: 'arn:aws:acm:us-east-1:085843960294:certificate/8c6d186b-89e6-474d-92a2-5924cde3f43a'
       
   vars_files:
     - ../../vaults/prod.yml

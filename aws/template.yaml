@@ -5,9 +5,9 @@ Parameters:
   BucketName:
     Type: String
     Description: The name of the S3 bucket (e.g., dphillipsonline-resume)
-  # ACMCertificateArn:
-  #   Type: String
-  #   Description: ARN of ACM certificate for HTTPS (for danphillipsonline.com)
+  ACMCertificateArn:
+    Type: String
+    Description: ARN of ACM certificate for HTTPS (for danphillipsonline.com)
 
 Resources:
   Bucket:
@@ -55,8 +55,9 @@ Resources:
         Comment: !Sub "CloudFront for ${BucketName}"
         PriceClass: PriceClass_100  # Free tier eligible: US, Canada, Europe
         DefaultRootObject: index.html
-        # Aliases:
-        #   - danphillipsonline.com  # Uncomment when you add custom domain and ACM cert
+        Aliases:
+          - danphillipsonline.com
+          - www.danphillipsonline.com
         Origins:
           - Id: s3Origin
             DomainName: !GetAtt Bucket.RegionalDomainName
@@ -80,7 +81,9 @@ Resources:
             ResponsePagePath: /index.html
             ErrorCachingMinTTL: 10
         ViewerCertificate:
-          CloudFrontDefaultCertificate: true  # Free CloudFront SSL
+          AcmCertificateArn: !Ref ACMCertificateArn
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
         HttpVersion: http2and3
 
 Outputs:
