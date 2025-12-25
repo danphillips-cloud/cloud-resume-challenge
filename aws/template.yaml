@@ -2,29 +2,41 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: Infrastructure for the Cloud Resume Challenge
 
 Parameters:
-  BucketName:
+  DomainName:
     Type: String
-    Description: The name of the S3 bucket (e.g., dphillipsonline-resume)
+    Description: Your domain name (e.g., danphillipsonline.com)
+    Default: danphillipsonline.com
   ACMCertificateArn:
     Type: String
-    Description: ARN of ACM certificate for HTTPS (for danphillipsonline.com)
+    Description: ARN of ACM certificate for HTTPS
 
 Resources:
-  Bucket:
+  # Main content bucket (private, for apex domain)
+  ApexBucket:
     Type: AWS::S3::Bucket
-    #https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-s3-bucket.html
     Properties:
-      BucketName: !Ref BucketName
+      BucketName: !Ref DomainName
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
         IgnorePublicAcls: true
         RestrictPublicBuckets: true
 
-  BucketPolicy:
+  # WWW redirect bucket (public, redirects to apex)
+  WwwBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "www.${DomainName}"
+      WebsiteConfiguration:
+        RedirectAllRequestsTo:
+          HostName: !Ref DomainName
+          Protocol: https
+
+  # Bucket policy for main content bucket
+  ApexBucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
-      Bucket: !Ref Bucket
+      Bucket: !Ref ApexBucket
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -33,11 +45,12 @@ Resources:
             Principal:
               Service: cloudfront.amazonaws.com
             Action: s3:GetObject
-            Resource: !Sub "arn:${AWS::Partition}:s3:::${BucketName}/*"
+            Resource: !Sub "arn:${AWS::Partition}:s3:::${DomainName}/*"
             Condition:
               StringEquals:
-                AWS:SourceArn: !Sub "arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}"
+                AWS:SourceArn: !Sub "arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${ApexCloudFrontDistribution}"
 
+  # Origin Access Control for main content
   OriginAccessControl:
     Type: AWS::CloudFront::OriginAccessControl
     Properties:
@@ -47,20 +60,20 @@ Resources:
         SigningProtocol: sigv4
         SigningBehavior: always
 
-  CloudFrontDistribution:
+  # CloudFront for apex domain (main site)
+  ApexCloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Enabled: true
-        Comment: !Sub "CloudFront for ${BucketName}"
-        PriceClass: PriceClass_100  # Free tier eligible: US, Canada, Europe
+        Comment: !Sub "CloudFront for ${DomainName}"
+        PriceClass: PriceClass_100
         DefaultRootObject: index.html
         Aliases:
-          - danphillipsonline.com
-          - www.danphillipsonline.com
+          - !Ref DomainName
         Origins:
           - Id: s3Origin
-            DomainName: !GetAtt Bucket.RegionalDomainName
+            DomainName: !GetAtt ApexBucket.RegionalDomainName
             S3OriginConfig: {}
             OriginAccessControlId: !Ref OriginAccessControl
         DefaultCacheBehavior:
@@ -69,8 +82,8 @@ Resources:
           Compress: true
           AllowedMethods: [GET, HEAD, OPTIONS]
           CachedMethods: [GET, HEAD, OPTIONS]
-          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6  # Managed-CachingOptimized
-          OriginRequestPolicyId: 88a5eaf4-2fd4-4709-b370-b4c650ea3fcf  # Managed-CORS-S3Origin
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+          OriginRequestPolicyId: 88a5eaf4-2fd4-4709-b370-b4c650ea3fcf
         CustomErrorResponses:
           - ErrorCode: 403
             ResponseCode: 200
@@ -86,19 +99,57 @@ Resources:
           MinimumProtocolVersion: TLSv1.2_2021
         HttpVersion: http2and3
 
+  # CloudFront for www redirect
+  WwwCloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Comment: !Sub "Redirect www.${DomainName} -> ${DomainName}"
+        PriceClass: PriceClass_100
+        Aliases:
+          - !Sub "www.${DomainName}"
+        Origins:
+          - Id: s3-website-redirect
+            DomainName: !Select [2, !Split ["/", !GetAtt WwwBucket.WebsiteURL]]
+            CustomOriginConfig:
+              OriginProtocolPolicy: http-only
+              HTTPPort: 80
+              OriginSSLProtocols: [TLSv1.2]
+        DefaultCacheBehavior:
+          TargetOriginId: s3-website-redirect
+          ViewerProtocolPolicy: redirect-to-https
+          Compress: true
+          AllowedMethods: [GET, HEAD]
+          CachedMethods: [GET, HEAD]
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+        ViewerCertificate:
+          AcmCertificateArn: !Ref ACMCertificateArn
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
+        HttpVersion: http2and3
+
 Outputs:
-  BucketName:
-    Description: Name of the S3 bucket
-    Value: !Ref Bucket
+  ApexBucketName:
+    Description: Name of the main S3 bucket (upload your site here)
+    Value: !Ref ApexBucket
     
-  CloudFrontDistributionId:
-    Description: CloudFront Distribution ID (use this for cache invalidations)
-    Value: !Ref CloudFrontDistribution
+  WwwBucketName:
+    Description: Name of the www redirect bucket
+    Value: !Ref WwwBucket
     
-  CloudFrontDomainName:
-    Description: CloudFront Distribution Domain Name
-    Value: !GetAtt CloudFrontDistribution.DomainName
+  ApexCloudFrontDistributionId:
+    Description: CloudFront Distribution ID for apex domain (use for cache invalidations)
+    Value: !Ref ApexCloudFrontDistribution
     
-  CloudFrontURL:
+  WwwCloudFrontDistributionId:
+    Description: CloudFront Distribution ID for www redirect
+    Value: !Ref WwwCloudFrontDistribution
+    
+  ApexCloudFrontDomainName:
+    Description: CloudFront Domain Name for apex
+    Value: !GetAtt ApexCloudFrontDistribution.DomainName
+    
+  SiteURL:
     Description: Your site URL
-    Value: !Sub "https://${CloudFrontDistribution.DomainName}"
+    Value: !Sub "https://${DomainName}"
