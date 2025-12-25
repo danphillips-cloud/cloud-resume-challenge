@@ -11,32 +11,32 @@ Parameters:
     Description: ARN of ACM certificate for HTTPS
 
 Resources:
-  # Main content bucket (private, for apex domain)
-  ApexBucket:
+  # WWW content bucket (private, holds actual site files)
+  WwwBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Ref DomainName
+      BucketName: !Sub "www.${DomainName}"
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
         IgnorePublicAcls: true
         RestrictPublicBuckets: true
 
-  # WWW redirect bucket (public, redirects to apex)
-  WwwBucket:
+  # Apex redirect bucket (public, redirects to www)
+  ApexBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub "www.${DomainName}"
+      BucketName: !Ref DomainName
       WebsiteConfiguration:
         RedirectAllRequestsTo:
-          HostName: !Ref DomainName
+          HostName: !Sub "www.${DomainName}"
           Protocol: https
 
-  # Bucket policy for main content bucket
-  ApexBucketPolicy:
+  # Bucket policy for www content bucket
+  WwwBucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
-      Bucket: !Ref ApexBucket
+      Bucket: !Ref WwwBucket
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -45,12 +45,12 @@ Resources:
             Principal:
               Service: cloudfront.amazonaws.com
             Action: s3:GetObject
-            Resource: !Sub "arn:${AWS::Partition}:s3:::${DomainName}/*"
+            Resource: !Sub "arn:${AWS::Partition}:s3:::www.${DomainName}/*"
             Condition:
               StringEquals:
-                AWS:SourceArn: !Sub "arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${ApexCloudFrontDistribution}"
+                AWS:SourceArn: !Sub "arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${WwwCloudFrontDistribution}"
 
-  # Origin Access Control for main content
+  # Origin Access Control for www content
   OriginAccessControl:
     Type: AWS::CloudFront::OriginAccessControl
     Properties:
@@ -60,20 +60,20 @@ Resources:
         SigningProtocol: sigv4
         SigningBehavior: always
 
-  # CloudFront for apex domain (main site)
-  ApexCloudFrontDistribution:
+  # CloudFront for www (main site)
+  WwwCloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Enabled: true
-        Comment: !Sub "CloudFront for ${DomainName}"
+        Comment: !Sub "CloudFront for www.${DomainName}"
         PriceClass: PriceClass_100
         DefaultRootObject: index.html
         Aliases:
-          - !Ref DomainName
+          - !Sub "www.${DomainName}"
         Origins:
           - Id: s3Origin
-            DomainName: !GetAtt ApexBucket.RegionalDomainName
+            DomainName: !GetAtt WwwBucket.RegionalDomainName
             S3OriginConfig: {}
             OriginAccessControlId: !Ref OriginAccessControl
         DefaultCacheBehavior:
@@ -99,19 +99,19 @@ Resources:
           MinimumProtocolVersion: TLSv1.2_2021
         HttpVersion: http2and3
 
-  # CloudFront for www redirect
-  WwwCloudFrontDistribution:
+  # CloudFront for apex redirect
+  ApexCloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Enabled: true
-        Comment: !Sub "Redirect www.${DomainName} -> ${DomainName}"
+        Comment: !Sub "Redirect ${DomainName} -> www.${DomainName}"
         PriceClass: PriceClass_100
         Aliases:
-          - !Sub "www.${DomainName}"
+          - !Ref DomainName
         Origins:
           - Id: s3-website-redirect
-            DomainName: !Select [2, !Split ["/", !GetAtt WwwBucket.WebsiteURL]]
+            DomainName: !Select [2, !Split ["/", !GetAtt ApexBucket.WebsiteURL]]
             CustomOriginConfig:
               OriginProtocolPolicy: http-only
               HTTPPort: 80
@@ -130,26 +130,26 @@ Resources:
         HttpVersion: http2and3
 
 Outputs:
-  ApexBucketName:
-    Description: Name of the main S3 bucket (upload your site here)
-    Value: !Ref ApexBucket
-    
   WwwBucketName:
-    Description: Name of the www redirect bucket
+    Description: Name of the main S3 bucket (upload your site here)
     Value: !Ref WwwBucket
     
-  ApexCloudFrontDistributionId:
-    Description: CloudFront Distribution ID for apex domain (use for cache invalidations)
-    Value: !Ref ApexCloudFrontDistribution
+  ApexBucketName:
+    Description: Name of the apex redirect bucket
+    Value: !Ref ApexBucket
     
   WwwCloudFrontDistributionId:
-    Description: CloudFront Distribution ID for www redirect
+    Description: CloudFront Distribution ID for www (use for cache invalidations)
     Value: !Ref WwwCloudFrontDistribution
     
-  ApexCloudFrontDomainName:
-    Description: CloudFront Domain Name for apex
-    Value: !GetAtt ApexCloudFrontDistribution.DomainName
+  ApexCloudFrontDistributionId:
+    Description: CloudFront Distribution ID for apex redirect
+    Value: !Ref ApexCloudFrontDistribution
+    
+  WwwCloudFrontDomainName:
+    Description: CloudFront Domain Name for www
+    Value: !GetAtt WwwCloudFrontDistribution.DomainName
     
   SiteURL:
     Description: Your site URL
-    Value: !Sub "https://${DomainName}"
+    Value: !Sub "https://www.${DomainName}"
