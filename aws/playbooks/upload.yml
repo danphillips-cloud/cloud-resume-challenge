@@ -8,10 +8,10 @@
     - ../../vaults/prod.yml
     
   vars:
-    bucket_name: 'dphillipsonline-resume'
+    bucket_name: 'danphillipsonline.com'
     project_root: "{{ playbook_dir | realpath }}/../.."
     site_dir: "{{ project_root }}/frontend/public"
-    cloudfront_distribution_id: E2ZJX066XATGJJ
+    cloudfront_distribution_id: EEN5OIGV5JHHT
     
   tasks:
     - name: Confirm site directory exists
