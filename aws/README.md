@@ -176,13 +176,3 @@ ansible-vault create vaults/prod.yml
 echo "your-new-password" > .vault_pass
 chmod 600 .vault_pass
 ```
-
-## Next Steps: Visitor Counter
-
-The next phase implements a serverless visitor counter:
-
-1. **DynamoDB Table**: Stores visit count with atomic increment
-2. **Lambda Function**: Python function to increment and return count
-3. **API Gateway**: REST endpoint at `api.danphillipsonline.com/counter`
-4. **Frontend Integration**: JavaScript fetch() to display count
-5. **Infrastructure as Code**: Terraform for API resources
