@@ -18,16 +18,12 @@ resource "google_storage_bucket" "static_site" {
 
   # CORS configuration for future API calls (visitor counter)
   cors {
-    origin          = ["https://${var.domain_name}", "https://${var.www_domain_name}"]
+    origin          = ["http://${var.www_domain_name}"]
     method          = ["GET", "HEAD", "POST"]
     response_header = ["Content-Type"]
     max_age_seconds = 3600
   }
 }
 
-# Make bucket publicly readable
-resource "google_storage_bucket_iam_member" "public_read" {
-  bucket = google_storage_bucket.static_site.name
-  role   = "roles/storage.objectViewer"
-  member = "allUsers"
-}
+# Note: Public access will be set via object-level ACLs after upload
+# Organization policy blocks bucket-level allUsers access

@@ -6,20 +6,20 @@
   
   vars:
     terraform_dir: "../terraform"
-    static_site_dir: "../../frontend"  # Changed from ../static-site
+    static_site_dir: "../../frontend/public"
     
   vars_files:
     - group_vars/all/vault.yml
     
   tasks:
-    - name: Check if frontend directory exists
+    - name: Check if frontend/public directory exists
       stat:
         path: "{{ static_site_dir }}"
       register: site_dir
 
-    - name: Fail if no frontend found
+    - name: Fail if no frontend/public found
       fail:
-        msg: "Frontend directory not found: {{ static_site_dir }}"
+        msg: "Frontend/public directory not found: {{ static_site_dir }}"
       when: not site_dir.stat.exists
 
     - name: Get bucket name from Terraform
@@ -52,6 +52,16 @@
       debug:
         var: sync_result.stdout_lines
 
+    - name: Make all objects publicly readable
+      shell: |
+        gsutil -m acl ch -r -u AllUsers:R gs://{{ bucket_name }}/*
+      register: acl_result
+      failed_when: false
+
+    - name: Display ACL result
+      debug:
+        msg: "{{ 'Objects made public' if acl_result.rc == 0 else 'Note: Could not set public ACLs - you may need to set permissions manually' }}"
+
     - name: Set cache control for HTML files (5 minutes)
       shell: |
         gsutil -m setmeta \
@@ -76,13 +86,13 @@
       register: js_cache
       failed_when: false
 
-    - name: Get bucket URL
-      command: terraform output -raw bucket_url
+    - name: Get CNAME target from Terraform
+      command: terraform output -raw cname_target
       args:
         chdir: "{{ terraform_dir }}"
       environment:
         GOOGLE_APPLICATION_CREDENTIALS: "{{ gcp_service_account_key }}"
-      register: bucket_url_output
+      register: cname_output
       changed_when: false
 
     - name: Display success message
@@ -94,5 +104,14 @@
           - ""
           - "Bucket: gs://{{ bucket_name }}"
           - ""
-          - "Access your site at:"
-          - "{{ bucket_url_output.stdout }}"
+          - "Next Steps:"
+          - "1. Add CNAME record in Cloud DNS:"
+          - "   Name: www"
+          - "   Type: CNAME"
+          - "   Value: {{ cname_output.stdout }}"
+          - ""
+          - "2. After DNS propagates, access at:"
+          - "   http://www.danphillips.cloud"
+          - ""
+          - "Direct access (works now):"
+          - "   http://storage.googleapis.com/{{ bucket_name }}/index.html"
