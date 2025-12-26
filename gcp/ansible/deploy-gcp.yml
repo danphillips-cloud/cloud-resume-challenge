@@ -108,10 +108,9 @@
           ============================================
           
           This will create:
-          - GCS bucket for static site hosting
-          - Load Balancer with Cloud CDN
-          - Static IP address
-          - SSL certificate (auto-provisioning)
+          - Public GCS bucket for static site hosting
+          - IAM policy for public read access
+
           
           Press ENTER to apply or Ctrl+C to cancel
       when: tf_plan.rc == 0
@@ -155,11 +154,12 @@
           - ""
           - "2. Set up Cloudflare:"
           - "   - Add danphillips.cloud to Cloudflare"
-          - "   - Create CNAME: www -> {{ tf_outputs.cloudflare_origin.value }}"
-          - "   - Enable proxy (orange cloud)"
+          - "   - Create CNAME: danphillips.cloud -> {{ tf_outputs.cloudflare_origin.value }}"
+          - "   - Create CNAME: www.danphillips.cloud -> {{ tf_outputs.cloudflare_origin.value }}"
+          - "   - Enable proxy (orange cloud) for both"
           - "   - SSL mode: Full"
           - ""
-          - "Cloudflare will provide free SSL + CDN!"
+          - "Cloudflare provides free SSL + CDN!"
 
     - name: Save outputs to file
       copy:

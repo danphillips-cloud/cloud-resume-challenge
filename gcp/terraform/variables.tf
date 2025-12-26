@@ -1,6 +1,13 @@
-variable "project_id" {
-  description = "danphillips-cloud-crc"
+variable "gcp_credentials" {
+  description = "GCP service account credentials JSON"
   type        = string
+  sensitive   = true
+}
+
+variable "project_id" {
+  description = "GCP Project ID"
+  type        = string
+  default     = "danphillips-cloud-crc"
 }
 
 variable "region" {
@@ -12,16 +19,5 @@ variable "region" {
 variable "bucket_name" {
   description = "Name of the GCS bucket for static site (must be globally unique)"
   type        = string
-}
-
-variable "domain_name" {
-  description = "Primary domain name"
-  type        = string
   default     = "danphillips.cloud"
-}
-
-variable "www_domain_name" {
-  description = "WWW subdomain"
-  type        = string
-  default     = "www.danphillips.cloud"
 }

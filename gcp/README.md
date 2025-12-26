@@ -15,3 +15,4 @@ I will need to set this enviornment variable so that Terraform can autheticate t
 export GOOGLE_APPLICATION_CREDENTIALS=/danph/cloud-resume-challenge/gcp/gcp-key.json
 ```
 
+I have soooooooooooooo much more to add. My GCP + Terrform journey was wroght with IAM issues, but I got it done. danphillips.cloud is now live on GCP. 
