@@ -1,0 +1,166 @@
+---
+- name: Deploy GCP Cloud Resume Challenge Infrastructure
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  
+  vars:
+    terraform_dir: "../terraform"
+    gcp_project_id: "danphillips-cloud-crc"
+    
+  vars_files:
+    - group_vars/all/vault.yml
+    
+  tasks:
+    - name: Check prerequisites
+      block:
+        - name: Verify Terraform is installed
+          command: terraform version
+          register: terraform_version
+          changed_when: false
+
+        - name: Display Terraform version
+          debug:
+            msg: "{{ terraform_version.stdout_lines[0] }}"
+
+        - name: Verify gcloud is installed
+          command: gcloud version
+          register: gcloud_version
+          changed_when: false
+          failed_when: false
+
+        - name: Display gcloud version
+          debug:
+            msg: "{{ gcloud_version.stdout_lines[0] }}"
+          when: gcloud_version.rc == 0
+
+    - name: Setup GCP authentication
+      block:
+        - name: Check if service account key file exists
+          stat:
+            path: "{{ gcp_service_account_key }}"
+          register: sa_key_file
+          when: gcp_service_account_key is defined
+
+        - name: Authenticate with service account
+          shell: gcloud auth activate-service-account --key-file={{ gcp_service_account_key }}
+          when: 
+            - gcp_service_account_key is defined
+            - sa_key_file.stat.exists
+
+        - name: Set GCP project
+          command: gcloud config set project {{ gcp_project_id }}
+          changed_when: false
+
+        - name: Set environment variable for Terraform
+          set_fact:
+            terraform_env:
+              GOOGLE_APPLICATION_CREDENTIALS: "{{ gcp_service_account_key }}"
+          when: gcp_service_account_key is defined
+
+    - name: Initialize Terraform
+      command: terraform init -upgrade
+      args:
+        chdir: "{{ terraform_dir }}"
+      environment: "{{ terraform_env | default({}) }}"
+      register: tf_init
+
+    - name: Display Terraform initialization
+      debug:
+        var: tf_init.stdout_lines
+
+    - name: Validate Terraform configuration
+      command: terraform validate
+      args:
+        chdir: "{{ terraform_dir }}"
+      environment: "{{ terraform_env | default({}) }}"
+      register: tf_validate
+
+    - name: Show validation result
+      debug:
+        msg: "✓ Terraform configuration is valid"
+      when: tf_validate.rc == 0
+
+    - name: Format Terraform files
+      command: terraform fmt -recursive
+      args:
+        chdir: "{{ terraform_dir }}"
+      register: tf_fmt
+      changed_when: tf_fmt.stdout != ""
+
+    - name: Plan Terraform deployment
+      command: terraform plan -out=tfplan
+      args:
+        chdir: "{{ terraform_dir }}"
+      environment: "{{ terraform_env | default({}) }}"
+      register: tf_plan
+
+    - name: Display Terraform plan
+      debug:
+        var: tf_plan.stdout_lines
+
+    - name: Prompt for confirmation
+      pause:
+        prompt: |
+          
+          ============================================
+          Review the Terraform plan above.
+          ============================================
+          
+          This will create:
+          - GCS bucket for static site hosting
+          - Public access configuration
+          - CORS configuration
+          
+          Press ENTER to apply or Ctrl+C to cancel
+      when: tf_plan.rc == 0
+
+    - name: Apply Terraform configuration
+      command: terraform apply tfplan
+      args:
+        chdir: "{{ terraform_dir }}"
+      environment: "{{ terraform_env | default({}) }}"
+      register: tf_apply
+
+    - name: Display apply results
+      debug:
+        var: tf_apply.stdout_lines
+
+    - name: Retrieve Terraform outputs
+      command: terraform output -json
+      args:
+        chdir: "{{ terraform_dir }}"
+      environment: "{{ terraform_env | default({}) }}"
+      register: tf_outputs_raw
+      changed_when: false
+
+    - name: Parse Terraform outputs
+      set_fact:
+        tf_outputs: "{{ tf_outputs_raw.stdout | from_json }}"
+
+    - name: Display deployment summary
+      debug:
+        msg:
+          - "=========================================="
+          - "GCP Cloud Resume Challenge - Deployed!"
+          - "=========================================="
+          - ""
+          - "Bucket: {{ tf_outputs.bucket_name.value }}"
+          - "Site URL: {{ tf_outputs.bucket_url.value }}"
+          - ""
+          - "Next Steps:"
+          - "1. Upload your static files:"
+          - "   ansible-playbook upload-gcp.yml --vault-password-file ../../.vault_pass"
+          - ""
+          - "2. Visit your site:"
+          - "   {{ tf_outputs.bucket_url.value }}"
+
+    - name: Save outputs to file
+      copy:
+        content: "{{ tf_outputs | to_nice_json }}"
+        dest: "{{ terraform_dir }}/outputs.json"
+
+    - name: Clean up plan file
+      file:
+        path: "{{ terraform_dir }}/tfplan"
+        state: absent
