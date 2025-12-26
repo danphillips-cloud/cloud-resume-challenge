@@ -12,14 +12,14 @@
     - group_vars/all/vault.yml
     
   tasks:
-    - name: Check if frontend/public directory exists
+    - name: Check if frontend directory exists
       stat:
         path: "{{ static_site_dir }}"
       register: site_dir
 
-    - name: Fail if no frontend/public found
+    - name: Fail if no frontend found
       fail:
-        msg: "Frontend/public directory not found: {{ static_site_dir }}"
+        msg: "Frontend directory not found: {{ static_site_dir }}"
       when: not site_dir.stat.exists
 
     - name: Get bucket name from Terraform
@@ -52,16 +52,6 @@
       debug:
         var: sync_result.stdout_lines
 
-    - name: Make all objects publicly readable
-      shell: |
-        gsutil -m acl ch -r -u AllUsers:R gs://{{ bucket_name }}/*
-      register: acl_result
-      failed_when: false
-
-    - name: Display ACL result
-      debug:
-        msg: "{{ 'Objects made public' if acl_result.rc == 0 else 'Note: Could not set public ACLs - you may need to set permissions manually' }}"
-
     - name: Set cache control for HTML files (5 minutes)
       shell: |
         gsutil -m setmeta \
@@ -86,13 +76,32 @@
       register: js_cache
       failed_when: false
 
-    - name: Get CNAME target from Terraform
-      command: terraform output -raw cname_target
+    - name: Purge Cloudflare cache
+      uri:
+        url: "https://api.cloudflare.com/client/v4/zones/{{ cloudflare_zone_id }}/purge_cache"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ cloudflare_api_token }}"
+          Content-Type: "application/json"
+        body_format: json
+        body:
+          purge_everything: true
+        status_code: 200
+      register: purge_result
+      when: cloudflare_api_token is defined and cloudflare_zone_id is defined
+
+    - name: Display cache purge result
+      debug:
+        msg: "✓ Cloudflare cache purged successfully"
+      when: purge_result is succeeded
+
+    - name: Get Cloudflare origin from Terraform
+      command: terraform output -raw cloudflare_origin
       args:
         chdir: "{{ terraform_dir }}"
       environment:
         GOOGLE_APPLICATION_CREDENTIALS: "{{ gcp_service_account_key }}"
-      register: cname_output
+      register: cloudflare_origin_output
       changed_when: false
 
     - name: Display success message
@@ -103,15 +112,9 @@
           - "=========================================="
           - ""
           - "Bucket: gs://{{ bucket_name }}"
+          - "Website: https://danphillips.cloud"
           - ""
-          - "Next Steps:"
-          - "1. Add CNAME record in Cloud DNS:"
-          - "   Name: www"
-          - "   Type: CNAME"
-          - "   Value: {{ cname_output.stdout }}"
+          - "Cache purged: {{ 'Yes' if purge_result is succeeded else 'Skipped (no Cloudflare credentials)' }}"
           - ""
-          - "2. After DNS propagates, access at:"
-          - "   http://www.danphillips.cloud"
-          - ""
-          - "Direct access (works now):"
-          - "   http://storage.googleapis.com/{{ bucket_name }}/index.html"
+          - "Direct GCS access:"
+          - "   https://storage.googleapis.com/{{ bucket_name }}/index.html"
