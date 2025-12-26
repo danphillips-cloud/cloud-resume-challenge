@@ -1,11 +1,12 @@
 provider "google" {
-  project     = "danphillips-cloud-crc"
-  region      = "us-east1"
+  project = var.project_id
+  region  = var.region
 }
 
-resource "google_storage_bucket" "static-site" {
-  name          = vars.bucket_name
-  location      = "US-EAST1"
+# Storage bucket for static site
+resource "google_storage_bucket" "static_site" {
+  name          = var.bucket_name
+  location      = "US"
   force_destroy = true
 
   uniform_bucket_level_access = true
@@ -14,16 +15,19 @@ resource "google_storage_bucket" "static-site" {
     main_page_suffix = "index.html"
     not_found_page   = "404.html"
   }
-  # cors {
-  #   origin          = ["http://image-store.com"]
-  #   method          = ["GET", "HEAD", "PUT", "POST", "DELETE"]
-  #   response_header = ["*"]
-  #   max_age_seconds = 3600
-  # }
-  # cors {
-  #   origin            = ["http://image-store.com"]
-  #   method            = ["GET", "HEAD", "PUT", "POST", "DELETE"]
-  #   response_header   = ["*"]
-  #   max_age_seconds   = 0
-  # }
+
+  # CORS configuration for future API calls (visitor counter)
+  cors {
+    origin          = ["https://${var.domain_name}", "https://${var.www_domain_name}"]
+    method          = ["GET", "HEAD", "POST"]
+    response_header = ["Content-Type"]
+    max_age_seconds = 3600
+  }
+}
+
+# Make bucket publicly readable
+resource "google_storage_bucket_iam_member" "public_read" {
+  bucket = google_storage_bucket.static_site.name
+  role   = "roles/storage.objectViewer"
+  member = "allUsers"
 }

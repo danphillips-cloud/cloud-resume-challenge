@@ -1,0 +1,98 @@
+---
+- name: Upload Static Site to GCS
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  
+  vars:
+    terraform_dir: "../terraform"
+    static_site_dir: "../../frontend"  # Changed from ../static-site
+    
+  vars_files:
+    - group_vars/all/vault.yml
+    
+  tasks:
+    - name: Check if frontend directory exists
+      stat:
+        path: "{{ static_site_dir }}"
+      register: site_dir
+
+    - name: Fail if no frontend found
+      fail:
+        msg: "Frontend directory not found: {{ static_site_dir }}"
+      when: not site_dir.stat.exists
+
+    - name: Get bucket name from Terraform
+      command: terraform output -raw bucket_name
+      args:
+        chdir: "{{ terraform_dir }}"
+      environment:
+        GOOGLE_APPLICATION_CREDENTIALS: "{{ gcp_service_account_key }}"
+      register: bucket_name_output
+      changed_when: false
+
+    - name: Set bucket name
+      set_fact:
+        bucket_name: "{{ bucket_name_output.stdout }}"
+
+    - name: Display upload info
+      debug:
+        msg:
+          - "Uploading files from: {{ static_site_dir }}"
+          - "To GCS bucket: {{ bucket_name }}"
+
+    - name: Sync files to GCS
+      command: >
+        gsutil -m rsync -r -d -c
+        {{ static_site_dir }}/
+        gs://{{ bucket_name }}/
+      register: sync_result
+
+    - name: Display sync results
+      debug:
+        var: sync_result.stdout_lines
+
+    - name: Set cache control for HTML files (5 minutes)
+      shell: |
+        gsutil -m setmeta \
+          -h "Cache-Control:public, max-age=300" \
+          gs://{{ bucket_name }}/*.html
+      register: html_cache
+      failed_when: false
+
+    - name: Set cache control for CSS files (1 year)
+      shell: |
+        gsutil -m setmeta \
+          -h "Cache-Control:public, max-age=31536000, immutable" \
+          gs://{{ bucket_name }}/*.css
+      register: css_cache
+      failed_when: false
+
+    - name: Set cache control for JS files (1 year)
+      shell: |
+        gsutil -m setmeta \
+          -h "Cache-Control:public, max-age=31536000, immutable" \
+          gs://{{ bucket_name }}/*.js
+      register: js_cache
+      failed_when: false
+
+    - name: Get bucket URL
+      command: terraform output -raw bucket_url
+      args:
+        chdir: "{{ terraform_dir }}"
+      environment:
+        GOOGLE_APPLICATION_CREDENTIALS: "{{ gcp_service_account_key }}"
+      register: bucket_url_output
+      changed_when: false
+
+    - name: Display success message
+      debug:
+        msg:
+          - "=========================================="
+          - "Files uploaded successfully!"
+          - "=========================================="
+          - ""
+          - "Bucket: gs://{{ bucket_name }}"
+          - ""
+          - "Access your site at:"
+          - "{{ bucket_url_output.stdout }}"
