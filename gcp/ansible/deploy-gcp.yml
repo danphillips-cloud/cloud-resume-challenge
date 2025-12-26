@@ -109,8 +109,9 @@
           
           This will create:
           - GCS bucket for static site hosting
-          - Public access configuration
-          - CORS configuration
+          - Load Balancer with Cloud CDN
+          - Static IP address
+          - SSL certificate (auto-provisioning)
           
           Press ENTER to apply or Ctrl+C to cancel
       when: tf_plan.rc == 0
@@ -146,14 +147,19 @@
           - "=========================================="
           - ""
           - "Bucket: {{ tf_outputs.bucket_name.value }}"
-          - "Site URL: {{ tf_outputs.bucket_url.value }}"
+          - "Bucket URL: {{ tf_outputs.bucket_url.value }}"
           - ""
           - "Next Steps:"
           - "1. Upload your static files:"
           - "   ansible-playbook upload-gcp.yml --vault-password-file ../../.vault_pass"
           - ""
-          - "2. Visit your site:"
-          - "   {{ tf_outputs.bucket_url.value }}"
+          - "2. Set up Cloudflare:"
+          - "   - Add danphillips.cloud to Cloudflare"
+          - "   - Create CNAME: www -> {{ tf_outputs.cloudflare_origin.value }}"
+          - "   - Enable proxy (orange cloud)"
+          - "   - SSL mode: Full"
+          - ""
+          - "Cloudflare will provide free SSL + CDN!"
 
     - name: Save outputs to file
       copy:
