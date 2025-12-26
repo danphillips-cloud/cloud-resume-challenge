@@ -1,0 +1,84 @@
+---
+- name: Destroy GCP Cloud Resume Challenge Infrastructure
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  
+  vars:
+    terraform_dir: "../terraform"
+    
+  vars_files:
+    - group_vars/all/vault.yml
+    
+  tasks:
+    - name: WARNING - This will destroy all infrastructure
+      debug:
+        msg:
+          - "=========================================="
+          - "WARNING: DESTRUCTIVE OPERATION"
+          - "=========================================="
+          - ""
+          - "This will destroy:"
+          - "- GCS bucket and all files"
+          - "- All bucket configurations"
+          - ""
+          - "This cannot be undone!"
+
+    - name: First confirmation
+      pause:
+        prompt: "Type 'destroy' to continue or Ctrl+C to abort"
+      register: confirm1
+
+    - name: Verify destroy confirmation
+      fail:
+        msg: "Destruction cancelled"
+      when: confirm1.user_input != "destroy"
+
+    - name: Show what will be destroyed
+      command: terraform plan -destroy
+      args:
+        chdir: "{{ terraform_dir }}"
+      environment:
+        GOOGLE_APPLICATION_CREDENTIALS: "{{ gcp_service_account_key }}"
+      register: destroy_plan
+
+    - name: Display destroy plan
+      debug:
+        var: destroy_plan.stdout_lines
+
+    - name: Final confirmation
+      pause:
+        prompt: "Press ENTER to proceed with destruction or Ctrl+C to abort"
+
+    - name: Destroy infrastructure
+      command: terraform destroy -auto-approve
+      args:
+        chdir: "{{ terraform_dir }}"
+      environment:
+        GOOGLE_APPLICATION_CREDENTIALS: "{{ gcp_service_account_key }}"
+      register: destroy_result
+
+    - name: Display destruction results
+      debug:
+        var: destroy_result.stdout_lines
+
+    - name: Cleanup local files
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ terraform_dir }}/terraform.tfstate.backup"
+        - "{{ terraform_dir }}/outputs.json"
+      failed_when: false
+
+    - name: Summary
+      debug:
+        msg:
+          - "=========================================="
+          - "Infrastructure destroyed"
+          - "=========================================="
+          - ""
+          - "Terraform state files remain for recovery."
+          - "To completely clean up, manually delete:"
+          - "- {{ terraform_dir }}/.terraform/"
+          - "- {{ terraform_dir }}/terraform.tfstate"
