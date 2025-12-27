@@ -129,6 +129,45 @@ button:focus-visible,
     align-items: center;
 }
 
+.hamburger {
+    display: none;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 15px;
+    gap: 5px;
+    z-index: 1001;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: var(--color-bg-white);
+    transition: all var(--transition-normal);
+    border-radius: 2px;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(7px, 7px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.nav-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
 .nav-left {
     display: flex;
 }
@@ -874,32 +913,55 @@ li::marker {
 
     /* Compact navigation */
     .nav-bar {
+        padding: 0;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: var(--color-bg-nav);
         flex-direction: column;
         align-items: stretch;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height var(--transition-normal);
+        box-shadow: var(--shadow-md);
+    }
+
+    .nav-menu.active {
+        max-height: 500px;
     }
 
     .nav-left {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        display: flex;
+        flex-direction: column;
         width: 100%;
     }
 
     .nav-bar a {
-        padding: 14px var(--spacing-sm);
-        font-size: 13px;
-        text-align: center;
-        justify-content: center;
+        padding: 16px var(--spacing-lg);
+        font-size: var(--font-base);
+        text-align: left;
+        justify-content: flex-start;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .nav-right {
+        display: flex;
         justify-content: center;
-        padding: 10px 0;
-        gap: var(--spacing-md);
-        border-top: 1px solid #2c2c2c;
+        padding: var(--spacing-md) 0;
+        gap: var(--spacing-xl);
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .nav-right a {
-        padding: 10px var(--spacing-md);
+        padding: var(--spacing-md);
     }
 
     /* Typography */
