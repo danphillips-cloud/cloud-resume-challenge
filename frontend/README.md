@@ -155,3 +155,9 @@ After all these branches and changes, I did my own code review and found things 
 - CSS variables and DRY principles
 
 There's still some navigation/SVG duplication and other optimizations to tackle, but I'll leverage AWS/GCP tooling for that.
+
+## Mobile Design Testing
+
+Even if you tell your AI Agent to make something compatible with mobile, always check for yourself. I found an issue where the nav bar was cutting off my profile picture on every page which was easy to fix. This can easily be tested using your browser's dev tools where you can toggle different views for mobile. Here, I've added hamburger menu for navigation. 
+
+![](./docs/mobile-testing.png)
