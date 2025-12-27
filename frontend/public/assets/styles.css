@@ -724,28 +724,57 @@ li::marker {
         border-width: 3px;
     }
 
-    /* Navigation */
+    /* Navigation - Hamburger menu for tablets and mobile */
     .nav-bar {
-        flex-wrap: wrap;
+        padding: 0;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: var(--color-bg-nav);
+        flex-direction: column;
+        align-items: stretch;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height var(--transition-normal);
+        box-shadow: var(--shadow-md);
+    }
+
+    .nav-menu.active {
+        max-height: 500px;
     }
 
     .nav-left {
-        flex: 1;
-        justify-content: flex-start;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
     }
 
     .nav-bar a {
         padding: 16px var(--spacing-lg);
         font-size: var(--font-base);
+        text-align: left;
+        justify-content: flex-start;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .nav-right {
-        padding-right: var(--spacing-md);
-        gap: var(--spacing-xs);
+        display: flex;
+        justify-content: center;
+        padding: var(--spacing-md) 0;
+        gap: var(--spacing-xl);
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .nav-right a {
-        padding: 16px var(--spacing-sm);
+        padding: var(--spacing-md);
     }
 
     /* Typography */
