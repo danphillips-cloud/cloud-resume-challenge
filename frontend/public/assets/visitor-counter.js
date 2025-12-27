@@ -131,8 +131,8 @@ class VisitorCounter {
 document.addEventListener('DOMContentLoaded', () => {
     // Configuration object - update this with your actual API endpoint
     const config = {
-        // AWS API Gateway endpoint (update when ready)
-        awsEndpoint: 'http://localhost:5000/api/visitor-count', // Using mock API for development
+        // AWS API Gateway endpoint
+        awsEndpoint: 'https://snlumyz5k2.execute-api.us-east-1.amazonaws.com/prod/counter',
 
         // GCP Cloud Functions endpoint (update when ready)
         gcpEndpoint: null, // e.g., 'https://us-central1-project.cloudfunctions.net/visitor-count'

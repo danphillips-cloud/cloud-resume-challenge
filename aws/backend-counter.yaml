@@ -37,12 +37,12 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: !Ref VisitorCounterTable
       Events:
-        GetVisitorCount:
+        PostVisitorCount:
           Type: Api
           Properties:
             RestApiId: !Ref VisitorCounterApi
             Path: /counter
-            Method: GET
+            Method: POST
       Tags:
         Project: CloudResumeChallenge
   # API Gateway
@@ -52,7 +52,7 @@ Resources:
       Name: cloud-resume-api
       StageName: prod
       Cors:
-        AllowMethods: "'GET, OPTIONS'"
+        AllowMethods: "'POST, GET, OPTIONS'"
         AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
         AllowOrigin: "'https://www.danphillipsonline.com'"
         MaxAge: "'600'"
