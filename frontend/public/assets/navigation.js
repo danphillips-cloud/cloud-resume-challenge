@@ -1,9 +1,14 @@
 // Mobile Navigation Toggle
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Navigation script loaded!');
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
 
+    console.log('Hamburger:', hamburger);
+    console.log('Nav menu:', navMenu);
+
     if (hamburger && navMenu) {
+        console.log('Setting up hamburger menu...');
         hamburger.addEventListener('click', function() {
             // Toggle active class
             hamburger.classList.toggle('active');
