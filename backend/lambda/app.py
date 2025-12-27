@@ -29,7 +29,7 @@ def lambda_handler(event, context):
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': cors_origin,
                 'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Methods': 'GET, OPTIONS'
+                'Access-Control-Allow-Methods': 'POST, GET, OPTIONS'
             },
             'body': json.dumps({'count': visit_count})
         }
