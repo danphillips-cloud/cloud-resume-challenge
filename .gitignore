@@ -79,3 +79,25 @@ credentials.yml
 *.pem
 *.key
 *.crt
+# SAM build artifacts
+.aws-sam/
+
+# SAM configuration (contains deployment settings)
+samconfig.toml
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments (if you create any)
+venv/
+env/
+ENV/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/

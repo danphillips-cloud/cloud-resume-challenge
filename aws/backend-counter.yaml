@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Cloud Resume Challenge - Visitor Counter Backend
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: python3.12
+    Environment:
+      Variables:
+        TABLE_NAME: !Ref VisitorCounterTable
+        CORS_ORIGIN: 'https://www.danphillipsonline.com'
+Resources:
+  # DynamoDB Table for storing visitor count
+  VisitorCounterTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: cloud-resume-visitor-counter
+      BillingMode: PAY_PER_REQUEST  # Free tier eligible, no provisioned capacity needed
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      Tags:
+        - Key: Project
+          Value: CloudResumeChallenge
+  # Lambda Function for visitor counter
+  VisitorCounterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: cloud-resume-visitor-counter
+      CodeUri: ../backend/lambda/
+      Handler: app.lambda_handler
+      Description: Increments and returns visitor count for cloud resume
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref VisitorCounterTable
+      Events:
+        GetVisitorCount:
+          Type: Api
+          Properties:
+            RestApiId: !Ref VisitorCounterApi
+            Path: /counter
+            Method: GET
+      Tags:
+        Project: CloudResumeChallenge
+  # API Gateway
+  VisitorCounterApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: cloud-resume-api
+      StageName: prod
+      Cors:
+        AllowMethods: "'GET, OPTIONS'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        AllowOrigin: "'https://www.danphillipsonline.com'"
+        MaxAge: "'600'"
+      Tags:
+        Project: CloudResumeChallenge
+Outputs:
+  VisitorCounterApi:
+    Description: "API Gateway endpoint URL for visitor counter"
+    Value: !Sub "https://${VisitorCounterApi}.execute-api.${AWS::Region}.amazonaws.com/prod/counter"
+    Export:
+      Name: VisitorCounterApiUrl
+  
+  VisitorCounterFunction:
+    Description: "Visitor Counter Lambda Function ARN"
+    Value: !GetAtt VisitorCounterFunction.Arn
+    Export:
+      Name: VisitorCounterFunctionArn
+  
+  VisitorCounterTable:
+    Description: "DynamoDB Table Name"
+    Value: !Ref VisitorCounterTable
+    Export:
+      Name: VisitorCounterTableName
