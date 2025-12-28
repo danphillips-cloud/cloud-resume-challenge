@@ -53,7 +53,7 @@ For local testing with the mock API, see [`backend/README.md`](../backend/README
 
 ## Development Journey
 
-This section documents the development process and design decisions made while building the frontend.
+This section documents the development process and design decisions made while building the frontend. I'm sure I'll have to make slight changes as I progress, but this is how is all started. 
 
 ### Resume Format Considerations
 
