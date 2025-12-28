@@ -134,11 +134,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // AWS API Gateway endpoint
         awsEndpoint: 'https://snlumyz5k2.execute-api.us-east-1.amazonaws.com/prod/counter',
 
-        // GCP Cloud Functions endpoint (update when ready)
-        gcpEndpoint: null, // e.g., 'https://us-central1-project.cloudfunctions.net/visitor-count'
+        // GCP Cloud Functions endpoint
+        gcpEndpoint: 'https://visitor-counter-zlcvdzodaq-uc.a.run.app',
 
         // Set which backend to use: 'aws' or 'gcp'
-        activeBackend: 'aws'
+        activeBackend: 'gcp'
     };
 
     // Select the appropriate endpoint based on configuration
