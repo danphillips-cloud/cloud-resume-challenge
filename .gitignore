@@ -101,3 +101,6 @@ ENV/
 build/
 dist/
 *.egg-info/
+
+gcp/ansible/group_vars/*/vault.yml
+gcp/ansible/group_vars/all/vault.yml
