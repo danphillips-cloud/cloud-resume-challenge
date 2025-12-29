@@ -53,19 +53,17 @@ For local testing with the mock API, see [`backend/README.md`](../backend/README
 
 ## Development Journey
 
-This section documents the development process and design decisions made while building the frontend. I'm sure I'll have to make slight changes as I progress, but this is how is all started. 
+This section documents the development process and design decisions made while building the frontend. I'm sure I'll have to make slight changes as I progress, but this is how it all started.
 
 ### Resume Format Considerations
 
-I live in Canada, where resumes in Word or PDF format should exclude information that could be used to discriminate against potential candidates (e.g. sex, age). Some companies even redact the candidates named to prevent any bias. However, for a personal website or LinkedIN profile, this is acceptable.
-
-In Canada we use a format similar to the most common in the US.
-
-I'm going to use the [Harvard Resume Template format](https://careerservices.fas.harvard.edu/channels/create-a-resume-cv-or-cover-letter/#uc_resource_titles-4) as the basis of my resume.
+I'm using the [Harvard Resume Template format](https://careerservices.fas.harvard.edu/channels/create-a-resume-cv-or-cover-letter/#uc_resource_titles-4) as the basis for my resume.
 
 ### Harvard Resume Format Generation
 
 I learned HTML by coding in Notepad back when GeoCities existed, but stopped once WYSIWYG editors became a thing. I'll use GenAI tools to generate the HTML and CSS. Once that is in place, I can adjust the code as needed for the project. Since I have a Pro account, I'll be using Claude Sonnet 4.5 to construct the HTML and add in content from my existing resume.
+
+I started by giving Claude this Harvard Resume template image and asking it to convert it to HTML:
 
 Prompt to Claude
 
@@ -77,29 +75,15 @@ Please use the least amount of css tags
 
 ![Harvard Resume Format Template](./docs/harvard-resume-format.jpg)
 
-This is the [generated output](./docs/nov-23-2025-resume-minimal.html) that I will refactor with Claude.
-
-This is the generated HTML from Claude Sonnet 4.5
+Claude generated clean HTML from the template image. Here's the [generated output](./docs/nov-23-2025-resume-minimal.html):
 
 ![Generated Resume HTML Rendered Output](./docs/resume-minimal-rendered.png)
 
-That actually looks good and pretty close to what I want.
-
-To save time I decided to uploaded my current resume to Claude and had it fill in my info using the Harvard template.
-
-Prompt to Claude
-
-```text
-I am now uploading the most recent copy of my resume.
-Using the Harvard template you already have, let's create a new resume.
-Remember to Convert this resume format into html.
-Please don't use a css framework.
-Please use the least amount of css tags
-```
-
-I find that reminding AI, or repeating your prompts, improves your results. Just as if you were talking to a person and giving them clear instruction for a task.
+Then I uploaded my current resume and had Claude populate the template with my information:
 
 ![Claude Generated Resume with Personal Information](./docs/claude-resume-minimal-rendered.png)
+
+I find that reminding AI, or repeating your prompts, improves your results. Just as if you were talking to a person and giving them clear instruction for a task.
 
 ### HTML Adjustments
 
