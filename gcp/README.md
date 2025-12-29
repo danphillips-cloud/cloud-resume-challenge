@@ -196,11 +196,11 @@ This section documents the design decisions and challenges while building the GC
 
 ### Choosing Terraform
 
-I used Terraform for GCP instead of native tools. It's the industry standard for multi-cloud IaC, and I wanted hands-on experience with it.
+I used Terraform for GCP instead of native tools. It's the industry standard for multi-cloud IaC and I experience with it.
 
 ### The IAM Permission Challenge
 
-**GCP IAM is complex.** Organization policies, project-level restrictions, service-specific permissions—it makes AWS IAM look simple.
+**GCP IAM is complex.** Organization policies, project-level restrictions, service-specific permissions that it makes AWS IAM look simple.
 
 I hit so many permission errors during deployment. A few examples:
 
