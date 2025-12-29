@@ -1,60 +1,23 @@
-# Backend -WIP
+# Backend
 
-This directory contains the backend scripts and content for server-side rendering of the website.
+Build scripts and content management system for server-side rendering and local development.
 
 ## Overview
 
-The backend contains:
+The backend is a lightweight Python-based build system that handles server-side rendering of Markdown content into static HTML. It includes development tools for testing the visitor counter without touching AWS/GCP resources.
 
-1. **Build Scripts**: Server-side Python scripts to render markdown content into HTML
-2. **Mock Counter API**: A simple Flask API for testing the visitor counter functionality
+## Features
 
-The projects page uses server-side Python to render markdown content into HTML. This allows you to easily update the projects page by editing a simple markdown file instead of manually writing HTML.
-
-## Design Decisions
-
-### Why Markdown Over Direct HTML Editing?
-
-Markdown provides a clean, version-control-friendly way to manage content without dealing with HTML tags, CSS classes, or layout concerns. Writing project descriptions becomes as simple as editing a text file—no risk of breaking tags, forgetting closing divs, or introducing inconsistent styling.
-
-### Why Server-Side Rendering?
-
-Build-time rendering (server-side) means:
-
-- **Static Output**: The final HTML is a static file, perfect for S3/CloudFront deployment
-- **No Client-Side Dependencies**: No JavaScript frameworks or markdown parsers needed in the browser
-- **Fast Load Times**: Pre-rendered HTML loads instantly—no runtime compilation
-- **SEO Friendly**: Search engines see the full rendered content immediately
-- **Simple Deployment**: Just upload the generated HTML file
-
-### Why Python?
-
-Python's `markdown` library is mature, well-documented, and handles edge cases gracefully. Since this is a build-time tool (not runtime), there's no performance concern—and Python's simplicity makes the build script easy to understand and modify.
-
-### Benefits of This Approach
-
-- **Separation of Concerns**: Content (markdown) lives separately from presentation (HTML/CSS)
-- **Easy Updates**: Non-technical updates don't require touching HTML
-- **Version Control**: Git diffs on markdown files are human-readable
-- **Consistency**: Automated rendering ensures uniform styling across all projects
-- **Maintainability**: Single build script handles all content transformation
-
-## Directory Structure
-
-```text
-backend/
-├── README.md              # This file
-├── requirements.txt       # Python dependencies
-├── build_projects.py      # Build script for projects page
-└── content/
-    └── projects/         # Individual project markdown files (EDIT THESE)
-        ├── cloud-resume-challenge.md
-        ├── enterprise-data-migration.md
-        ├── infrastructure-automation.md
-        └── multi-environment-ecs.md
-```
+- **Server-Side Rendering**: Build-time Markdown to HTML conversion with Python
+- **Content Management**: Simple Markdown files for managing project descriptions
+- **Mock Counter API**: Flask-based local API for testing visitor counter integration
+- **Static Output**: Generates deployment-ready static HTML files
+- **No Client Dependencies**: Pre-rendered content loads instantly without runtime compilation
+- **Version Control Friendly**: Human-readable Markdown diffs for content changes
 
 ## Quick Start
+
+For frontend setup (static files, HTML resume), see [`frontend/README.md`](../frontend/README.md).
 
 ### Install Dependencies
 
@@ -76,6 +39,21 @@ This will:
 2. Combine them into a single page
 3. Convert markdown to HTML
 4. Generate `frontend/public/projects.html` with full page template
+
+## Directory Structure
+
+```text
+backend/
+├── README.md              # This file
+├── requirements.txt       # Python dependencies
+├── build_projects.py      # Build script for projects page
+└── content/
+    └── projects/         # Individual project markdown files (EDIT THESE)
+        ├── cloud-resume-challenge.md
+        ├── enterprise-data-migration.md
+        ├── infrastructure-automation.md
+        └── multi-environment-ecs.md
+```
 
 ## Updating Projects
 
@@ -125,20 +103,6 @@ Writing to /path/to/frontend/public/projects.html...
 Build complete!
 ```
 
-### 3. Preview Locally
-
-Open `frontend/public/projects.html` in your browser to preview the changes.
-
-### 4. Deploy
-
-Commit and push your changes:
-
-```bash
-git add backend/content/projects/ frontend/public/projects.html
-git commit -m "Update projects page"
-git push
-```
-
 ## Markdown Syntax Supported
 
 The build script uses Python's `markdown` library with the following features:
@@ -150,98 +114,95 @@ The build script uses Python's `markdown` library with the following features:
 - **Line breaks**: Automatic line break support with `nl2br` extension
 - **Tables**: Supported via `extra` extension
 
-## Project Structure
+## Configuration
 
+### Content Display Order
+
+Both blog posts and projects are displayed in alphabetical order by filename. To control the display order, prefix filenames with numbers:
+
+**Blog posts** (currently using numbered prefixes):
 ```text
-cloud-resume-challenge/
-├── backend/                   # Backend scripts and content
-│   ├── build_projects.py     # Build script
-│   ├── requirements.txt      # Python dependencies
-│   └── content/
-│       └── projects/         # Individual project files (EDIT THESE)
-│           ├── cloud-resume-challenge.md
-│           ├── enterprise-data-migration.md
-│           ├── infrastructure-automation.md
-│           └── multi-environment-ecs.md
-└── frontend/                  # Frontend static files
-    └── public/
-        ├── projects.html     # Generated HTML (DO NOT EDIT)
-        └── assets/
-            └── styles.css    # Includes markdown styling
+backend/content/blog/
+├── 01-welcome-to-my-blog.md
+├── 02-infrastructure-as-code-best-practices.md
+└── 03-ecs-vs-eks.md
 ```
 
-## Dependencies
+**Projects** (currently alphabetical):
+```text
+backend/content/projects/
+├── cloud-resume-challenge.md
+├── enterprise-data-migration.md
+├── infrastructure-automation.md
+└── multi-environment-ecs.md
+```
 
-- **Python 3**: Required to run build scripts
-- **markdown**: Python library for markdown parsing and HTML conversion
-  - Extensions enabled: `extra`, `nl2br`
+**Note:** The numbered prefix approach is a pragmatic temporary solution and is something I plan to explore as the blog grows and ordering becomes more complex. Maybe a good time to try [Hugo](https://gohugo.io/).
 
-## Styling
+---
 
-The markdown content is wrapped in a `<div class="markdown-content">` element with custom CSS styling in `frontend/public/assets/styles.css`. The styles are responsive and match the rest of the site.
+## Development Journey
 
-## Benefits
+This section documents the development process and design decisions made while building the backend. I'm sure I'll have to make adjustments as the project evolves, but this is how it all started.
 
-- **Easy Updates**: Edit plain text markdown instead of HTML
-- **Version Control**: Track changes to content easily
-- **Consistency**: Automatic styling ensures visual consistency
-- **No Client-Side JS**: All rendering happens server-side (build-time)
-- **Static Deployment**: Output is still a static HTML file
+### Content Management Approach
 
-## Managing Projects
+After completing the static HTML resume for the frontend, I needed a way to manage project descriptions without manually editing HTML. I wanted something simple that would let me focus on content rather than markup.
 
-### Adding a New Project
+### Choosing Markdown and Server-Side Rendering
 
-1. Create a new `.md` file in `backend/content/projects/`
-2. Follow the markdown format (see example above)
-3. Run the build script: `python3 backend/build_projects.py`
-4. Commit and deploy
+I decided on a Markdown-based approach with build-time rendering:
 
-### Project Display Order
+**Why Markdown?**
+- Clean, version-control-friendly content management
+- No HTML tags or CSS classes to worry about
+- Familiar syntax from documentation work
+- Human-readable diffs in Git
 
-Projects are displayed in alphabetical order by filename. To control the order, you can prefix filenames with numbers:
+Build-time rendering generates static HTML files perfect for S3/CloudFront deployment with no client-side JavaScript dependencies. Fast page loads, SEO-friendly, and simple deployment.
 
-- `01-cloud-resume-challenge.md`
-- `02-multi-environment-ecs.md`
-- etc.
+I chose Python for the build script because the `markdown` library is mature and well-documented. The script is under 50 lines of code and easy to modify.
 
-## Adding New Content Pages
+### Build Script Implementation
 
-To add additional markdown-rendered pages (beyond projects):
+The `build_projects.py` script:
+1. Reads all `.md` files from `backend/content/projects/`
+2. Combines them into a single content block
+3. Converts Markdown to HTML using Python's markdown library
+4. Generates the full `projects.html` page with navigation and styling
+5. Outputs to `frontend/public/` for deployment
 
-1. Create a new directory in `backend/content/`
-2. Create a corresponding build script (or extend the existing one)
-3. Add necessary CSS styling in `frontend/public/assets/styles.css`
-4. Run the build script to generate the HTML
+This keeps content separate from presentation. I can update projects by editing plain text files, and the build script ensures consistent styling.
+
+### Mock Counter API Development
+
+For local development of the visitor counter feature, I built a simple Flask-based mock API. This avoids hitting AWS/GCP endpoints during development—no authentication setup, no costs, faster iteration.
+
+The mock API provides the same endpoints as the production API but stores the counter in memory.
 
 ---
 
 ## Mock Counter API
 
-A simple Flask API for testing the visitor counter functionality during development.
+A simple Flask API for testing the visitor counter functionality during local development without touching AWS/GCP resources.
 
-### Features
+### Quick Start
 
-- **In-Memory Counter**: Maintains a counter that increments with each request
-- **CORS Enabled**: Supports cross-origin requests from the frontend
-- **Simple REST API**: POST to increment, GET to retrieve current count
-- **Health Check**: Endpoint to verify API is running
-
-### Getting Started
-
-1. **Install Dependencies**
+Install dependencies and run the API:
 
 ```bash
 pip install -r backend/requirements.txt
-```
-
-1. **Run the API**
-
-```bash
 python3 backend/mock_counter_api.py
 ```
 
 The API will start on `http://localhost:5000`
+
+### Features
+
+- **In-Memory Counter**: Maintains count that increments with each request
+- **CORS Enabled**: Supports cross-origin requests from the frontend
+- **Simple REST API**: POST to increment, GET to retrieve current count
+- **Health Check**: Endpoint to verify API is running
 
 ### API Endpoints
 
@@ -286,35 +247,35 @@ Health check endpoint.
 
 ### Testing with Frontend
 
-To use the mock API with your frontend:
+To use the mock API with the frontend visitor counter:
 
 1. Start the mock API server (see Quick Start above)
-2. Update the frontend configuration in `frontend/public/assets/visitor-counter.js`:
+2. Update `frontend/public/assets/visitor-counter.js`:
 
-   ```javascript
-   const config = {
-      awsEndpoint: 'http://localhost:5000/api/visitor-count',
-      activeBackend: 'aws'
-   };
-   ```
+```javascript
+const config = {
+   awsEndpoint: 'http://localhost:5000/api/visitor-count',
+   activeBackend: 'aws'
+};
+```
 
-3. Open your frontend in a browser and the counter should work!
+3. Open your frontend in a browser—the counter should work locally
+
+For more details on frontend configuration, see [`frontend/README.md`](../frontend/README.md#visitor-counter).
 
 ### Configuration
 
-The API can be configured via environment variables:
-
-- `PORT`: Server port (default: 5000)
-- `DEBUG`: Enable debug mode (default: True)
-
-Example:
+Configure via environment variables:
 
 ```bash
 PORT=8080 DEBUG=False python3 backend/mock_counter_api.py
 ```
 
+- `PORT`: Server port (default: 5000)
+- `DEBUG`: Enable debug mode (default: True)
+
 ### Notes
 
-- The counter is stored in memory and resets when the server restarts
-- This is for development/testing only - use a real database for production
-- CORS is enabled for all origins to simplify local development
+- Counter resets when server restarts (in-memory storage)
+- For development/testing only—use AWS/GCP for production
+- CORS enabled for all origins to simplify local development
