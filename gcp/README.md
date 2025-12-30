@@ -208,7 +208,9 @@ I hit so many permission errors during deployment. A few examples:
 - Need `Service Account User` to create resources that use service accounts
 - Organization policies blocked IAM bindings, forcing manual Firestore permission grants
 
-After the fifth error, I understood why people just grant `Owner` or `Editor` and move on. It works, but it's bad security. I stuck with least-privilege, but it took patience.
+After the third error, I understood why people just grant `Owner` or `Editor` and move on. It works, but it's bad security. I wanted just start with least-privilege, but it took patience.
+
+![](./images/tf-access.png)
 
 **AWS vs GCP**: With AWS, I set up IAM once and it worked. With GCP, every step hit a permission wall. AWS CloudFormation? Smooth. GCP Terraform? Error-driven development.
 
