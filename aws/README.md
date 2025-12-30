@@ -99,7 +99,7 @@ This creates:
 - Origin Access Control (OAC)
 - Bucket policies and stack outputs
 
-![](./aws/images/ansible-deploy-to-cf.png)
+![](./images/ansible-deploy-to-cf.png)
 
 ### Upload Website Files
 
@@ -116,7 +116,7 @@ This will:
 4. Invalidate CloudFront cache (`/*` all files)
 5. New content live in ~30-60 seconds
 
-![](./aws/images/ansible-deploy-to-s3.png)
+![](./images/ansible-deploy-to-s3.png)
 
 ## Configuration
 
