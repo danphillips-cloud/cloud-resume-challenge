@@ -116,7 +116,7 @@ This will:
 4. Invalidate CloudFront cache (`/*` all files)
 5. New content live in ~30-60 seconds
 
-![](./images/ansible-deploy-to-s3.png)
+![](./images/ansible-upload-to-s3.png)
 
 ## Configuration
 
