@@ -99,6 +99,8 @@ This creates:
 - Origin Access Control (OAC)
 - Bucket policies and stack outputs
 
+![](./aws/images/ansible-deploy-to-cf.png)
+
 ### Upload Website Files
 
 After infrastructure is ready, deploy the static site:
@@ -113,6 +115,8 @@ This will:
 3. Delete files from S3 that don't exist locally (clean deploys)
 4. Invalidate CloudFront cache (`/*` all files)
 5. New content live in ~30-60 seconds
+
+![](./aws/images/ansible-deploy-to-s3.png)
 
 ## Configuration
 
