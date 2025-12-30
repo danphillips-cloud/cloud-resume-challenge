@@ -50,6 +50,9 @@ pipx install --include-deps ansible
 pipx inject ansible boto3 botocore
 ansible-galaxy collection install amazon.aws
 ```
+Add or update your Route53 DNS records:
+
+![](./images/route53.png)
 
 ### Configure Credentials
 
