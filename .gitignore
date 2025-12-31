@@ -30,6 +30,7 @@ packaged.yml
 .terraform.lock.hcl
 terraform.tfvars
 terraform.tfvars.json
+*.auto.tfvars
 *.tfplan
 override.tf
 override.tf.json
