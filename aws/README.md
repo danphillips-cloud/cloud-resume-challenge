@@ -52,14 +52,7 @@ pipx inject ansible boto3 botocore
 ansible-galaxy collection install amazon.aws
 ```
 
-Install the [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html) (separate from the AWS CLI):
-
-```bash
-# See link above for your platform-specific installation
-# macOS: brew install aws-sam-cli
-# Linux: Download and run installer
-# Windows: MSI installer available
-```
+Install the [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html) (separate from the AWS CLI).
 
 Add or update your Route53 DNS records:
 
