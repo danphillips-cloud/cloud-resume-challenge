@@ -78,7 +78,10 @@ Resources:
     Type: AWS::ApiGateway::DomainName
     Properties:
       DomainName: !Ref DomainName
-      CertificateArn: !Ref ACMCertificateArn
+      RegionalCertificateArn: !Ref ACMCertificateArn
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
       SecurityPolicy: TLS_1_2
       Tags:
         - Key: Project
