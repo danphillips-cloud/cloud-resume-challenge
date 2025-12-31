@@ -24,7 +24,7 @@
 ## Deployment Notes & Known Issues
 
 ### CloudFormation Deployment Gotchas
-1. **Route53 Record Creation Delays**: The ApiDNSRecord resource can take 60+ seconds to create, causing the stack update to appear hung. This is normal AWS behavior - Route53 alias records take time to propagate.
+1. **Route53 Record Creation Delays**: The ApiDNSRecord resource can take 60+ seconds to create, causing the stack update to appear hung. This is normal AWS behavior - Route53 alias records take time to propagate. See [AWS Route53 Alias Record Documentation](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html) for more details on alias records.
 
 2. **Pre-existing Custom Domains**: If `api.danphillipsonline.com` was manually created before deploying this stack, CloudFormation will fail with "AlreadyExists" error. Solution: Delete the existing custom domain and Route53 records before deployment:
    ```bash
