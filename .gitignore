@@ -30,6 +30,7 @@ packaged.yml
 .terraform.lock.hcl
 terraform.tfvars
 terraform.tfvars.json
+*.auto.tfvars
 *.tfplan
 override.tf
 override.tf.json
@@ -37,6 +38,11 @@ override.tf.json
 *_override.tf.json
 .terraformrc
 terraform.rc
+
+# GCP
+gcp-key.json
+gcp/terraform/*.json
+gcp/terraform/**/*.json
 
 # Python
 __pycache__/
