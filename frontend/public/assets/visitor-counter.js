@@ -132,10 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Configuration object - update this with your actual API endpoint
     const config = {
         // AWS API Gateway endpoint
-        awsEndpoint: 'https://snlumyz5k2.execute-api.us-east-1.amazonaws.com/prod/counter',
+        awsEndpoint: 'https://api.danphillipsonline.com/counter',
 
         // GCP Cloud Functions endpoint (update when ready)
-        gcpEndpoint: null, // e.g., 'https://us-central1-project.cloudfunctions.net/visitor-count'
+        gcpEndpoint: 'https://us-central1-project.cloudfunctions.net/visitor-count',
 
         // Set which backend to use: 'aws' or 'gcp'
         activeBackend: 'aws'
