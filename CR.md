@@ -21,6 +21,29 @@
 - Updated frontend visitor-counter.js to use custom domain URL
 - Added CloudFormation parameters for domain name, ACM certificate, and hosted zone ID
 
+## Deployment Notes & Known Issues
+
+### CloudFormation Deployment Gotchas
+1. **Route53 Record Creation Delays**: The ApiDNSRecord resource can take 60+ seconds to create, causing the stack update to appear hung. This is normal AWS behavior - Route53 alias records take time to propagate.
+
+2. **Pre-existing Custom Domains**: If `api.danphillipsonline.com` was manually created before deploying this stack, CloudFormation will fail with "AlreadyExists" error. Solution: Delete the existing custom domain and Route53 records before deployment:
+   ```bash
+   aws apigateway delete-domain-name --domain-name api.danphillipsonline.com --region us-east-1
+   ```
+
+3. **Manual Resource Deletion**: Never manually delete CloudFormation-managed resources (like Route53 records) while a stack update is in progress. This causes drift and unpredictable behavior.
+
+4. **Template Caching**: SAM may cache templates. Always run `sam build -t backend-counter.yaml` after template changes, and use `--force-upload` flag if deployment shows "no changes" incorrectly.
+
+### Deployment Command
+```bash
+sam build -t backend-counter.yaml
+sam deploy --force-upload --parameter-overrides \
+  DomainName=api.danphillipsonline.com \
+  ACMCertificateArn=arn:aws:acm:us-east-1:ACCOUNT_ID:certificate/CERT_ID \
+  HostedZoneId=HOSTED_ZONE_ID
+```
+
 ## Benefits
 - Ensures proper cross-origin request handling from danphillipsonline.com
 - Reduces preflight request frequency through cache configuration
