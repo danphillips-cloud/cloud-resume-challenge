@@ -1,6 +1,19 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Cloud Resume Challenge - Visitor Counter Backend
+
+Parameters:
+  DomainName:
+    Type: String
+    Description: Custom domain name for API (e.g., api.danphillipsonline.com)
+    Default: api.danphillipsonline.com
+  ACMCertificateArn:
+    Type: String
+    Description: ARN of ACM certificate for the API domain (must be in us-east-1)
+  HostedZoneId:
+    Type: String
+    Description: Route53 Hosted Zone ID for danphillipsonline.com
+
 Globals:
   Function:
     Timeout: 10
@@ -59,21 +72,66 @@ Resources:
         AllowCredentials: false
       Tags:
         Project: CloudResumeChallenge
+
+  # Custom Domain for API Gateway
+  ApiCustomDomain:
+    Type: AWS::ApiGateway::DomainName
+    Properties:
+      DomainName: !Ref DomainName
+      CertificateArn: !Ref ACMCertificateArn
+      SecurityPolicy: TLS_1_2
+      Tags:
+        - Key: Project
+          Value: CloudResumeChallenge
+
+  # Map custom domain to API Gateway stage
+  ApiBasePathMapping:
+    Type: AWS::ApiGateway::BasePathMapping
+    DependsOn: ApiCustomDomain
+    Properties:
+      DomainName: !Ref DomainName
+      RestApiId: !Ref VisitorCounterApi
+      Stage: !Ref VisitorCounterApi.Stage
+
+  # Route53 record to point custom domain to API Gateway
+  ApiDNSRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Ref DomainName
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt ApiCustomDomain.DistributionDomainName
+        HostedZoneId: !GetAtt ApiCustomDomain.DistributionHostedZoneId
+        EvaluateTargetHealth: false
+
 Outputs:
-  VisitorCounterApi:
-    Description: "API Gateway endpoint URL for visitor counter"
-    Value: !Sub "https://${VisitorCounterApi}.execute-api.${AWS::Region}.amazonaws.com/prod/counter"
+  VisitorCounterApiUrl:
+    Description: "Custom domain API endpoint URL for visitor counter"
+    Value: !Sub "https://${DomainName}/counter"
     Export:
       Name: VisitorCounterApiUrl
-  
+
+  VisitorCounterApiGatewayUrl:
+    Description: "Direct API Gateway endpoint URL (fallback)"
+    Value: !Sub "https://${VisitorCounterApi}.execute-api.${AWS::Region}.amazonaws.com/prod/counter"
+    Export:
+      Name: VisitorCounterApiGatewayUrl
+
   VisitorCounterFunction:
     Description: "Visitor Counter Lambda Function ARN"
     Value: !GetAtt VisitorCounterFunction.Arn
     Export:
       Name: VisitorCounterFunctionArn
-  
+
   VisitorCounterTable:
     Description: "DynamoDB Table Name"
     Value: !Ref VisitorCounterTable
     Export:
       Name: VisitorCounterTableName
+
+  ApiCustomDomainName:
+    Description: "API Gateway Custom Domain Name"
+    Value: !Ref ApiCustomDomain
+    Export:
+      Name: ApiCustomDomainName
