@@ -51,6 +51,16 @@ pipx install --include-deps ansible
 pipx inject ansible boto3 botocore
 ansible-galaxy collection install amazon.aws
 ```
+
+Install the [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html) (separate from the AWS CLI):
+
+```bash
+# See link above for your platform-specific installation
+# macOS: brew install aws-sam-cli
+# Linux: Download and run installer
+# Windows: MSI installer available
+```
+
 Add or update your Route53 DNS records:
 
 ![](./images/route53.png)
@@ -97,7 +107,7 @@ cd aws/playbooks
 ansible-playbook deploy-aws.yml --vault-password-file ../../.vault_pass
 ```
 
-The `backend-counter.yaml` template uses AWS SAM (Serverless Application Model) to simplify Lambda and API Gateway configuration. SAM transforms are automatically processed by CloudFormation during deployment.
+The `backend-counter.yaml` template uses [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-getting-started.html) (Serverless Application Model) to simplify Lambda and API Gateway configuration. SAM transforms are automatically processed by CloudFormation during deployment.
 
 ![](./images/deploy-sam.png)
 
