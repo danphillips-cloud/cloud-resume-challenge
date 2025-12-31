@@ -214,6 +214,10 @@ After the third error, I understood why people just grant `Owner` or `Editor` an
 
 **AWS vs GCP**: With AWS, I set up IAM once and it worked. With GCP, every step hit a permission wall. AWS CloudFormation? Smooth. GCP Terraform? Error-driven development.
 
+![](./images/hello-world-api.png)
+
+![](./images/firestore-working.png)
+
 ### Cloudflare for CDN and SSL
 
 I used Cloudflare's free tier instead of Google Cloud CDN and Load Balancer. Free SSL, better global edge network, DDoS protection, and easier cache purging. The public GCS bucket works perfectly behind Cloudflare's proxy.
