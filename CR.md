@@ -44,6 +44,43 @@ sam deploy --force-upload --parameter-overrides \
   HostedZoneId=HOSTED_ZONE_ID
 ```
 
+## Testing & Verification
+
+After deployment, verify the setup:
+
+```bash
+# Test custom domain endpoint
+curl -X POST https://api.danphillipsonline.com/counter
+
+# Test direct API Gateway endpoint (fallback)
+curl -X POST https://9mq10v7veh.execute-api.us-east-1.amazonaws.com/prod/counter
+
+# Upload frontend with updated API URL
+cd aws/playbooks
+ansible-playbook upload-aws.yml --ask-vault-pass
+```
+
+### DNS Propagation
+- Custom domain may take 2-5 minutes for DNS to propagate globally
+- Direct API Gateway URL works immediately after deployment
+- Use `dig api.danphillipsonline.com` to verify DNS resolution
+
+## Deployment Summary
+
+**Successfully deployed on**: 2025-12-31
+
+**Resources created**:
+- DynamoDB Table: `cloud-resume-visitor-counter`
+- Lambda Function: `cloud-resume-visitor-counter`
+- API Gateway: `cloud-resume-api` (REGIONAL)
+- Custom Domain: `api.danphillipsonline.com`
+- Route53 A Record: Points to regional API Gateway endpoint
+- IAM Role: Lambda execution role with DynamoDB access
+
+**Endpoints**:
+- Custom Domain: `https://api.danphillipsonline.com/counter`
+- Direct API Gateway: `https://9mq10v7veh.execute-api.us-east-1.amazonaws.com/prod/counter`
+
 ## Benefits
 - Ensures proper cross-origin request handling from danphillipsonline.com
 - Reduces preflight request frequency through cache configuration
@@ -51,3 +88,13 @@ sam deploy --force-upload --parameter-overrides \
 - Provides consistent CORS behavior across API Gateway and Lambda layers
 - Professional custom domain (api.danphillipsonline.com) instead of AWS-generated URL
 - Cleaner API endpoint for frontend integration
+
+## Lessons Learned
+
+1. **Regional vs Edge Endpoints**: API Gateway custom domains require REGIONAL endpoint configuration when using `RegionalDomainName` and `RegionalHostedZoneId` attributes. Using EDGE (CloudFront) endpoints requires different attributes.
+
+2. **CloudFormation Drift**: Manually deleting resources that CloudFormation created causes drift. Always let CloudFormation manage its own resources, or delete the entire stack and recreate.
+
+3. **DNS Takes Time**: Route53 record creation can take 60+ seconds during CloudFormation deployment, which is normal behavior.
+
+4. **SAM Build Required**: Template changes require `sam build` before deployment, even with `--force-upload` flag.

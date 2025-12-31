@@ -26,9 +26,9 @@ CloudFront (ACM certificate for HTTPS)
     ↓
 S3 Bucket (static website files)
 
-CloudFront also connects to:
+Route 53 (api.danphillipsonline.com)
     ↓
-API Gateway (/api/counter)
+API Gateway (REGIONAL endpoint with custom domain)
     ↓
 Lambda (visitor counter logic, NO VPC)
     ↓
@@ -39,6 +39,8 @@ DynamoDB (visitor count storage)
 - **No VPC**: Lambda runs in AWS-managed environment (free tier eligible)
 - **CloudFront + OAC**: Private S3 buckets with secure CloudFront access
 - **Serverless**: Pay only for what you use (essentially free for this traffic)
+- **Custom API Domain**: Professional endpoint (`api.danphillipsonline.com`) instead of AWS-generated URL
+- **CORS Configuration**: Secure cross-origin requests from danphillipsonline.com to API
 
 ## Quick Start
 
@@ -112,11 +114,47 @@ This creates:
 
 ![](./images/ansible-deploy-to-cf.png)
 
+### Deploy Backend Counter API
+
+The backend counter uses AWS SAM for simplified Lambda and API Gateway configuration. Deploy with custom domain support:
+
+```bash
+cd aws
+sam build -t backend-counter.yaml
+sam deploy --force-upload --parameter-overrides \
+  DomainName=api.danphillipsonline.com \
+  ACMCertificateArn=arn:aws:acm:us-east-1:ACCOUNT_ID:certificate/CERT_ID \
+  HostedZoneId=HOSTED_ZONE_ID
+```
+
+**Required Parameters**:
+- `DomainName`: Custom domain for API (e.g., `api.danphillipsonline.com`)
+- `ACMCertificateArn`: ARN of ACM certificate covering the API domain (must be in us-east-1)
+- `HostedZoneId`: Route53 hosted zone ID for your domain
+
+This creates:
+- DynamoDB table for visitor counter
+- Lambda function with CORS headers
+- API Gateway with CORS configuration (REGIONAL endpoint)
+- Custom domain name with TLS 1.2
+- Base path mapping to prod stage
+- Route53 A record pointing to API Gateway
+
+**Testing the API**:
+```bash
+# Test custom domain
+curl -X POST https://api.danphillipsonline.com/counter
+
+# Test direct API Gateway URL (fallback)
+curl -X POST https://9mq10v7veh.execute-api.us-east-1.amazonaws.com/prod/counter
+```
+
 ### Upload Website Files
 
 After infrastructure is ready, deploy the static site:
 
 ```bash
+cd aws/playbooks
 ansible-playbook upload-aws.yml --vault-password-file ../../.vault_pass
 ```
 
@@ -198,6 +236,16 @@ I used Origin Access Control instead of the older Origin Access Identity (OAI). 
 **Cache Invalidation**: Critical to invalidate CloudFront cache after uploads. Without this, users see stale content for hours. The upload playbook automates this with every deployment.
 
 **Distribution ID Tracking**: With multiple CloudFront distributions, tracking which ID corresponds to which purpose (www vs apex) matters for troubleshooting and automation.
+
+**API Gateway Regional vs Edge Endpoints**: When using custom domains with API Gateway, you must choose between REGIONAL and EDGE endpoints. REGIONAL endpoints use `RegionalDomainName` and `RegionalHostedZoneId` attributes. EDGE endpoints (CloudFront-backed) use `DistributionDomainName` and `DistributionHostedZoneId`. Mixing these attributes causes deployment failures. Use `RegionalCertificateArn` for REGIONAL endpoints, not `CertificateArn`.
+
+**CloudFormation Drift Management**: Manually deleting resources that CloudFormation created causes drift and deployment failures. Always let CloudFormation manage its own resources. If drift occurs, delete the entire stack and recreate it cleanly rather than trying to fix individual resources.
+
+**Route53 DNS Propagation**: Route53 record creation can take 60+ seconds during CloudFormation deployment. The stack update may appear hung while waiting for the ApiDNSRecord resource. This is normal AWS behavior - Route53 alias records take time to create and propagate.
+
+**SAM Template Caching**: Even with `--force-upload`, SAM may cache templates. Always run `sam build -t backend-counter.yaml` after template changes. Deleting `.aws-sam/` directory ensures a clean build.
+
+**CORS Configuration Layers**: CORS must be configured at both API Gateway and Lambda levels for proper functionality. API Gateway handles OPTIONS preflight requests, while Lambda must return appropriate CORS headers in all responses (both success and error paths).
 
 ---
 
