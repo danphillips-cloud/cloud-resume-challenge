@@ -28,8 +28,9 @@ def lambda_handler(event, context):
             'headers': {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': cors_origin,
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Methods': 'POST, GET, OPTIONS'
+                'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Requested-With',
+                'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+                'Access-Control-Max-Age': '600'
             },
             'body': json.dumps({'count': visit_count})
         }
@@ -40,7 +41,9 @@ def lambda_handler(event, context):
             'statusCode': 500,
             'headers': {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': cors_origin
+                'Access-Control-Allow-Origin': cors_origin,
+                'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Requested-With',
+                'Access-Control-Allow-Methods': 'POST, GET, OPTIONS'
             },
             'body': json.dumps({'error': 'Failed to update visitor count'})
         }

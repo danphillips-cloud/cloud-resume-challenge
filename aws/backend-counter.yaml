@@ -53,9 +53,10 @@ Resources:
       StageName: prod
       Cors:
         AllowMethods: "'POST, GET, OPTIONS'"
-        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Requested-With'"
         AllowOrigin: "'https://www.danphillipsonline.com'"
         MaxAge: "'600'"
+        AllowCredentials: false
       Tags:
         Project: CloudResumeChallenge
 Outputs:
