@@ -9,6 +9,7 @@ The AWS infrastructure uses CloudFormation for resource management and Ansible f
 ## Features
 
 - **CloudFormation Infrastructure**: AWS-native IaC for all resources
+- **AWS SAM**: Simplified Lambda and API Gateway definitions using SAM syntax
 - **Ansible Deployment**: Automated stack deployment and content uploads
 - **Serverless Architecture**: Lambda, API Gateway, DynamoDB—no VPC costs
 - **CloudFront + S3**: Global CDN with private buckets and OAC security
@@ -95,6 +96,10 @@ Deploy or update the CloudFormation stack:
 cd aws/playbooks
 ansible-playbook deploy-aws.yml --vault-password-file ../../.vault_pass
 ```
+
+The `backend-counter.yaml` template uses AWS SAM (Serverless Application Model) to simplify Lambda and API Gateway configuration. SAM transforms are automatically processed by CloudFormation during deployment.
+
+![](./images/deploy-sam.png)
 
 This creates:
 - S3 buckets (www + apex redirect)
