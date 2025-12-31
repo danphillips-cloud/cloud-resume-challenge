@@ -50,6 +50,9 @@ pipx install --include-deps ansible
 pipx inject ansible boto3 botocore
 ansible-galaxy collection install amazon.aws
 ```
+Add or update your Route53 DNS records:
+
+![](./images/route53.png)
 
 ### Configure Credentials
 
@@ -99,6 +102,8 @@ This creates:
 - Origin Access Control (OAC)
 - Bucket policies and stack outputs
 
+![](./images/ansible-deploy-to-cf.png)
+
 ### Upload Website Files
 
 After infrastructure is ready, deploy the static site:
@@ -113,6 +118,8 @@ This will:
 3. Delete files from S3 that don't exist locally (clean deploys)
 4. Invalidate CloudFront cache (`/*` all files)
 5. New content live in ~30-60 seconds
+
+![](./images/ansible-upload-to-s3.png)
 
 ## Configuration
 
