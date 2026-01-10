@@ -25,14 +25,18 @@ For backend setup (build scripts, mock API, dependencies), see [`backend/README.
 ```text
 frontend/
 ├── README.md                    # This file
+├── docs/                        # Documentation images and examples
 └── public/
-├── public/
-    ├── index.html              # Main resume page
-    ├── projects.html           # Generated projects page (DO NOT EDIT)
+    ├── index.html               # Main resume page
+    ├── resume.html              # Resume page
+    ├── projects.html            # Projects showcase page
+    ├── blog.html                # Blog page
+    ├── certifications.html      # Certifications page
     └── assets/
-        ├── styles.css          # Main stylesheet
-        ├── visitor-counter.js  # Counter logic
-        └── images/             # Site images
+        ├── styles.css           # Main stylesheet
+        ├── navigation.js        # Navigation logic
+        ├── visitor-counter.js   # Counter logic
+        └── images/              # Site images
 ```
 
 ## Configuration
@@ -97,7 +101,7 @@ I find that reminding AI, or repeating your prompts, improves your results. Just
 
 No errors. Score one for GenAI.
 
-The code is also very easy to read and I feel that I could edit by hand without breaking a table or CSS.
+At this point the code is also easy to read and I feel that I could edit by hand without breaking a table or CSS. Although I'm sure that as my work progresses, I'll likely find that a better solution is needed. 
 
 ### Serving Static Website Locally
 
@@ -119,7 +123,7 @@ As you can see, I'm using separate chat sessions for each PR. I'm a big believer
 
 ![Claude Code Assistance and PR Overview](./docs/claude-code-assist.png)
 
-That said, AI doesn't "see" the way humans do. Simple tasks like describing how I wanted padding to appear proved surprisingly difficult. Even with screenshots, Claude struggled to grasp what I wanted. Detailed written descriptions worked better, though I'm skeptical this approach would scale to more complex designs. The upside? The more I worked with it, the better I got at giving clear instructions.
+That said, AI doesn't "see" the way humans do. Simple tasks like describing how I wanted padding to appear proved surprisingly difficult. Even with screenshots, Claude struggled to grasp what I wanted. Detailed written descriptions worked better, though I'm skeptical this approach would scale to more complex designs. The upside? The more I worked with it, the better I got at giving clear instructions. While this works me in this phase of the project, I would say using AI in this manner is good for a "Day 1" approach but not how I would want to do a real Production site. 
 
 Prompt to Claude
 
