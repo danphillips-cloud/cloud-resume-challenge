@@ -294,3 +294,10 @@ Verify `cloudflare_api_token` and `cloudflare_zone_id` in vault are correct. Che
 - DDoS protection
 
 This setup should cost $0/month for personal resume traffic.
+
+
+## Diagram
+
+![](./images/gcp-infra.drawio.png)
+
+This was my first attempt at diagraming GCP. I know it isn't complete but frankly I have no interest in using GCP for hosting this site. It's too complex for what I need and is IAM Hell. 

@@ -265,3 +265,6 @@ ansible-vault create vaults/prod.yml
 echo "your-new-password" > .vault_pass
 chmod 600 .vault_pass
 ```
+## Diagram
+
+![](./images/aws_infra.png)
