@@ -14,7 +14,6 @@ The GCP infrastructure uses Terraform for resource management and Ansible for de
 - **GCS Static Hosting**: Public bucket with direct access and Cloudflare caching
 - **Cloudflare CDN**: Free SSL, global CDN, and DDoS protection
 - **Service Account Security**: Dedicated service account for Cloud Function runtime
-- **Cache Control**: Granular cache headers for HTML, CSS, and JS files
 
 ## Architecture
 
@@ -36,7 +35,7 @@ Firestore (visitor count storage)
 - **Public GCS Bucket**: Simpler than private bucket + Cloud CDN, Cloudflare handles security
 - **Cloudflare vs Cloud CDN**: Free tier includes SSL, faster global edge network
 - **Firestore vs Datastore**: Native mode Firestore for better Firebase integration
-- **Terraform Cloud State**: Remote state with version history and team collaboration
+- **Terraform Cloud State**: Remote state with version history
 
 ## Quick Start
 
@@ -101,12 +100,12 @@ gcp/
 │   └── function/              # Cloud Function source code
 │       ├── main.py           # Visitor counter logic
 │       └── requirements.txt  # Python dependencies
-└── ansible/
-    ├── deploy-gcp.yml         # Deploy Terraform infrastructure
-    ├── upload-gcp.yml         # Upload files + purge cache
-    ├── destroy-gcp.yml        # Tear down infrastructure
-    └── group_vars/all/
-        └── vault.yml          # Encrypted credentials
+├── ansible/
+│   ├── deploy-gcp.yml         # Deploy Terraform infrastructure
+│   ├── upload-gcp.yml         # Upload files + purge Cloudflare cache
+│   ├── destroy-gcp.yml        # Tear down infrastructure
+└── images/                    # Architecture diagrams and documentation screenshots
+
 ```
 
 ## Deployment
