@@ -1,6 +1,6 @@
 # Backend
 
-Build scripts and content management system for server-side rendering and local development.
+Build scripts and a rudimentary "content management system" for server-side rendering and local development.
 
 ## Overview
 
@@ -20,6 +20,13 @@ The backend is a lightweight Python-based build system that handles server-side 
 For frontend setup (static files, HTML resume), see [`frontend/README.md`](../frontend/README.md).
 
 ### Install Dependencies
+
+Create your requirements.txt file
+```
+markdown==3.5.1
+flask==3.0.0
+flask-cors==4.0.0
+```
 
 ```bash
 pip install -r backend/requirements.txt
@@ -44,15 +51,17 @@ This will:
 
 ```text
 backend/
-├── README.md              # This file
-├── requirements.txt       # Python dependencies
-├── build_projects.py      # Build script for projects page
+├── README.md                    # This file
+├── requirements.txt             # Python dependencies (build scripts)
+├── build_projects.py            # Build script for projects page
+├── build_blog.py                # Build script for blog page
+├── mock_counter_api.py          # Local API mock for testing
+├── lambda/                      # Lambda function code
+│   ├── app.py                   # Visitor counter Lambda handler
+│   └── requirements.txt         # Lambda runtime dependencies
 └── content/
-    └── projects/         # Individual project markdown files (EDIT THESE)
-        ├── cloud-resume-challenge.md
-        ├── enterprise-data-migration.md
-        ├── infrastructure-automation.md
-        └── multi-environment-ecs.md
+    ├── projects/                # Individual project markdown files (EDIT THESE)
+    └── blog/                    # Individual blog post markdown files (EDIT THESE)
 ```
 
 ## Updating Projects
@@ -102,6 +111,7 @@ Generating full HTML page...
 Writing to /path/to/frontend/public/projects.html...
 Build complete!
 ```
+Repeat the same steps for blog (more below).
 
 ## Markdown Syntax Supported
 
@@ -159,24 +169,22 @@ I decided on a Markdown-based approach with build-time rendering:
 - Familiar syntax from documentation work
 - Human-readable diffs in Git
 
-Build-time rendering generates static HTML files perfect for S3/CloudFront deployment with no client-side JavaScript dependencies. Fast page loads, SEO-friendly, and simple deployment.
-
 I chose Python for the build script because the `markdown` library is mature and well-documented. The script is under 50 lines of code and easy to modify.
 
 ### Build Script Implementation
 
-The `build_projects.py` script:
-1. Reads all `.md` files from `backend/content/projects/`
+The `build_projects.py` and `build_blog.py` scripts:
+1. Reads all `.md` files from `backend/content/projects/`or `backend/content/blog/`
 2. Combines them into a single content block
 3. Converts Markdown to HTML using Python's markdown library
-4. Generates the full `projects.html` page with navigation and styling
+4. Generates the full `projects.html` or `blog.html` page with navigation and styling
 5. Outputs to `frontend/public/` for deployment
 
-This keeps content separate from presentation. I can update projects by editing plain text files, and the build script ensures consistent styling.
+This keeps content separate from presentation. I can update projects by editing plain text files, and the build script ensures consistent styling. Not idea in the long run, but for starting off it's fine. 
 
 ### Mock Counter API Development
 
-For local development of the visitor counter feature, I built a simple Flask-based mock API. This avoids hitting AWS/GCP endpoints during development—no authentication setup, no costs, faster iteration.
+For local development of the visitor counter feature, I'm using a simple Flask-based mock API. This avoids hitting AWS/GCP endpoints during development—no authentication setup, no costs, faster iteration.
 
 The mock API provides the same endpoints as the production API but stores the counter in memory.
 
@@ -196,13 +204,6 @@ python3 backend/mock_counter_api.py
 ```
 
 The API will start on `http://localhost:5000`
-
-### Features
-
-- **In-Memory Counter**: Maintains count that increments with each request
-- **CORS Enabled**: Supports cross-origin requests from the frontend
-- **Simple REST API**: POST to increment, GET to retrieve current count
-- **Health Check**: Endpoint to verify API is running
 
 ### API Endpoints
 
@@ -255,8 +256,7 @@ To use the mock API with the frontend visitor counter:
 ```javascript
 const config = {
    awsEndpoint: 'http://localhost:5000/api/visitor-count',
-   activeBackend: 'aws'
-};
+  };
 ```
 
 3. Open your frontend in a browser—the counter should work locally
