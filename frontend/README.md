@@ -26,6 +26,7 @@ For backend setup (build scripts, mock API, dependencies), see [`backend/README.
 frontend/
 ├── README.md                    # This file
 └── public/
+├── public/
     ├── index.html              # Main resume page
     ├── projects.html           # Generated projects page (DO NOT EDIT)
     └── assets/

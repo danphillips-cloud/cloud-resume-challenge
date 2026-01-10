@@ -135,10 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
         awsEndpoint: 'https://api.danphillipsonline.com/counter',
 
         // GCP Cloud Functions endpoint (update when ready)
-        gcpEndpoint: null, // e.g., 'https://us-central1-project.cloudfunctions.net/visitor-count'
+        gcpEndpoint: 'https://api.danphillips.cloud/',
 
         // Set which backend to use: 'aws' or 'gcp'
-        activeBackend: 'aws'
+        activeBackend: 'gcp'
     };
 
     // Select the appropriate endpoint based on configuration

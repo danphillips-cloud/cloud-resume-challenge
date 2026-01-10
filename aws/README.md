@@ -76,7 +76,7 @@ AWS_SECRET_ACCESS_KEY: your-secret-key
 STACK_NAME: your-cloudformation-stack-name
 ```
 
-**Security Note:** Store the vault password in `.vault_pass` (gitignored). Never commit credentials to version control.
+**Security Note:** Store the vault password in `.vault_pass` (gitignored). Never commit credentials to version control. I did it once (we all have) and it wasn't fun. 
 
 ## Directory Structure
 
