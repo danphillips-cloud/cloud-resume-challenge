@@ -127,11 +127,6 @@ sam deploy --force-upload --parameter-overrides \
   HostedZoneId=HOSTED_ZONE_ID
 ```
 
-**Required Parameters**:
-- `DomainName`: Custom domain for API (e.g., `api.danphillipsonline.com`)
-- `ACMCertificateArn`: ARN of ACM certificate covering the API domain (must be in us-east-1)
-- `HostedZoneId`: Route53 hosted zone ID for your domain
-
 This creates:
 - DynamoDB table for visitor counter
 - Lambda function with CORS headers
@@ -151,7 +146,7 @@ curl -X POST https://9mq10v7veh.execute-api.us-east-1.amazonaws.com/prod/counter
 
 ### Upload Website Files
 
-After infrastructure is ready, deploy the static site:
+After our infrastructure is ready, it's time to deploy the static site:
 
 ```bash
 cd aws/playbooks
@@ -179,7 +174,7 @@ This will:
 
 Two distributions handle different purposes:
 
-1. **WWW Distribution** (ID: `E3J4QYS4EHJHOH`)
+1. **WWW Distribution** 
    - Serves content from `www.danphillipsonline.com` bucket
    - Private bucket with OAC (Origin Access Control)
    - Cache invalidation on every deploy
@@ -207,7 +202,7 @@ For this challenge, I chose CloudFormation for AWS infrastructure. While I could
 
 ### Serverless and Free Tier Optimization
 
-I designed this architecture to stay within AWS free tier limits. Running Lambda without a VPC keeps costs at zero for this traffic level. CloudFront, S3, and DynamoDB are all free tier eligible, and the serverless model means I only pay for actual usage—which is essentially nothing for a personal resume site.
+I designed this architecture to stay within AWS free tier limits. Running Lambda without a VPC keeps costs at zero for this traffic level. CloudFront, S3, and DynamoDB are all free tier eligible, and the serverless model means I only pay for actual usage—which is essentially nothing for a personal resume site. The only real cost is $0.50 a month for a Hosted Zone. 
 
 ### WWW as Primary Domain
 
@@ -217,7 +212,7 @@ I initially set up the apex domain (`danphillipsonline.com`) as primary with www
 - **Future subdomain flexibility**: Keeps apex free for `api.danphillipsonline.com`, `blog.danphillipsonline.com`, etc.
 - **Operational clarity**: When debugging, it's immediately clear which bucket holds actual content
 
-The redirect bucket never needs files uploaded—it's purely for S3 website redirect configuration.
+The redirect bucket never needs files uploaded as it's purely for S3 website redirect configuration.
 
 ### Ansible for Deployment Automation
 
@@ -231,7 +226,7 @@ I used Origin Access Control instead of the older Origin Access Identity (OAI). 
 
 **Git Security**: I had to remove vault files from git history after initial commits. Lesson learned: always verify `.gitignore` before the first commit.
 
-**CloudFormation Parameter Changes**: Changing parameter names (e.g., `BucketName` → `DomainName`) requires stack recreation, not just update. Parameter changes break CloudFormation's update mechanism.
+**CloudFormation Parameter Changes**: Changing parameter names (e.g., `BucketName` → `DomainName`) requires stack recreation, not just an update. Parameter changes break CloudFormation's update mechanism.
 
 **Cache Invalidation**: Critical to invalidate CloudFront cache after uploads. Without this, users see stale content for hours. The upload playbook automates this with every deployment.
 
@@ -243,7 +238,7 @@ I used Origin Access Control instead of the older Origin Access Identity (OAI). 
 
 **Route53 DNS Propagation**: Route53 record creation can take 60+ seconds during CloudFormation deployment. The stack update may appear hung while waiting for the ApiDNSRecord resource. This is normal AWS behavior - Route53 alias records take time to create and propagate.
 
-**SAM Template Caching**: Even with `--force-upload`, SAM may cache templates. Always run `sam build -t backend-counter.yaml` after template changes. Deleting `.aws-sam/` directory ensures a clean build.
+**SAM Template Caching**: Even with `--force-upload`, SAM may cache templates. Always run `sam build -t backend-counter.yaml` after template changes. 
 
 **CORS Configuration Layers**: CORS must be configured at both API Gateway and Lambda levels for proper functionality. API Gateway handles OPTIONS preflight requests, while Lambda must return appropriate CORS headers in all responses (both success and error paths).
 
