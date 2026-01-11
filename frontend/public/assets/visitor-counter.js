@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gcpEndpoint: 'https://api.danphillips.cloud/',
 
         // Set which backend to use: 'aws' or 'gcp'
-        activeBackend: 'gcp'
+        activeBackend: 'aws'
     };
 
     // Select the appropriate endpoint based on configuration
