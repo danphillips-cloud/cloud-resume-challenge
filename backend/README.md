@@ -180,7 +180,7 @@ The `build_projects.py` and `build_blog.py` scripts:
 4. Generates the full `projects.html` or `blog.html` page with navigation and styling
 5. Outputs to `frontend/public/` for deployment
 
-This keeps content separate from presentation. I can update projects by editing plain text files, and the build script ensures consistent styling. Not idea in the long run, but for starting off it's fine. 
+This keeps content separate from presentation. I can update projects by editing plain text files, and the build script ensures consistent styling. Not ideal in the long run, but for starting off it's fine. 
 
 ### Mock Counter API Development
 
