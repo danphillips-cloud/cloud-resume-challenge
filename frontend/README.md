@@ -123,7 +123,7 @@ As you can see, I'm using separate chat sessions for each PR. I'm a big believer
 
 ![Claude Code Assistance and PR Overview](./docs/claude-code-assist.png)
 
-That said, AI doesn't "see" the way humans do. Simple tasks like describing how I wanted padding to appear proved surprisingly difficult. Even with screenshots, Claude struggled to grasp what I wanted. Detailed written descriptions worked better, though I'm skeptical this approach would scale to more complex designs. The upside? The more I worked with it, the better I got at giving clear instructions. While this works me in this phase of the project, I would say using AI in this manner is good for a "Day 1" approach but not how I would want to do a real Production site. 
+That said, AI doesn't "see" the way humans do. Simple tasks like describing how I wanted padding to appear proved surprisingly difficult. Even with screenshots, Claude struggled to grasp what I wanted. Detailed written descriptions worked better, though I'm skeptical this approach would scale to more complex designs. The upside? The more I worked with it, the better I got at giving clear instructions. While this works for me in this phase of the project, I would say using AI in this manner is good for a "Day 1" approach but not how I would want to do a real Production site. 
 
 Prompt to Claude
 
@@ -148,5 +148,6 @@ There's still some navigation/SVG duplication and other optimizations to tackle,
 ## Mobile Design Testing
 
 Even if you tell your AI Agent to make something compatible with mobile, always check for yourself. I found an issue where the nav bar was cutting off my profile picture on every page which was easy to fix. This can easily be tested using your browser's dev tools where you can toggle different views for mobile. Here, I've added hamburger menu for navigation. 
+
 
 ![](./docs/mobile-testing.png)
