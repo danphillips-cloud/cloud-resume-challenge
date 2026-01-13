@@ -82,13 +82,13 @@ STACK_NAME: your-cloudformation-stack-name
 
 ```text
 aws/
-├── README.md                   # This file
-├── frontend.yaml               # CloudFormation template for frontend
-├── backend-counter.yaml        # CloudFormation template for counter API
+├── README.md                  # This file
+├── frontend.yaml              # CloudFormation template for frontend
+├── backend-counter.yaml       # CloudFormation template for counter API
 ├── playbooks/
 │   ├── deploy-aws.yml         # Deploy CloudFormation stack
 │   └── upload-aws.yml         # Upload files + invalidate cache
-└── images/                     # Architecture diagrams
+└── images/                    # Architecture diagrams
 ```
 
 ## Deployment
