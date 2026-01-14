@@ -92,14 +92,14 @@ Store vault password in `.vault_pass` (gitignored).
 
 ```text
 gcp/
-├── README.md                   # This file
+├── README.md                  # This file
 ├── terraform/
 │   ├── main.tf                # Main infrastructure definition
 │   ├── variables.tf           # Input variables
 │   ├── outputs.tf             # Output values
 │   └── function/              # Cloud Function source code
-│       ├── main.py           # Visitor counter logic
-│       └── requirements.txt  # Python dependencies
+│       ├── main.py            # Visitor counter logic
+│       └── requirements.txt   # Python dependencies
 ├── ansible/
 │   ├── deploy-gcp.yml         # Deploy Terraform infrastructure
 │   ├── upload-gcp.yml         # Upload files + purge Cloudflare cache
