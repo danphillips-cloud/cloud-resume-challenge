@@ -42,6 +42,11 @@ DynamoDB (visitor count storage)
 - **Custom API Domain**: Professional endpoint (`api.danphillipsonline.com`) instead of AWS-generated URL
 - **CORS Configuration**: Secure cross-origin requests from danphillipsonline.com to API
 
+## Diagram
+
+![](./images/aws_infra.png)
+
+
 ## Quick Start
 
 ### Prerequisites
@@ -76,7 +81,26 @@ AWS_SECRET_ACCESS_KEY: your-secret-key
 STACK_NAME: your-cloudformation-stack-name
 ```
 
-**Security Note:** Store the vault password in `.vault_pass` (gitignored). Never commit credentials to version control. I did it once (we all have) and it wasn't fun. 
+**Security Note:** Store the vault password in `.vault_pass` (gitignored). Never commit credentials to version control. I did it once (we all have) and it wasn't fun.
+
+**UPDATE:** The playbooks now support modern AWS profile-based authentication using `aws login`. No more access keys needed. Just authenticate once and Ansible uses your session credentials:
+
+```bash
+# One-time setup: Install AWS CRT dependency for profile auth
+# See: https://docs.aws.amazon.com/sdkref/latest/guide/feature-token-provider.html
+# First, find your Ansible's Python path:
+ansible-playbook --version  # Look for the python path in parentheses
+
+# Then install botocore[crt] using that Python:
+/path/to/ansible/python -m pip install 'botocore[crt]' --break-system-packages
+
+# Now you're ready - login and run playbooks
+aws login  # Creates or updates your 'default' profile
+ansible-playbook deploy-aws.yml
+ansible-playbook upload-aws.yml
+```
+
+The playbooks use your `default` AWS profile by default, or you can set the `AWS_PROFILE` environment variable to use a different profile. Much cleaner than managing static credentials in vaults.
 
 ## Directory Structure
 
@@ -99,6 +123,11 @@ Deploy or update the CloudFormation stack:
 
 ```bash
 cd aws/playbooks
+ansible-playbook deploy-aws.yml
+```
+
+Or if using vault credentials:
+```bash
 ansible-playbook deploy-aws.yml --vault-password-file ../../.vault_pass
 ```
 
@@ -150,6 +179,11 @@ After our infrastructure is ready, it's time to deploy the static site:
 
 ```bash
 cd aws/playbooks
+ansible-playbook upload-aws.yml
+```
+
+Or if using vault credentials:
+```bash
 ansible-playbook upload-aws.yml --vault-password-file ../../.vault_pass
 ```
 
@@ -265,6 +299,3 @@ ansible-vault create vaults/prod.yml
 echo "your-new-password" > .vault_pass
 chmod 600 .vault_pass
 ```
-## Diagram
-
-![](./images/aws_infra.png)
