@@ -27,6 +27,10 @@
             terraform_env:
               GOOGLE_APPLICATION_CREDENTIALS: "{{ temp_key_file }}"
 
+        - name: Activate service account for gcloud/gsutil
+          command: gcloud auth activate-service-account --key-file={{ temp_key_file }}
+          changed_when: false
+
     - name: Check if frontend directory exists
       stat:
         path: "{{ static_site_dir }}"
