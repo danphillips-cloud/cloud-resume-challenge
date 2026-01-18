@@ -134,8 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // AWS API Gateway endpoint (custom domain)
         awsEndpoint: 'https://api.danphillipsonline.com/counter',
 
-        // GCP Cloud Functions endpoint (Cloud Run URL)
-        gcpEndpoint: 'https://visitor-counter-zlcvdzodaq-uc.a.run.app',
+        // GCP Cloud Functions endpoint (update when ready)
+        gcpEndpoint: 'https://api.danphillips.cloud/',
 
         // Set which backend to use: 'aws' or 'gcp'
         activeBackend: 'gcp'
