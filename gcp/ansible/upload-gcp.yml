@@ -60,6 +60,7 @@
         gsutil -m rsync -r -d -c
         {{ static_site_dir }}/
         gs://{{ bucket_name }}/
+      environment: "{{ terraform_env }}"
       register: sync_result
 
     - name: Display sync results
@@ -71,6 +72,7 @@
         gsutil -m setmeta \
           -h "Cache-Control:public, max-age=300" \
           gs://{{ bucket_name }}/*.html
+      environment: "{{ terraform_env }}"
       register: html_cache
       failed_when: false
 
@@ -79,6 +81,7 @@
         gsutil -m setmeta \
           -h "Cache-Control:public, max-age=31536000, immutable" \
           gs://{{ bucket_name }}/*.css
+      environment: "{{ terraform_env }}"
       register: css_cache
       failed_when: false
 
@@ -87,6 +90,7 @@
         gsutil -m setmeta \
           -h "Cache-Control:public, max-age=31536000, immutable" \
           gs://{{ bucket_name }}/*.js
+      environment: "{{ terraform_env }}"
       register: js_cache
       failed_when: false
 
