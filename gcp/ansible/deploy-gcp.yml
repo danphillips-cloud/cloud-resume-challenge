@@ -7,11 +7,26 @@
   vars:
     terraform_dir: "../terraform"
     gcp_project_id: "danphillips-cloud-crc"
-    
+    temp_key_file: "/tmp/gcp-key-{{ ansible_date_time.epoch }}.json"
+
   vars_files:
     - group_vars/all/vault.yml
-    
+
   tasks:
+    - name: Setup GCP credentials
+      block:
+        - name: Create temporary service account key file
+          copy:
+            content: "{{ gcp_service_account_json }}"
+            dest: "{{ temp_key_file }}"
+            mode: '0600'
+          no_log: true
+
+        - name: Set environment variable for GCP authentication
+          set_fact:
+            terraform_env:
+              GOOGLE_APPLICATION_CREDENTIALS: "{{ temp_key_file }}"
+
     - name: Check prerequisites
       block:
         - name: Verify Terraform is installed
@@ -34,29 +49,14 @@
             msg: "{{ gcloud_version.stdout_lines[0] }}"
           when: gcloud_version.rc == 0
 
-    - name: Setup GCP authentication
+    - name: Setup GCP authentication for gcloud
       block:
-        - name: Check if service account key file exists
-          stat:
-            path: "{{ gcp_service_account_key }}"
-          register: sa_key_file
-          when: gcp_service_account_key is defined
-
         - name: Authenticate with service account
-          shell: gcloud auth activate-service-account --key-file={{ gcp_service_account_key }}
-          when: 
-            - gcp_service_account_key is defined
-            - sa_key_file.stat.exists
+          shell: gcloud auth activate-service-account --key-file={{ temp_key_file }}
 
         - name: Set GCP project
           command: gcloud config set project {{ gcp_project_id }}
           changed_when: false
-
-        - name: Set environment variable for Terraform
-          set_fact:
-            terraform_env:
-              GOOGLE_APPLICATION_CREDENTIALS: "{{ gcp_service_account_key }}"
-          when: gcp_service_account_key is defined
 
     - name: Initialize Terraform
       command: terraform init -upgrade
@@ -174,3 +174,10 @@
       file:
         path: "{{ terraform_dir }}/tfplan"
         state: absent
+
+  post_tasks:
+    - name: Remove temporary service account key file
+      file:
+        path: "{{ temp_key_file }}"
+        state: absent
+      when: temp_key_file is defined

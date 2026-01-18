@@ -61,32 +61,45 @@ Create a service account with appropriate permissions:
 1. Go to GCP Console → IAM & Admin → Service Accounts
 2. Create service account: `terraform-deploy`
 3. Grant roles (see Permissions section below)
-4. Create and download JSON key
+4. Create and download JSON key file
 
-**Security Note:** Store the service account key in a secure location. Never commit it to version control.
-
-Set the environment variable:
-
-```bash
-export GOOGLE_APPLICATION_CREDENTIALS=/path/to/your/gcp-key.json
-```
+**Security Note:** The service account key will be stored encrypted in Ansible Vault. Never commit unencrypted credentials to version control.
 
 ### Configure Ansible Vault
 
-Store credentials in an encrypted vault:
+Store credentials in an encrypted vault (similar to AWS approach):
 
 ```bash
-ansible-vault create gcp/ansible/group_vars/all/vault.yml
+cd gcp/ansible
+ansible-vault create group_vars/all/vault.yml
 ```
 
-Add the following:
+Add the following, replacing the `gcp_service_account_json` value with the **entire contents** of your downloaded JSON key file:
+
 ```yaml
-gcp_service_account_key: /path/to/your/gcp-key.json
+gcp_service_account_json: |
+  {
+    "type": "service_account",
+    "project_id": "your-project-id",
+    "private_key_id": "abc123...",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nYOUR_KEY_HERE\n-----END PRIVATE KEY-----\n",
+    "client_email": "terraform-deploy@your-project.iam.gserviceaccount.com",
+    "client_id": "123456789",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/..."
+  }
+
 cloudflare_api_token: your-cloudflare-api-token
 cloudflare_zone_id: your-cloudflare-zone-id
 ```
 
-Store vault password in `.vault_pass` (gitignored).
+**Important:** Copy the entire JSON file contents, not just the file path. The playbooks will create a temporary credential file automatically when needed.
+
+See `group_vars/all/vault.yml.example` for a template.
+
+Store vault password in `../../.vault_pass` (gitignored).
 
 ## Directory Structure
 
@@ -238,6 +251,7 @@ I store Terraform state in Terraform Cloud instead of GCS. Version history, stat
 - Some org policies force manual steps. Accept it, document it, move on.
 - Cloudflare free tier beats Cloud CDN for personal projects.
 - GCP Terraform errors are verbose but helpful—read them carefully.
+- **Credential Management**: Storing JSON credentials directly in Ansible Vault (like the AWS setup) is cleaner than managing key files. No need to export `GOOGLE_APPLICATION_CREDENTIALS` or sync files across machines. The playbooks handle temporary credential files automatically.
 
 ---
 

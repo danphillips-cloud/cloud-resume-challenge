@@ -6,11 +6,26 @@
   
   vars:
     terraform_dir: "../terraform"
-    
+    temp_key_file: "/tmp/gcp-key-{{ ansible_date_time.epoch }}.json"
+
   vars_files:
     - group_vars/all/vault.yml
-    
+
   tasks:
+    - name: Setup GCP credentials
+      block:
+        - name: Create temporary service account key file
+          copy:
+            content: "{{ gcp_service_account_json }}"
+            dest: "{{ temp_key_file }}"
+            mode: '0600'
+          no_log: true
+
+        - name: Set environment variable for GCP authentication
+          set_fact:
+            terraform_env:
+              GOOGLE_APPLICATION_CREDENTIALS: "{{ temp_key_file }}"
+
     - name: WARNING - This will destroy all infrastructure
       debug:
         msg:
@@ -38,8 +53,7 @@
       command: terraform plan -destroy
       args:
         chdir: "{{ terraform_dir }}"
-      environment:
-        GOOGLE_APPLICATION_CREDENTIALS: "{{ gcp_service_account_key }}"
+      environment: "{{ terraform_env }}"
       register: destroy_plan
 
     - name: Display destroy plan
@@ -54,8 +68,7 @@
       command: terraform destroy -auto-approve
       args:
         chdir: "{{ terraform_dir }}"
-      environment:
-        GOOGLE_APPLICATION_CREDENTIALS: "{{ gcp_service_account_key }}"
+      environment: "{{ terraform_env }}"
       register: destroy_result
 
     - name: Display destruction results
@@ -82,3 +95,10 @@
           - "To completely clean up, manually delete:"
           - "- {{ terraform_dir }}/.terraform/"
           - "- {{ terraform_dir }}/terraform.tfstate"
+
+  post_tasks:
+    - name: Remove temporary service account key file
+      file:
+        path: "{{ temp_key_file }}"
+        state: absent
+      when: temp_key_file is defined

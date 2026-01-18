@@ -1,0 +1,25 @@
+# This is an example vault file for GCP credentials
+# Create your actual vault with: ansible-vault create group_vars/all/vault.yml
+#
+# To encrypt this file after adding your credentials:
+# ansible-vault encrypt group_vars/all/vault.yml
+
+# GCP Service Account JSON key contents (NOT a file path)
+# Copy the entire contents of your downloaded service account JSON key file here
+gcp_service_account_json: |
+  {
+    "type": "service_account",
+    "project_id": "your-project-id",
+    "private_key_id": "your-private-key-id",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nYOUR_PRIVATE_KEY_HERE\n-----END PRIVATE KEY-----\n",
+    "client_email": "your-service-account@your-project-id.iam.gserviceaccount.com",
+    "client_id": "your-client-id",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/your-service-account%40your-project-id.iam.gserviceaccount.com"
+  }
+
+# Cloudflare credentials (optional, only needed for cache purging)
+cloudflare_api_token: your-cloudflare-api-token-here
+cloudflare_zone_id: your-cloudflare-zone-id-here
