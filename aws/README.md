@@ -42,6 +42,11 @@ DynamoDB (visitor count storage)
 - **Custom API Domain**: Professional endpoint (`api.danphillipsonline.com`) instead of AWS-generated URL
 - **CORS Configuration**: Secure cross-origin requests from danphillipsonline.com to API
 
+## Diagram
+
+![](./images/aws_infra.png)
+
+
 ## Quick Start
 
 ### Prerequisites
@@ -294,6 +299,3 @@ ansible-vault create vaults/prod.yml
 echo "your-new-password" > .vault_pass
 chmod 600 .vault_pass
 ```
-## Diagram
-
-![](./images/aws_infra.png)
