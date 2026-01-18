@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Select the appropriate endpoint based on configuration
-    const endpoint = config.activeBackend === 'aws'
+    const endpoint = config.activeBackend ===gcp'
         ? config.awsEndpoint
         : config.gcpEndpoint;
 
