@@ -4,14 +4,13 @@
   connection: local
   gather_facts: false
   
-  vars_files:
-    - ../../vaults/prod.yml
-    
   vars:
     bucket_name: 'www.danphillipsonline.com'
     project_root: "{{ playbook_dir | realpath }}/../.."
     site_dir: "{{ project_root }}/frontend/public"
     cloudfront_distribution_id: E3J4QYS4EHJHOH
+    aws_region: 'us-east-1'
+    aws_profile: "{{ lookup('env', 'AWS_PROFILE') | default('sf-admin', true) }}"
     
   tasks:
     - name: Confirm site directory exists
@@ -26,9 +25,8 @@
       
     - name: Sync static site files to S3
       community.aws.s3_sync:
-        region: "{{ AWS_REGION }}"
-        aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
-        aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+        region: "{{ aws_region }}"
+        profile: "{{ aws_profile }}"
         bucket: "{{ bucket_name }}"
         file_root: "{{ site_dir }}"
         delete: true
@@ -36,9 +34,8 @@
       
     - name: Create CloudFront invalidation
       community.aws.cloudfront_invalidation:
-        region: "{{ AWS_REGION }}"
-        aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
-        aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+        region: "{{ aws_region }}"
+        profile: "{{ aws_profile }}"
         distribution_id: "{{ cloudfront_distribution_id }}"
         target_paths:
           - "/*"
