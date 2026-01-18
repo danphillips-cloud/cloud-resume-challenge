@@ -101,6 +101,8 @@ See `group_vars/all/vault.yml.example` for a template.
 
 Store vault password in `../../.vault_pass` (gitignored).
 
+**Why this approach?** Unlike the old method of storing a path to a local key file, this approach stores the credentials directly in the vault. No need to download the GCP key file on every machine or manually set `export GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json`. The playbooks create temporary credential files when needed and clean them up automatically. Switch machines? Just need the vault password. Same clean workflow as AWS.
+
 ## Directory Structure
 
 ```text
