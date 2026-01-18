@@ -108,4 +108,5 @@ build/
 dist/
 *.egg-info/
 
-gcp/ansible/group_vars/
+gcp/ansible/group_vars/all/vault.yml
+!gcp/ansible/group_vars/all/vault.yml.example

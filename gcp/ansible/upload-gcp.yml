@@ -7,11 +7,30 @@
   vars:
     terraform_dir: "../terraform"
     static_site_dir: "../../frontend/public"
-    
+    temp_key_file: "/tmp/gcp-ansible-key.json"
+
   vars_files:
     - group_vars/all/vault.yml
-    
+
   tasks:
+    - name: Setup GCP credentials
+      block:
+        - name: Create temporary service account key file
+          copy:
+            content: "{{ gcp_service_account_json }}"
+            dest: "{{ temp_key_file }}"
+            mode: '0600'
+          no_log: true
+
+        - name: Set environment variable for GCP authentication
+          set_fact:
+            terraform_env:
+              GOOGLE_APPLICATION_CREDENTIALS: "{{ temp_key_file }}"
+
+        - name: Activate service account for gcloud/gsutil
+          command: gcloud auth activate-service-account --key-file={{ temp_key_file }}
+          changed_when: false
+
     - name: Check if frontend directory exists
       stat:
         path: "{{ static_site_dir }}"
@@ -26,8 +45,7 @@
       command: terraform output -raw bucket_name
       args:
         chdir: "{{ terraform_dir }}"
-      environment:
-        GOOGLE_APPLICATION_CREDENTIALS: "{{ gcp_service_account_key }}"
+      environment: "{{ terraform_env }}"
       register: bucket_name_output
       changed_when: false
 
@@ -46,6 +64,7 @@
         gsutil -m rsync -r -d -c
         {{ static_site_dir }}/
         gs://{{ bucket_name }}/
+      environment: "{{ terraform_env }}"
       register: sync_result
 
     - name: Display sync results
@@ -57,6 +76,7 @@
         gsutil -m setmeta \
           -h "Cache-Control:public, max-age=300" \
           gs://{{ bucket_name }}/*.html
+      environment: "{{ terraform_env }}"
       register: html_cache
       failed_when: false
 
@@ -65,6 +85,7 @@
         gsutil -m setmeta \
           -h "Cache-Control:public, max-age=31536000, immutable" \
           gs://{{ bucket_name }}/*.css
+      environment: "{{ terraform_env }}"
       register: css_cache
       failed_when: false
 
@@ -73,6 +94,7 @@
         gsutil -m setmeta \
           -h "Cache-Control:public, max-age=31536000, immutable" \
           gs://{{ bucket_name }}/*.js
+      environment: "{{ terraform_env }}"
       register: js_cache
       failed_when: false
 
@@ -99,8 +121,7 @@
       command: terraform output -raw cloudflare_origin
       args:
         chdir: "{{ terraform_dir }}"
-      environment:
-        GOOGLE_APPLICATION_CREDENTIALS: "{{ gcp_service_account_key }}"
+      environment: "{{ terraform_env }}"
       register: cloudflare_origin_output
       changed_when: false
 
@@ -118,3 +139,10 @@
           - ""
           - "Direct GCS access:"
           - "   https://storage.googleapis.com/{{ bucket_name }}/index.html"
+
+  post_tasks:
+    - name: Remove temporary service account key file
+      file:
+        path: "{{ temp_key_file }}"
+        state: absent
+      when: temp_key_file is defined
