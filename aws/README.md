@@ -82,6 +82,7 @@ STACK_NAME: your-cloudformation-stack-name
 
 ```bash
 # One-time setup: Install AWS CRT dependency for profile auth
+# See: https://docs.aws.amazon.com/sdkref/latest/guide/feature-token-provider.html
 # First, find your Ansible's Python path:
 ansible-playbook --version  # Look for the python path in parentheses
 
@@ -89,12 +90,12 @@ ansible-playbook --version  # Look for the python path in parentheses
 /path/to/ansible/python -m pip install 'botocore[crt]' --break-system-packages
 
 # Now you're ready - login and run playbooks
-aws login
+aws login  # Creates or updates your 'default' profile
 ansible-playbook deploy-aws.yml
 ansible-playbook upload-aws.yml
 ```
 
-The playbooks automatically use the `sf-admin` profile or respect the `AWS_PROFILE` environment variable. Much cleaner than managing static credentials in vaults.
+The playbooks use your `default` AWS profile by default, or you can set the `AWS_PROFILE` environment variable to use a different profile. Much cleaner than managing static credentials in vaults.
 
 ## Directory Structure
 

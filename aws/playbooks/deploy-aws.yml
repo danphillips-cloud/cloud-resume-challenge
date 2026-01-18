@@ -10,7 +10,7 @@
       DomainName: 'danphillipsonline.com'
       ACMCertificateArn: 'arn:aws:acm:us-east-1:085843960294:certificate/8c6d186b-89e6-474d-92a2-5924cde3f43a'
     aws_region: 'us-east-1'
-    aws_profile: "{{ lookup('env', 'AWS_PROFILE') | default('sf-admin', true) }}"
+    aws_profile: "{{ lookup('env', 'AWS_PROFILE') | default('default', true) }}"
     
   tasks:
     - name: Deploy or Update CloudFormation stack

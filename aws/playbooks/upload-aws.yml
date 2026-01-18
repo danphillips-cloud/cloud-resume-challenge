@@ -10,7 +10,7 @@
     site_dir: "{{ project_root }}/frontend/public"
     cloudfront_distribution_id: E3J4QYS4EHJHOH
     aws_region: 'us-east-1'
-    aws_profile: "{{ lookup('env', 'AWS_PROFILE') | default('sf-admin', true) }}"
+    aws_profile: "{{ lookup('env', 'AWS_PROFILE') | default('default', true) }}"
     
   tasks:
     - name: Confirm site directory exists
