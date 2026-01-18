@@ -7,7 +7,7 @@
   vars:
     terraform_dir: "../terraform"
     gcp_project_id: "danphillips-cloud-crc"
-    temp_key_file: "/tmp/gcp-key-{{ ansible_date_time.epoch }}.json"
+    temp_key_file: "/tmp/gcp-ansible-key.json"
 
   vars_files:
     - group_vars/all/vault.yml
