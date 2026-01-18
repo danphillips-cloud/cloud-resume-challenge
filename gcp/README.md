@@ -95,13 +95,17 @@ cloudflare_api_token: your-cloudflare-api-token
 cloudflare_zone_id: your-cloudflare-zone-id
 ```
 
-**Important:** Copy the entire JSON file contents, not just the file path. The playbooks will create a temporary credential file automatically when needed.
-
 See `group_vars/all/vault.yml.example` for a template.
 
 Store vault password in `../../.vault_pass` (gitignored).
 
-**Why this approach?** Unlike the old method of storing a path to a local key file, this approach stores the credentials directly in the vault. No need to download the GCP key file on every machine or manually set `export GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json`. The playbooks create temporary credential files when needed and clean them up automatically. Switch machines? Just need the vault password. Same clean workflow as AWS.
+**UPDATE:** The playbooks now store the entire service account JSON directly in the vault instead of a file path. This means:
+- No need to download the GCP key file on every machine
+- No manual `export GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json`
+- Switch machines? Just need the vault password
+- Playbooks create temporary credential files when needed and clean them up automatically
+
+Copy the **entire JSON file contents** into `gcp_service_account_json`, not just the path. Same clean workflow as AWS.
 
 ## Directory Structure
 
