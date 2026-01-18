@@ -99,11 +99,9 @@ See `group_vars/all/vault.yml.example` for a template.
 
 Store vault password in `../../.vault_pass` (gitignored).
 
-**UPDATE:** The playbooks now store the entire service account JSON directly in the vault instead of a file path. This means:
-- No need to download the GCP key file on every machine
-- No manual `export GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json`
-- Switch machines? Just need the vault password
-- Playbooks create temporary credential files when needed and clean them up automatically
+**UPDATE:** I changed how GCP credentials work to match the AWS approach. The old way stored a file path in the vault (`gcp_service_account_key: /path/to/key.json`), which meant you had to download the key file on every machine and manually export `GOOGLE_APPLICATION_CREDENTIALS`. Pain in the ass when switching between my Mac and work laptop.
+
+Now the playbooks store the entire service account JSON directly in the vault. When you run a playbook, it creates a temporary credential file from the vault contents, uses it for authentication with `gcloud auth activate-service-account`, then cleans it up automatically in post_tasks. Switch machines? Just need the vault password. No key files to manage, no environment variables to remember.
 
 Copy the **entire JSON file contents** into `gcp_service_account_json`, not just the path. Same clean workflow as AWS.
 
