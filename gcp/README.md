@@ -99,7 +99,7 @@ See `group_vars/all/vault.yml.example` for a template.
 
 Store vault password in `../../.vault_pass` (gitignored).
 
-**UPDATE:** I changed how GCP credentials work to match the AWS approach. The old way stored a file path in the vault (`gcp_service_account_key: /path/to/key.json`), which meant you had to download the key file on every machine and manually export `GOOGLE_APPLICATION_CREDENTIALS`. Pain in the ass when switching between my Mac and work laptop.
+**UPDATE:** I changed how GCP credentials work to match the AWS approach. The old way stored a file path in the vault (`gcp_service_account_key: /path/to/key.json`), which meant you had to download the key file on every machine and manually export `GOOGLE_APPLICATION_CREDENTIALS`. I did this change beacuse I switched from a Windows to Mac laptop and wanted a better way to manage that. 
 
 Now the playbooks store the entire service account JSON directly in the vault. When you run a playbook, it creates a temporary credential file from the vault contents, uses it for authentication with `gcloud auth activate-service-account`, then cleans it up automatically in post_tasks. Switch machines? Just need the vault password. No key files to manage, no environment variables to remember.
 
