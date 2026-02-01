@@ -2,14 +2,19 @@
 
 Multi-cloud serverless resume website built for the [Cloud Resume Challenge](https://cloudresumechallenge.dev/) via the [ExamPro bootcamp](https://www.exampro.co/crc-cpb-000).
 
-## Live Sites
+## Recognition
 
-- **AWS**: [www.danphillipsonline.com](https://www.danphillipsonline.com)
-- **GCP**: [danphillips.cloud](https://danphillips.cloud)
+Awarded the inaugural **Admiral** badge upon completion - a special honorary rank issued to bootcampers who exceed Captain-level achievement. Admirals operate beyond the standard progression track and help lead the community forward.
+
+![Admiral Badge](./frontend/public/assets/images/crc-cpb-000-admiral-badge.svg)
+
+## Live Site
+
+**[danphillips.cloud](https://danphillips.cloud)** (AWS)
 
 ## Architecture
 
-Same resume site deployed on two cloud platforms:
+The resume site was deployed on two cloud platforms to demonstrate multi-cloud expertise:
 
 - **AWS**: CloudFormation, S3, CloudFront, Lambda, DynamoDB, Route 53
 - **GCP**: Terraform, GCS, Cloud Functions, Firestore, Cloudflare
@@ -22,4 +27,3 @@ Both use Ansible for deployment automation and share the same frontend/backend c
 - [Backend](./backend/README.md) - Python build scripts and mock API for local development
 - [AWS](./aws/README.md) - CloudFormation infrastructure and deployment
 - [GCP](./gcp/README.md) - Terraform infrastructure and deployment
-
