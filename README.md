@@ -6,7 +6,9 @@ Multi-cloud serverless resume website built for the [Cloud Resume Challenge](htt
 
 Awarded the inaugural **Admiral** badge upon completion - a special honorary rank issued to bootcampers who exceed Captain-level achievement. Admirals operate beyond the standard progression track and help lead the community forward.
 
-![Admiral Badge](./frontend/public/assets/images/crc-cpb-000-admiral-badge.svg)
+<p align="center">
+<img src="./frontend/public/assets/images/crc-cpb-000-admiral-badge.svg" alt="Admiral Badge" width="150">
+</p>
 
 ## Live Site
 
