@@ -31,6 +31,12 @@ Cloud Functions v2 (/api/counter)
 Firestore (visitor count storage)
 ```
 
+## Diagram
+
+![](./images/gcp-infra.drawio.png)
+
+This was my first attempt at diagraming GCP. I know it isn't complete but frankly I have no interest in using GCP for hosting this site. It's too complex for what I need and is IAM Hell. Keep reading to see why. 
+
 **Key Design Choices:**
 - **Public GCS Bucket**: Simpler than private bucket + Cloud CDN, Cloudflare handles security
 - **Cloudflare vs Cloud CDN**: Free tier includes SSL, faster global edge network
@@ -124,12 +130,6 @@ gcp/
 └── images/                    # Architecture diagrams and documentation screenshots
 
 ```
-
-## Diagram
-
-![](./images/gcp-infra.drawio.png)
-
-This was my first attempt at diagraming GCP. I know it isn't complete but frankly I have no interest in using GCP for hosting this site. It's too complex for what I need and is IAM Hell. Keep reading to see why. 
 
 ## Deployment
 
