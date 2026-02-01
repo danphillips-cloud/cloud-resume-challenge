@@ -25,6 +25,10 @@ The resume site was deployed on two cloud platforms to demonstrate multi-cloud e
 
 Both use Ansible for deployment automation and share the same frontend/backend code.
 
+## Analytics
+
+The original visitor counter implementation has been retired in favor of a dedicated analytics solution. The serverless counter architecture is documented in the AWS and GCP implementation guides below.
+
 ## Documentation
 
 - [Frontend](./frontend/README.md) - Static HTML/CSS/JS resume with visitor counter
